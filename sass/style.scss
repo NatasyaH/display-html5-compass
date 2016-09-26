@@ -1,11 +1,5 @@
-@import 'compass/reset';
-@import 'compass/utilities/sprites';
-@import '../vendor/sass/retinaSpriter';
-@import '../vendor/sass/standardSpriter';
 
-
-
-
+@import "base";
 
 //uncomment if needed
 /*
@@ -17,14 +11,7 @@ $userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: 
 
 
 
-/** set up variables **/
-$width: 300px;
-$height: 250px;
 
-$white: #FFFFFF;
-$whitetrans: rgba(255, 255, 255, 0);
-$black: #000000;
-$blue: #FF0000;
 
 
 
