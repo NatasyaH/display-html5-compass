@@ -1,44 +1,30 @@
+@import 'compass/utilities/sprites';
+@import "./hook-mixins/normalize";
+@import './hook-mixins/retinaSpriter';
+@import './hook-mixins/standardSpriter';
 
-@import "base";
+@import './_collapsed';
+@import './autoexpanded';
+@import './userexpanded';
+
+
+/** set up variables **/
+$width: 300px;
+$height: 250px;
+
+$white: #FFFFFF;
+$whitetrans: rgba(255, 255, 255, 0);
+$black: #000000;
+$blue: #FF0000;
+
 
 //uncomment if needed
 /*
-$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: 2px);
-$autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 2px);
-$userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: 2px);
+$common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: 2px);
 */
 
-
-
-
-
-
-
-
-/*
-
-#standard-sprite {
-  @include standard-spriter ($s1, hero-standard);
-  position: absolute;
-  top: 0px;
-  left: 0px;
-
-
+// scope
+#adRoot {
 
 
 }
-
-#retina-sprite {
-  @include retina-spriter ($s1, hero-retina);
-  position: absolute;
-  top: 0px;
-  left: 128px;
-
-
-
-
-}
-
-*/
-
-
