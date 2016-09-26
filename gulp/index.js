@@ -3,6 +3,22 @@
 var gulp = require('gulp');
 var config = require('./config');
 
+// two more states to minify code and create sourcemaps. The default is for local development.
+gulp.task('dev', function(done) {
+  config.flags.minify = false;
+  config.flags.sourcemap = true;
+  done();
+});
+gulp.task('prod', function(done) {
+  config.flags.minify = true;
+  config.flags.sourcemap = false;
+  done();
+});
+
+// define stackable tasks
+gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
+
+
 /*
 gulp.task('build', gulp.series('clean', gulp.parallel(gulp.series('static', 'static-collapsed', 'static-expanded', 'static-expanded-auto'), 'scripts', 'styles', 'images'), 'flatten', 'update-file-references'));
 gulp.task('build-dev', gulp.series('dev', 'build'));

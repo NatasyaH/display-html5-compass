@@ -6,7 +6,7 @@ var config = {
     sourcemap: true
   },
   clean: {
-    src: dest
+    src: dest+'/**/*'
   },
   styles: {
     src: './styles/**/*',
