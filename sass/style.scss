@@ -1,0 +1,59 @@
+@import 'compass/reset';
+@import 'compass/css3/transform';
+@import 'compass/utilities/sprites';
+@import 'compass/css3/transform';
+@import '../vendor/sass/retinaSpriter';
+@import '../vendor/sass/standardSpriter';
+@import '../vendor/sass/noLint';
+
+
+$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: 2px);
+
+
+//uncomment if needed
+/*
+$autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 2px);
+$userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: 2px);
+*/
+
+
+
+
+/** set up variables **/
+$width: 300px;
+$height: 250px;
+
+$white: #FFFFFF;
+$whitetrans: rgba(255, 255, 255, 0);
+$black: #000000;
+$blue: #FF0000;
+
+
+
+/*
+
+#standard-sprite {
+  @include standard-spriter ($s1, hero-standard);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+
+
+
+}
+
+#retina-sprite {
+  @include retina-spriter ($s1, hero-retina);
+  position: absolute;
+  top: 0px;
+  left: 128px;
+
+
+
+
+}
+
+*/
+
+
