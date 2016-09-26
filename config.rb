@@ -6,7 +6,7 @@ dir = File.dirname(__FILE__)
 
 # Set this to the root of your project when deployed:
 http_path = ""
-css_dir = "/css/"
+css_dir = "/dist/css/"
 sass_dir = "sass"
 javascripts_dir = "/js/"
 images_dir = "/img/"

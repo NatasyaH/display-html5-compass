@@ -1,17 +1,15 @@
 @import 'compass/reset';
-@import 'compass/css3/transform';
 @import 'compass/utilities/sprites';
-@import 'compass/css3/transform';
 @import '../vendor/sass/retinaSpriter';
 @import '../vendor/sass/standardSpriter';
-@import '../vendor/sass/noLint';
 
 
-$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: 2px);
+
 
 
 //uncomment if needed
 /*
+$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: 2px);
 $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 2px);
 $userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: 2px);
 */
