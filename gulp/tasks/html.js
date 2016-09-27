@@ -26,7 +26,7 @@ module.exports = function(gulp, bs, options,flags) {
     }
 
     return gulp.src(path)
-      .pipe (gulpif (flags.type ==="dev",replace ('../../vendor','../vendor')))
+      .pipe (gulpif (flags.type ==="dev",replace ('../../vendor','vendor')))
       .pipe(gulp.dest(options.dist))
       .pipe(bs.stream());
   };

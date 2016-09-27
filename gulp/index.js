@@ -26,13 +26,17 @@ gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
 gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.html, config.flags));
 
+// dev build specific tasks
+
+gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, config.vendor, config.flags));
+
 
 
 
 
 
 gulp.task('build', gulp.series('clean', gulp.parallel('html','sass','images','scripts-app','scripts-vendor' ) ));
-gulp.task('build-dev', gulp.series('dev',gulp.parallel('html' )));
+gulp.task('build-dev', gulp.series('dev',gulp.parallel('html','scripts-vendor-dev' )));
 gulp.task('build-prod', gulp.series('prod', gulp.parallel('html' )));
 
 /*

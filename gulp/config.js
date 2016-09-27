@@ -26,15 +26,18 @@ var config = {
   images: {
     src: './static/images/**/*.{gif,jpg,png,svg}',
     dist: dest + '/images/'
-  },scripts: {
+  },
+  scripts: {
     app: {
       src: './app/**/*.js',
       entry: './app/index.js'
     },
-    tests: {
-      src: './tests/**/*.js'
-    },
     dist: dest + '/js/'
+  },
+  vendor: {
+    src:'./vendor/**/*.js',
+
+    dist: dest +'/vendor'
   },
   server: {
     root: dest,
