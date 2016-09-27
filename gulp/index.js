@@ -50,6 +50,8 @@ gulp.task('watch', function(done) {
   gulp.watch(config.images.src, gulp.series('images'));
   gulp.watch(config.scripts.src, gulp.series('scripts-app'));
   gulp.watch(config.html.src, gulp.series('html'));
+  gulp.watch([config.sass.src,config.sass.image_src], gulp.series('sass'));
+
 
   if (config.flags.type ==="dev") {
 
