@@ -61,7 +61,7 @@ gulp.task('watch', function(done) {
   }
   if (config.flags.type ==="prod") {
 
-    gulp.watch(config.html.entry, gulp.series('scripts-vendor'));
+    gulp.watch([config.html.entry,config.vendor.src ], gulp.series('scripts-vendor'));
 
   }
 
