@@ -3,9 +3,6 @@
 @import './hook-mixins/retinaSpriter';
 @import './hook-mixins/standardSpriter';
 
-@import './_collapsed';
-@import './autoexpanded';
-@import './userexpanded';
 
 
 /** set up variables **/
@@ -16,15 +13,44 @@ $white: #FFFFFF;
 $whitetrans: rgba(255, 255, 255, 0);
 $black: #000000;
 $blue: #FF0000;
+$sprite-padding: 2px;
 
+// spritsheets
 
 //uncomment if needed
 /*
-$common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: 2px);
+$common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: $sprite-padding);
+$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $sprite-padding);
+$userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
+$autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 */
 
-// scope
+
+
+
+
+// Root Scope
 #adRoot {
+
+
+}
+
+//Collapsed Scope
+#collapsedContainer {
+
+
+}
+
+
+
+//User Expand Scope
+#userExpandedContainer {
+
+
+}
+
+//Auto Expand Scope
+#autoExpandContainer {
 
 
 }
