@@ -23,6 +23,10 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-exec": "^2.1.2",
     "gulp-file-include": "^0.14.0",
+    "gulp-if": "^2.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-useref": "^3.1.2",
     "gulp-util": "^3.0.7",
     "vinyl-source-stream": "^1.1.0"
   }

@@ -15,6 +15,7 @@ var config = {
   },
   html:{
     src: './static/html/**/!(*.fla|*.md)',
+    entry: './static/html/index.html',
     dist: dest
   },
   sass:{
@@ -28,9 +29,6 @@ var config = {
     app: {
       src: './app/**/*.js',
       entry: './app/index.js'
-    },
-    vendor: {
-      src: './app/vendor/**/*.js'
     },
     tests: {
       src: './tests/**/*.js'
