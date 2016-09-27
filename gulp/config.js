@@ -14,7 +14,7 @@ var config = {
     dist: dest + '/css/'
   },
   html:{
-    src: './static/html/**/!(*.fla|*.md)',
+    src: ['./static/html/**/!(*.fla|*.md)','!./static/html/index.html'],
     entry: './static/html/index.html',
     dist: dest
   },
