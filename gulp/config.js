@@ -21,6 +21,10 @@ var config = {
     src: './**/**',
     dist: dest
   },
+  images: {
+    src: './static/images/**/*.{gif,jpg,png,svg}',
+    dist: dest + '/images/'
+  },
   server: {
     root: dest,
     port: 8080

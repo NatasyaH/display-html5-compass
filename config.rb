@@ -9,14 +9,14 @@ http_path = ""
 css_dir = "/dist/css/"
 sass_dir = "sass"
 javascripts_dir = "/js/"
-images_dir = "/img/"
+images_dir = "/images/"
 
 # directory the images are stored
 images_path  = File.join(dir, "static/toSprite")
 # directory where sprite will be exported
-generated_images_dir = File.join("dist/img")
+generated_images_dir = File.join("dist/images")
 # reference path in the css
-http_generated_images_path ="../img"
+http_generated_images_path ="../images"
 
 # disable .sass-cache
 cache = false
