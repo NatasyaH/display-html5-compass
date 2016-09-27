@@ -24,6 +24,18 @@ var config = {
   images: {
     src: './static/images/**/*.{gif,jpg,png,svg}',
     dist: dest + '/images/'
+  },scripts: {
+    app: {
+      src: './app/**/*.js',
+      entry: './app/index.js'
+    },
+    vendor: {
+      src: './app/vendor/**/*.js'
+    },
+    tests: {
+      src: './tests/**/*.js'
+    },
+    dist: dest + '/js/'
   },
   server: {
     root: dest,
