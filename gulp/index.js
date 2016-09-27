@@ -35,8 +35,8 @@ gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, 
 
 
 
-gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images' )));
-gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images' )));
+gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images','sass' )));
+gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images','sass' )));
 
 /*
 
