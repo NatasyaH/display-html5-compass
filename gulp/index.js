@@ -39,6 +39,7 @@ gulp.task('watch', function(done) {
     server: {
       baseDir: config.server.root
     },
+    online:false,
     port: config.server.port,
     ghostMode: {
       clicks: false,
@@ -48,7 +49,7 @@ gulp.task('watch', function(done) {
   });
 
   gulp.watch(config.images.src, gulp.series('images'));
-  gulp.watch(config.scripts.src, gulp.series('scripts-app'));
+  gulp.watch(config.scripts.app.src, gulp.series('scripts-app'));
   gulp.watch(config.html.src, gulp.series('html'));
   gulp.watch([config.sass.src,config.sass.image_src], gulp.series('sass'));
 
@@ -70,13 +71,6 @@ gulp.task('watch', function(done) {
 
 gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images','sass' )));
 gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images','sass' )));
-
-/*
-
-
-
-gulp.task('watch-dev', gulp.series('dev', 'build', 'watch'));
-gulp.task('watch-prod', gulp.series('prod', 'build', 'watch'));
+gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
+gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));
 gulp.task('default', gulp.series('watch-dev'));
-
-*/
