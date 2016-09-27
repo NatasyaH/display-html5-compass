@@ -11,9 +11,19 @@
  * options.dist : Destination to copy options.src to.
  * @returns {Function}
  */
-module.exports = function(gulp, bs, options) {
+module.exports = function(gulp, bs, options,flags) {
   return function() {
-    return gulp.src(options.src)
+
+    var path = [];
+
+    path.push (options.src);
+
+    if (flags.type==="prod") {
+      path.push ("!"+options.entry)
+
+    }
+
+    return gulp.src(path)
       .pipe(gulp.dest(options.dist))
       .pipe(bs.stream());
   };

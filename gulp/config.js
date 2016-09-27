@@ -3,7 +3,8 @@ var dest = './dist';
 var config = {
   flags: {
     minify: false,
-    sourcemap: true
+    sourcemap: true,
+    type:'dev'
   },
   clean: {
     src: dest+'/**/*'
@@ -14,7 +15,7 @@ var config = {
     dist: dest + '/css/'
   },
   html:{
-    src: ['./static/html/**/!(*.fla|*.md)','!./static/html/index.html'],
+    src: './static/html/**/!(*.fla|*.md)',
     entry: './static/html/index.html',
     dist: dest
   },
