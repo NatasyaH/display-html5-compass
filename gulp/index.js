@@ -24,16 +24,47 @@ gulp.task('html', require('./tasks/html')(gulp,bs, config.html, config.flags));
 gulp.task('sass', require('./tasks/sass')(gulp,bs, config.html));
 gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
-gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.html, config.flags));
 
 // dev build specific tasks
-
 gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, config.vendor, config.flags));
 
+//Prod specifc tasks
+gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.html, config.flags));
 
 
 
+// define watch actions
+gulp.task('watch', function(done) {
+  bs.init({
+    server: {
+      baseDir: config.server.root
+    },
+    port: config.server.port,
+    ghostMode: {
+      clicks: false,
+      forms: false,
+      scroll: false
+    }
+  });
 
+  gulp.watch(config.images.src, gulp.series('images'));
+  gulp.watch(config.scripts.src, gulp.series('scripts-app'));
+  gulp.watch(config.html.src, gulp.series('html'));
+
+  if (config.flags.type ==="dev") {
+
+    gulp.watch(config.vendor.src, gulp.series('scripts-vendor-dev'));
+
+  }
+  if (config.flags.type ==="prod") {
+
+    gulp.watch(config.html.entry, gulp.series('scripts-vendor'));
+
+  }
+
+
+  done();
+});
 
 gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images','sass' )));
 gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images','sass' )));
