@@ -21,6 +21,7 @@ var config = {
   },
   sass:{
     src: './**/**',
+    image_src:'./static/toSprite/**/*.{gif,jpg,png,svg}',
     dist: dest
   },
   images: {
