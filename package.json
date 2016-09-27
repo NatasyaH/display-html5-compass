@@ -20,6 +20,7 @@
     "browser-sync": "^2.16.0",
     "del": "^2.2.2",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-exec": "^2.1.2",
     "gulp-file-include": "^0.14.0"
   }
 }

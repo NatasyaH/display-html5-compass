@@ -19,6 +19,7 @@ gulp.task('prod', function(done) {
 // define stackable tasks
 gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
 gulp.task('html', require('./tasks/html')(gulp,bs, config.html));
+gulp.task('sass', require('./tasks/sass')(gulp,bs, config.html));
 
 
 /*
