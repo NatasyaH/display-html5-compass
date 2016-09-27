@@ -13,9 +13,13 @@ var config = {
     entry: './styles/index.styl',
     dist: dest + '/css/'
   },
+  html:{
+    src: './static/html/**/!(*.fla|*.md)',
+    dist: dest
+  },
   static: {
     base: {
-      src: './static/base/**/!(*.fla|*.md)',
+      src: './static/html/**/!(*.fla|*.md)',
       dist: dest
     },
     collapsed: {

@@ -2,6 +2,7 @@
 // vars
 var gulp = require('gulp');
 var config = require('./config');
+var bs = require('browser-sync').create();
 
 // two more states to minify code and create sourcemaps. The default is for local development.
 gulp.task('dev', function(done) {
@@ -17,6 +18,7 @@ gulp.task('prod', function(done) {
 
 // define stackable tasks
 gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
+gulp.task('html', require('./tasks/html')(gulp,bs, config.html));
 
 
 /*

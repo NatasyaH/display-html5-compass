@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/chrisathook/display-html5-compass#readme",
   "devDependencies": {
+    "browser-sync": "^2.16.0",
     "del": "^2.2.2",
-    "gulp": "github:gulpjs/gulp#4.0"
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-file-include": "^0.14.0"
   }
 }
