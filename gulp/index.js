@@ -32,8 +32,9 @@ gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, 
 gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.html, config.flags));
 gulp.task('optimize-css', require('./tasks/optimize-css')(gulp,config.optimize,config.flags));
 gulp.task('optimize-js', require('./tasks/optimize-js')(gulp,config.optimize,config.flags));
+gulp.task('optimize-html', require('./tasks/optimize-html')(gulp,config.optimize,config.flags));
 
-gulp.task('optimize', gulp.series('prod',gulp.parallel ('optimize-css','optimize-js')));
+
 
 
 // define watch actions
@@ -74,6 +75,7 @@ gulp.task('watch', function(done) {
 
 gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images','sass' )));
 gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images','sass' )));
+gulp.task('optimize', gulp.series('prod',gulp.parallel ('optimize-css','optimize-js','optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));
 gulp.task('default', gulp.series('watch-dev'));
