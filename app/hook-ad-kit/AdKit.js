@@ -34,7 +34,7 @@ var AdKit = {
 
       function loadComplete(response) {
 
-        
+
         return resolve(response);
       }
 
