@@ -6,8 +6,11 @@
 
 
 /** set up variables **/
-$width: 300px;
+$width: 970px;
 $height: 250px;
+
+$expanded-width: 970px;
+$expanded-height: 250px;
 
 $white: #FFFFFF;
 $whitetrans: rgba(255, 255, 255, 0);
@@ -26,17 +29,29 @@ $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 
 */
 
 
+// global
 
+.size-collapsed {
+
+  width: $width;
+  height: $height;
+}
+.size-expanded {
+
+  width: $expanded-width;
+  height: $expanded-height;
+}
 
 
 // Root Scope
 #adRoot {
-
+  position: absolute;
 
 }
 
 //Collapsed Scope
 #collapsedContainer {
+  position: absolute;
 
 
 }
@@ -45,12 +60,14 @@ $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 
 
 //User Expand Scope
 #userExpandedContainer {
+  position: absolute;
 
 
 }
 
 //Auto Expand Scope
 #autoExpandContainer {
+  position: absolute;
 
 
 }
