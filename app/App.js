@@ -10,14 +10,7 @@ var App = function () {
   console.log("hello app");
 
   adKit.boot()
-    .then(function (value) {
-      console.log("App Booted");
-      return value
-    })
-    .then(preload)
-    .then(function (value) {
-      console.log("preloaded")
-    });
+    .then(preload);
 
   function preload() {
 

@@ -73,7 +73,7 @@ var AdKit = {
 
             var img = new Image ();
             img.onload = function (){
-              console.log ("image loaded",img.src);
+
               resolve()}.bind (this);
             img.src = item;
 
