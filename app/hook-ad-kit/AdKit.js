@@ -34,7 +34,7 @@ var AdKit = {
 
       function loadComplete(response) {
 
-        console.log('LoadComplete', response);
+        
         return resolve(response);
       }
 
@@ -56,7 +56,7 @@ var AdKit = {
   },
   subloadPartial: function (container, html, controller) {
 
-    console.log ('!!!',container,html)
+
 
     return new RSVP.Promise(function (resolve, reject) {
       while (container.hasChildNodes()) {
