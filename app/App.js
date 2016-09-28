@@ -17,12 +17,12 @@ var App = function () {
 
   function preload () {
 
-    var stub = function () {return new RSVP.Promise (function (resolve,reject){ return resolve()} );};
-    //add additional preloaders here
 
-    var collapsed = adKit.subload (collapsedPartial);
 
-    return RSVP.all ([stub,collapsed])
+    return adKit.loadPartial (collapsedPartial)
+      .then (function (value){return adKit.subloadPartial(document.getElementById("collapsedContainer"),value)})
+
+
   }
 
 };

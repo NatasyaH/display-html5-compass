@@ -55,6 +55,10 @@ $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 
 
   #content {
     background-color: $black;
+    position: absolute;
+    width: $width;
+    height: $height;
+
   }
 
 
