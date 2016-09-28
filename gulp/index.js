@@ -30,7 +30,7 @@ gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, 
 
 //Prod specifc tasks
 gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.html, config.flags));
-
+gulp.task('optimize-css', require('./tasks/optimize-css')(gulp,config.optimize,config.flags));
 
 
 // define watch actions

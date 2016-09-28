@@ -40,6 +40,22 @@ var config = {
 
     dist: dest +'/vendor'
   },
+  optimize: {
+    css:{
+      src:dest+'/**/*.css'
+    },
+    js:{
+      src:dest+'/**/*.js'
+    },
+    html:{
+      src:dest+'/**/*.html'
+    },
+
+    dist: dest
+
+  },
+
+
   server: {
     root: dest,
     port: 8080
