@@ -24,14 +24,12 @@ var App = function () {
         return resolve()
       })
     };
-    // hash is loaded in parallel
+    // array is loaded in parallel
     //add more promises here to do more preloading
-    var promises = {
-      collapsed: collapsed,
-      users: stub
-    };
+    var promises = [collapsed,stub];
 
-    return RSVP.hash(promises)
+
+    return RSVP.all(promises)
   }
 
   function run () {

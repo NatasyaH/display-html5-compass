@@ -34,7 +34,6 @@ var AdKit = {
 
       function loadComplete(response) {
 
-
         return resolve(response);
       }
 
@@ -56,37 +55,33 @@ var AdKit = {
   },
   subloadPartial: function (container, html) {
 
-
-    function loadImgTags (target) {
+    function loadImgTags(target) {
 
       var retArray = [];
 
       var divs = target.getElementsByTagName('img');
 
-      for (var i=0; i<divs.length; i++) {
+      for (var i = 0; i < divs.length; i++) {
 
         var item = divs[i].src;
 
-        retArray.push (
+        retArray.push(
+          new RSVP.Promise(function (resolve, reject) {
 
-          new RSVP.Promise  (function (resolve,reject){
+            var img = new Image();
+            img.onload = function () {
 
-            var img = new Image ();
-            img.onload = function (){
-
-              resolve()}.bind (this);
+              resolve()
+            }.bind(this);
             img.src = item;
-
-          } )
-
-
+            
+          })
         )
 
       }
 
-      return RSVP.all (retArray);
+      return RSVP.all(retArray);
     }
-
 
     return new RSVP.Promise(function (resolve, reject) {
       while (container.hasChildNodes()) {
@@ -95,7 +90,9 @@ var AdKit = {
 
       container.innerHTML = html;
 
-      loadImgTags(container).then (function (){resolve()})
+      loadImgTags(container).then(function () {
+        resolve()
+      })
 
     });
 
