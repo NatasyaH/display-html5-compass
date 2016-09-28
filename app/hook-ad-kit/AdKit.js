@@ -15,12 +15,7 @@ var AdKit = {
       };
 
       return new RSVP.Promise (function (resolve,reject) {
-        return check() ? resolve() : Enabler.addEventListener (state,function (){
-
-          console.log (state,"RESOLVED");
-          resolve (state);
-
-        });
+        return method() ? resolve() : Enabler.addEventListener (state,resolve);
 
       })
 
