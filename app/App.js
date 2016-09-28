@@ -41,6 +41,11 @@ var App = function () {
     return RSVP.hash(promises)
   }
 
+  function run () {
+
+
+  };
+
 };
 
 module.exports = App;

@@ -54,8 +54,38 @@ var AdKit = {
     })
 
   },
-  subloadPartial: function (container, html, controller) {
+  subloadPartial: function (container, html) {
 
+
+    function loadImgTags (target) {
+
+      var retArray = [];
+
+      var divs = target.getElementsByTagName('img');
+
+      for (var i=0; i<divs.length; i++) {
+
+        var item = divs[i].src;
+
+        retArray.push (
+
+          new RSVP.Promise  (function (resolve,reject){
+
+            var img = new Image ();
+            img.onload = function (){
+              console.log ("image loaded",img.src);
+              resolve()}.bind (this);
+            img.src = item;
+
+          } )
+
+
+        )
+
+      }
+
+      return RSVP.all (retArray);
+    }
 
 
     return new RSVP.Promise(function (resolve, reject) {
@@ -65,7 +95,7 @@ var AdKit = {
 
       container.innerHTML = html;
 
-      resolve ();
+      loadImgTags(container).then (function (){resolve()})
 
     });
 
