@@ -6,6 +6,7 @@
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
+var plumber = require('gulp-plumber');
 /**
  * @param gulp - function
  * @param bs - Browser sync instance
@@ -18,6 +19,10 @@ var gutil = require('gulp-util');
  * @returns {Function}
  */
 module.exports = function(gulp, bs, options, flags) {
+
+
+
+
   return function() {
     var bundler = browserify(options.app.entry, {
       debug: flags.sourcemap,
@@ -29,7 +34,13 @@ module.exports = function(gulp, bs, options, flags) {
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
     };
+    var onError = function (err) {
+      gutil.beep();
+      console.log(err.toString());
+      this.emit('end');
+    };
     bundler.on('update', rebundle);
+    bundler.on('error', onError);
     return rebundle();
   };
 };
