@@ -29,7 +29,36 @@ var AdKit = {
     return RSVP.all ([initPromise,loadPromise,visiblePromise]);
 
 
-  }
+  },
+  subload: function ( url) {
+
+
+
+  return new RSVP.Promise(function (resolve, reject) {
+
+    function loadComplete (response) {
+
+      console.log ('LoadComplete',response);
+      return resolve (response);
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+
+      if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+
+        loadComplete(xhr.responseText);
+      }
+
+
+    }.bind (this);
+
+    xhr.send();
+
+  })
+
+}
 
 
 };
