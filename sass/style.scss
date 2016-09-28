@@ -53,6 +53,10 @@ $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 
 #collapsedContainer {
   position: absolute;
 
+  #content {
+    background-color: $black;
+  }
+
 
 }
 
