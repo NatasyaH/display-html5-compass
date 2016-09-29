@@ -23,7 +23,7 @@ module.exports = {
         var tl = new TimelineMax(
           {
             onComplete: function () {
-              console.log ('collapsed visible');
+
 
               resolve(tl)
             },

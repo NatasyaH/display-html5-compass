@@ -15,24 +15,16 @@ var App = function () {
 
   adKit.boot()
     .then(preload)
-    .then (run)
+    .then (run);
 
   function preload() {
 
     var promises = [];
 
     if (isAutoExpand===true){
-      var expanded = adKit.loadPartial(expandedPartial)
-        .then(function (value) {
-          return adKit.subloadPartial(document.getElementById("expandedContainer"), value)
-        });
-      promises.push(expanded);
+      promises.push(loadContent (expandedPartial,document.getElementById("expandedContainer")));
     }else {
-      var collapsed = adKit.loadPartial(collapsedPartial)
-        .then(function (value) {
-          return adKit.subloadPartial(document.getElementById("collapsedContainer"), value)
-        });
-      promises.push(collapsed);
+      promises.push(loadContent (collapsedPartial,document.getElementById("collapsedContainer")));
     }
 
     // add your own promises for preloading to the array here
@@ -46,10 +38,8 @@ var App = function () {
     if (isAutoExpand) {
 
       adKit.requestExpand()
-        .then (function (value) {return adKit.completeExpand()} )
-        .then (function (value) {console.log (value)})
         .then (borderAnimationController.expandInstant )
-        .then (function (value) {console.log ('border down')})
+        .then (function (value) {return adKit.completeExpand()} )
         .catch (function (error){console.log ("ERROR",error)})
 
 
@@ -58,6 +48,16 @@ var App = function () {
       collapsedAnimationController.animateIn();
 
     }
+
+  }
+
+  function loadContent (url,container) {
+
+
+    return adKit.loadPartial(url)
+      .then(function (value) {
+        return adKit.subloadPartial(container, value)
+      });
 
   }
 
