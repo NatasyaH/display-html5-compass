@@ -101,7 +101,7 @@ var AdKit = {
 
     return new RSVP.Promise(function (resolve, reject) {
 
-  
+
 
       // only allow expand if not expanding already
       if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
