@@ -1,6 +1,7 @@
 'use strict';
 
 var adKit = require('./hook-ad-kit/AdKit');
+var borderAnimationController = require('./controllers/BorderAnimationController');
 var RSVP = require('rsvp');
 
 var App = function () {
@@ -46,6 +47,8 @@ var App = function () {
       adKit.requestExpand()
         .then (function (value) {return adKit.completeExpand()} )
         .then (function (value) {console.log (value)})
+        .then (borderAnimationController.expandInstant )
+        .then (function (value) {console.log ('border down')})
         .catch (function (error){console.log ("ERROR",error)})
 
 
