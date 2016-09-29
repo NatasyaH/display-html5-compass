@@ -2,13 +2,14 @@
 
 var adKit = require('./hook-ad-kit/AdKit');
 var borderAnimationController = require('./controllers/BorderAnimationController');
+var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var RSVP = require('rsvp');
 
 var App = function () {
 
   var collapsedPartial = './collapsed.html';
   var expandedPartial = './expanded.html';
-  var isAutoExpand = true;
+  var isAutoExpand = false;
 
   console.log("hello app");
 
@@ -51,6 +52,10 @@ var App = function () {
         .then (function (value) {console.log ('border down')})
         .catch (function (error){console.log ("ERROR",error)})
 
+
+    }else {
+
+      collapsedAnimationController.animateIn();
 
     }
 
