@@ -12,15 +12,10 @@ var App = function () {
   console.log("hello app");
 
   adKit.boot()
-    .then(preload);
+    .then(preload)
+    .then (run)
 
   function preload() {
-
-
-
-
-
-
 
     var promises = [];
 
@@ -44,9 +39,19 @@ var App = function () {
   }
 
   function run () {
+  console.log ('run');
+
+    if (isAutoExpand) {
+
+      adKit.requestExpand()
+        .then (function (value) {return adKit.completeExpand()} )
+        .then (function (value) {console.log (value)})
+        .catch (function (error){console.log ("ERROR",error)})
 
 
-  };
+    }
+
+  }
 
 };
 

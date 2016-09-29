@@ -74,7 +74,7 @@ var AdKit = {
               resolve()
             }.bind(this);
             img.src = item;
-            
+
           })
         )
 
@@ -93,6 +93,52 @@ var AdKit = {
       loadImgTags(container).then(function () {
         resolve()
       })
+
+    });
+
+  },
+  requestExpand: function () {
+
+    return new RSVP.Promise(function (resolve, reject) {
+
+  
+
+      // only allow expand if not expanding already
+      if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
+
+
+        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, function () {
+          resolve('EXPANSION START')
+        });
+        Enabler.requestExpand();
+
+
+      } else {
+        reject('AlreadyExpanded');
+      }
+
+
+    });
+
+  },
+  completeExpand: function () {
+
+    return new RSVP.Promise(function (resolve, reject) {
+
+
+      if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
+
+
+        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, function () {
+          resolve('EXPANSION COMPLETE')
+        });
+        Enabler.finishExpand();
+
+
+      } else {
+        reject('Expand Not Started so cant be completed');
+      }
+
 
     });
 
