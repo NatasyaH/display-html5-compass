@@ -24,8 +24,7 @@ $sprite-padding: 2px;
 /*
 $common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 $collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $sprite-padding);
-$userExpand-map: sprite-map('userExpand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
-$autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
+$expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 */
 
 
@@ -65,17 +64,15 @@ $autoExpand-map: sprite-map('autoExpand/*.png' , $layout: horizontal, $spacing: 
 }
 
 
-
-//User Expand Scope
-#userExpandedContainer {
-  position: absolute;
-
-
-}
-
 //Auto Expand Scope
-#autoExpandContainer {
+#expandedContainer {
   position: absolute;
+  #content {
+    background-color: $blue;
+    position: absolute;
+    width: $width;
+    height: $height;
 
+  }
 
 }
