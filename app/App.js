@@ -20,13 +20,7 @@ var App = function () {
 
 
 
-  init();
-  adKit.boot()
-    .then(preload)
-    .then (run);
-
-
-  function init() {
+   var  init = function () {
     if (isAutoExpand===true){
 
 
@@ -35,9 +29,13 @@ var App = function () {
 
     }
 
-  }
+     adKit.boot()
+       .then(preload)
+       .then (run);
 
-  function preload() {
+  };
+
+  var preload = function() {
 
     var promises = [];
 
@@ -68,18 +66,13 @@ var App = function () {
 
 
       collapsedAnimationController.animateIn()
-        .then (function () {
 
-          bindButtons(document.querySelectorAll('.catch-all'),function (){Enabler.exit('CatchAll')})
-
-
-        })
 
     }
 
   }
 
-  function loadContent (url,container) {
+  var  loadContent = function (url,container) {
 
 
     return adKit.loadPartial(url)
@@ -87,43 +80,11 @@ var App = function () {
         return adKit.subloadPartial(container, value)
       });
 
-  }
-
-
-  function bindButtons (nodeList,closure){
+  };
 
 
 
-    for (var i = 0; i < nodeList.length; i++) {
-      var obj = nodeList[i];
-
-      obj.addEventListener ('click',generateExit(closure)  )
-
-    }
-
-  }
-
-  function exitHandler (closure) {
-
-    adkit.exit(closure)
-      .then (function (){console.log ('exit handled')})
-
-  }
-
-  function generateExit (closure) {
-
-
-    return function () {
-
-      exitHandler(closure)
-    }
-
-
-
-
-  }
-
-
+  return init();
 
 
 };
