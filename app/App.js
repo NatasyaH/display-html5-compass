@@ -85,10 +85,7 @@ var App = function () {
      adKit.requestExpand()
       .then (borderAnimationController.expandInstant )
       .then (adKit.completeExpand)
-      .then (function (){
-        expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
-
-      })
+      .then (function (){return expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);})
       .then (expandedAnimationController.animateIn)
 
 
@@ -113,6 +110,15 @@ var App = function () {
       adKit.requestCollapse()
         .then(adKit.completeCollapse)
         .then (borderAnimationController.collapseInstant)
+        .then (function (){
+          expandedContainer.classList.add('hidden');
+        })
+        .then (loadContent (collapsedPartial,collapsedContainer))
+        .then(function (){return collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler)})
+        .then(collapsedAnimationController.animateIn)
+
+
+
 
     }
 
