@@ -21,7 +21,7 @@ var App = function () {
 
   var collapsedPartial = './collapsed.html';
   var expandedPartial = './expanded.html';
-  var isAutoExpand = true;
+  var isAutoExpand = false;
 
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
@@ -105,7 +105,7 @@ var App = function () {
   var exitHandler = function () {
 
 
-    if (adKit.expanded) {
+    if (adKit.expanded()) {
 
       adKit.requestCollapse()
         .then(adKit.completeCollapse)
