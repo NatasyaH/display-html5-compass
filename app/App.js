@@ -79,7 +79,7 @@ var App = function () {
     }else {
 
 
-      collapsedAnimationController.animateIn()
+      return collapsedAnimationController.animateIn()
         .then (function (){
           collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
           collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
@@ -93,7 +93,7 @@ var App = function () {
 
   var expand = function () {
 
-     adKit.requestExpand()
+     return adKit.requestExpand()
        .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
        .then (borderAnimationController.expandInstant )
        .then (adKit.completeExpand)
@@ -107,7 +107,7 @@ var App = function () {
 
   var collapse = function  () {
 
-    adKit.requestCollapse()
+    return adKit.requestCollapse()
       .then(adKit.completeCollapse)
       .then (borderAnimationController.collapseInstant)
       .then (function (){expandedContainer.classList.add('hidden');})
@@ -168,7 +168,7 @@ var App = function () {
 
   var expandHandler = function () {
 
-    expand();
+    return expand();
 
   };
 
