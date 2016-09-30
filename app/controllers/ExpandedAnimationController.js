@@ -5,20 +5,20 @@
 
 var RSVP = require('rsvp');
 
-var container = document.querySelector('#expandedContainer');
+
 
 
 
 
 module.exports = {
 
-  hide: function () {
+  animateIn: function () {
 
 
     return new RSVP.Promise(
       function (resolve, reject) {
 
-
+        var content = document.querySelector('#expandedContainer').querySelector('.content')  ;
 
         var tl = new TimelineMax(
           {
@@ -33,33 +33,7 @@ module.exports = {
         );
 
         tl.add ([
-          TweenMax.set(container,  {className: '+=hidden'})
-        ]);
-
-      })
-  },
-  show: function () {
-
-
-    return new RSVP.Promise(
-      function (resolve, reject) {
-
-
-
-        var tl = new TimelineMax(
-          {
-            onComplete: function () {
-
-
-              resolve(tl)
-            },
-            onCompleteScope: this
-
-          }
-        );
-
-        tl.add ([
-          TweenMax.set(container,  {className: '-=hidden'})
+          TweenMax.to(content, 1, {opacity: 1})
         ]);
 
       })

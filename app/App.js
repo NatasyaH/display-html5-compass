@@ -8,13 +8,23 @@ var RSVP = require('rsvp');
 
 
 
+RSVP.on('error', function(reason, label) {
+  if (label) {
+    console.error(label);
+  }
+
+  console.assert(false, reason);
+});
+
+
 var App = function () {
 
   var collapsedPartial = './collapsed.html';
   var expandedPartial = './expanded.html';
-  var isAutoExpand = false;
+  var isAutoExpand = true;
 
-
+  var expandedContainer = document.querySelector('#expandedContainer');
+  var collapsedContainer = document.querySelector('#collapsedContainer');
 
   console.log("hello app");
 
@@ -25,7 +35,7 @@ var App = function () {
 
 
     }else {
-      expandedAnimationController.hide();
+      expandedContainer.classList.add('hidden');
 
     }
 
@@ -40,9 +50,9 @@ var App = function () {
     var promises = [];
 
     if (isAutoExpand===true){
-      promises.push(loadContent (expandedPartial,document.getElementById("expandedContainer")));
+      promises.push(loadContent (expandedPartial,expandedContainer));
     }else {
-      promises.push(loadContent (collapsedPartial,document.getElementById("collapsedContainer")));
+      promises.push(loadContent (collapsedPartial,collapsedContainer));
     }
 
     // add your own promises for preloading to the array here
@@ -53,34 +63,40 @@ var App = function () {
   function run () {
   console.log ('run');
 
-    if (isAutoExpand) {
-
-      adKit.requestExpand()
-        .then (borderAnimationController.expandInstant )
-        .then (adKit.completeExpand)
 
 
+    if (isAutoExpand===true) {
+
+      expand();
 
     }else {
 
-
-
-
-
+      collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
       collapsedAnimationController.animateIn()
-        .then (function bindCatchAll (){
-
-          document.getElementById('collapsedContainer').querySelector('.catch-all').addEventListener('click',catchAllHandler);
-
-        })
 
 
     }
 
   }
 
+
+  var expand = function () {
+
+     adKit.requestExpand()
+      .then (borderAnimationController.expandInstant )
+      .then (adKit.completeExpand)
+      .then (function (){
+        expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
+
+      })
+      .then (expandedAnimationController.animateIn)
+
+
+  };
+
   var  loadContent = function (url,container) {
 
+    container.classList.remove ('hidden');
 
     return adKit.loadPartial(url)
       .then(function (value) {
@@ -89,13 +105,35 @@ var App = function () {
 
   };
 
+  var exitHandler = function () {
 
-  var catchAllHandler = function () {
 
-    adKit.exit (function (){Enabler.exit ('catch-all')});
+    if (adKit.expanded) {
+
+      adKit.requestCollapse()
+        .then(adKit.completeCollapse)
+        .then (borderAnimationController.collapseInstant)
+
+    }
+
+
 
   };
 
+
+  var catchAllHandler = function () {
+
+    return adKit.exit (function (){Enabler.exit ('catch-all')})
+      .then (exitHandler);
+
+  };
+
+  var ctaHandler = function () {
+
+    return adKit.exit (function (){Enabler.exit ('cta')})
+      .then(exitHandler)
+
+  };
 
   return init();
 

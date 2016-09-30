@@ -143,6 +143,55 @@ var AdKit = {
     });
 
   },
+  requestCollapse: function () {
+
+    return new RSVP.Promise(function (resolve, reject) {
+
+
+
+      // only collapse if expanded
+      if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
+
+
+        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, function () {
+
+          console.log ('!!!!!');
+          resolve('COLLAPSE START')
+        });
+        Enabler.requestCollapse();
+
+
+      } else {
+        reject('AlreadyCollapsed');
+      }
+
+
+    });
+
+  },
+
+  completeCollapse: function () {
+
+    return new RSVP.Promise(function (resolve, reject) {
+
+
+      if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
+
+
+        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, function () {
+          resolve('COLLAPSE COMPLETE')
+        });
+        Enabler.finishCollapse();
+
+
+      } else {
+        reject('Collapse not started so cant complete');
+      }
+
+
+    });
+
+  },
 
   exit: function (closure) {
     return new RSVP.Promise(
@@ -156,6 +205,19 @@ var AdKit = {
 
 
       })
+  },
+
+  expanded: function () {
+
+    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
+
+      return true;
+
+    }
+
+    return false;
+
+
   }
 
 };
