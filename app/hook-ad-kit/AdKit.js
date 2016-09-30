@@ -2,6 +2,8 @@
 
 var RSVP = require('rsvp');
 
+var util = require('./Util');
+
 var AdKit = {
 
   boot: function () {
@@ -34,6 +36,8 @@ var AdKit = {
 
       function loadComplete(response) {
 
+        console.log ('html loaded');
+
         return resolve(response);
       }
 
@@ -55,11 +59,15 @@ var AdKit = {
   },
   subloadPartial: function (container, html) {
 
+    console.log ('subloadPartial');
+
     function loadImgTags(target) {
+
+      console.log ('loadImgTags');
 
       var retArray = [];
 
-      var divs = target.getElementsByTagName('img');
+      var divs = target.querySelectorAll('img');
 
       for (var i = 0; i < divs.length; i++) {
 
@@ -70,6 +78,8 @@ var AdKit = {
 
             var img = new Image();
             img.onload = function () {
+
+              console.log ('single image loaded');
 
               resolve()
             }.bind(this);
@@ -84,15 +94,15 @@ var AdKit = {
     }
 
     return new RSVP.Promise(function (resolve, reject) {
-      while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
-      }
+      util.removeChildren(container)
+        .then(function (){ console.log ('add html'); container.innerHTML = html  })
+        .then(function () {return loadImgTags(container)}) // need to return promise to keep flow going since it is async
+        .then(resolve)
 
-      container.innerHTML = html;
 
-      loadImgTags(container).then(function () {
-        resolve()
-      })
+
+
+
 
     });
 
@@ -101,7 +111,7 @@ var AdKit = {
 
     return new RSVP.Promise(function (resolve, reject) {
 
-
+      console.log ('expansion requested')
 
       // only allow expand if not expanding already
       if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
@@ -129,6 +139,7 @@ var AdKit = {
 
     return new RSVP.Promise(function (resolve, reject) {
 
+      console.log ('complete expansion requested')
 
       if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
 

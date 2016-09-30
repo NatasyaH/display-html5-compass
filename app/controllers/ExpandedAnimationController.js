@@ -24,6 +24,7 @@ module.exports = {
           {
             onComplete: function () {
 
+              console.log ('expand animation complete');
 
               resolve(tl)
             },
