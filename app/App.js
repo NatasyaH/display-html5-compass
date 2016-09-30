@@ -21,9 +21,9 @@ RSVP.on('error', function(reason, label) {
 
 var App = function () {
 
-  var collapsedPartial = './collapsed.html';
-  var expandedPartial = './expanded.html';
-  var isAutoExpand = false;
+  var collapsedPartial = window.adConfig.collapsedPartial;
+  var expandedPartial = window.adConfig.expandedPartial;
+  var isAutoExpand = window.adConfig.isAutoExpand;
 
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');

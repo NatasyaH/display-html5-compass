@@ -36,7 +36,7 @@ var AdKit = {
 
       function loadComplete(response) {
 
-        console.log ('html loaded');
+        console.log ('partial loaded');
 
         return resolve(response);
       }
