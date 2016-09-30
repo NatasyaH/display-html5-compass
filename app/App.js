@@ -65,7 +65,14 @@ var App = function () {
 
 
 
+
+
       collapsedAnimationController.animateIn()
+        .then (function bindCatchAll (){
+
+          document.getElementById('collapsedContainer').querySelector('.catch-all').addEventListener('click',catchAllHandler);
+
+        })
 
 
     }
@@ -82,6 +89,12 @@ var App = function () {
 
   };
 
+
+  var catchAllHandler = function () {
+
+    adKit.exit (function (){Enabler.exit ('catch-all')});
+
+  };
 
 
   return init();
