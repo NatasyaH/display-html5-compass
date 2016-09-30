@@ -127,6 +127,12 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   cursor: pointer;
 }
 
+.basic-button {
+  background-color: rgba(255,150,255,1);
+  position: absolute;
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
 
@@ -161,6 +167,15 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   .catch-all {
     @extend .size-collapsed;
     @extend .catch-all;
+
+  }
+  .expand {
+    @extend .basic-button;
+    width: 200px;
+    height: 50px;
+    left: 600px;
+    top: 150px;
+
 
   }
 

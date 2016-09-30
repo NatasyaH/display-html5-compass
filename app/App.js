@@ -72,6 +72,7 @@ var App = function () {
     }else {
 
       collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
+      collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
       collapsedAnimationController.animateIn()
 
 
@@ -83,6 +84,7 @@ var App = function () {
   var expand = function () {
 
      adKit.requestExpand()
+       .then(loadContent (expandedPartial,expandedContainer)) // reload content on each expand
       .then (borderAnimationController.expandInstant )
       .then (adKit.completeExpand)
       .then (function (){return expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);})
@@ -114,7 +116,10 @@ var App = function () {
           expandedContainer.classList.add('hidden');
         })
         .then (loadContent (collapsedPartial,collapsedContainer))
-        .then(function (){return collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler)})
+        .then(function (){
+          collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
+          collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
+        })
         .then(collapsedAnimationController.animateIn)
 
 
@@ -138,6 +143,12 @@ var App = function () {
 
     return adKit.exit (function (){Enabler.exit ('cta')})
       .then(exitHandler)
+
+  };
+
+  var expandHandler = function () {
+
+    expand();
 
   };
 

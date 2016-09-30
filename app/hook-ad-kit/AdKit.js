@@ -107,9 +107,13 @@ var AdKit = {
       if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
 
 
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, function () {
+
+        var func = function () {
+          Enabler.removeEventListener (studio.events.StudioEvent.EXPAND_START,func);
           resolve('EXPANSION START')
-        });
+        };
+
+        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START,func );
         Enabler.requestExpand();
 
 
@@ -128,10 +132,12 @@ var AdKit = {
 
       if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
 
-
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, function () {
+        var func = function () {
+          Enabler.removeEventListener (studio.events.StudioEvent.EXPAND_FINISH,func);
           resolve('EXPANSION COMPLETE')
-        });
+        };
+
+        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, func);
         Enabler.finishExpand();
 
 
@@ -153,11 +159,13 @@ var AdKit = {
       if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
 
 
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, function () {
-
+        var func = function () {
+          Enabler.removeEventListener (studio.events.StudioEvent.COLLAPSE_START,func);
           console.log ('!!!!!');
           resolve('COLLAPSE START')
-        });
+        };
+
+        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START,func);
         Enabler.requestCollapse();
 
 
@@ -178,9 +186,13 @@ var AdKit = {
       if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
 
 
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, function () {
+        var func = function () {
+          Enabler.removeEventListener (studio.events.StudioEvent.COLLAPSE_FINISH,func);
+
           resolve('COLLAPSE COMPLETE')
-        });
+        };
+
+        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
         Enabler.finishCollapse();
 
 
@@ -209,7 +221,7 @@ var AdKit = {
 
   expanded: function () {
 
-    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
+    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
 
       return true;
 
