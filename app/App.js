@@ -3,7 +3,10 @@
 var adKit = require('./hook-ad-kit/AdKit');
 var borderAnimationController = require('./controllers/BorderAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
+var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var RSVP = require('rsvp');
+
+
 
 var App = function () {
 
@@ -11,11 +14,28 @@ var App = function () {
   var expandedPartial = './expanded.html';
   var isAutoExpand = false;
 
+
+
   console.log("hello app");
 
+
+
+  init();
   adKit.boot()
     .then(preload)
     .then (run);
+
+
+  function init() {
+    if (isAutoExpand===true){
+
+
+    }else {
+      expandedAnimationController.hide();
+
+    }
+
+  }
 
   function preload() {
 
@@ -39,13 +59,21 @@ var App = function () {
 
       adKit.requestExpand()
         .then (borderAnimationController.expandInstant )
-        .then (function (value) {return adKit.completeExpand()} )
-        .catch (function (error){console.log ("ERROR",error)})
+        .then (adKit.completeExpand)
+
 
 
     }else {
 
-      collapsedAnimationController.animateIn();
+
+
+      collapsedAnimationController.animateIn()
+        .then (function () {
+
+          bindButtons(document.querySelectorAll('.catch-all'),function (){Enabler.exit('CatchAll')})
+
+
+        })
 
     }
 
@@ -60,6 +88,43 @@ var App = function () {
       });
 
   }
+
+
+  function bindButtons (nodeList,closure){
+
+
+
+    for (var i = 0; i < nodeList.length; i++) {
+      var obj = nodeList[i];
+
+      obj.addEventListener ('click',generateExit(closure)  )
+
+    }
+
+  }
+
+  function exitHandler (closure) {
+
+    adkit.exit(closure)
+      .then (function (){console.log ('exit handled')})
+
+  }
+
+  function generateExit (closure) {
+
+
+    return function () {
+
+      exitHandler(closure)
+    }
+
+
+
+
+  }
+
+
+
 
 };
 

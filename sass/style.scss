@@ -121,6 +121,16 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   width: $expanded-width;
   height: $expanded-height;
 }
+.catch-all {
+  background-color: rgba(255,255,255,0.01);
+  position: absolute;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+
+}
 
 
 // Root Scope
@@ -135,11 +145,22 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 
   .content {
+
+    img {
+      position: absolute;
+
+    }
+
     opacity:0;
     background-color: $black;
     position: absolute;
     width: $width;
     height: $height;
+
+  }
+  .catch-all {
+    @extend .size-collapsed;
+    @extend .catch-all;
 
   }
 
@@ -152,6 +173,18 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   position: absolute;
 
   .content {
+
+    img {
+      position: absolute;
+
+    }
+
+    .catch-all {
+      @extend .size-expanded;
+      @extend .catch-all;
+
+    }
+
     opacity:0;
     background-color: $blue;
     position: absolute;

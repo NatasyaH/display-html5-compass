@@ -142,6 +142,20 @@ var AdKit = {
 
     });
 
+  },
+
+  exit: function (closure) {
+    return new RSVP.Promise(
+
+
+
+
+      function (resolve, reject) {
+        Enabler.addEventListener(studio.events.StudioEvent.EXIT, resolve);
+        closure.call();
+
+
+      })
   }
 
 };
