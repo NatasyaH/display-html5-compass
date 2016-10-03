@@ -2,14 +2,12 @@
  * Created by chriswatts on 9/29/16.
  */
 'use strict';
-
 var RSVP = require('rsvp');
-
 module.exports = {
   animateIn: function () {
     return new RSVP.Promise(
       function (resolve, reject) {
-        var content = document.querySelector('#collapsedContainer').querySelector('.content')  ;
+        var content = document.querySelector('#collapsedContainer').querySelector('.content');
         var tl = new TimelineMax(
           {
             onComplete: function () {
@@ -17,13 +15,11 @@ module.exports = {
             }
           }
         );
-        tl.add ([
+        tl.add([
           TweenMax.to(content, 1, {opacity: 1})
         ]);
-
       })
   }
-
 };
 
 

@@ -3,8 +3,6 @@
 @import './hook-mixins/retinaSpriter';
 @import './hook-mixins/standardSpriter';
 
-
-
 /** set up variables **/
 $width: 970px;
 $height: 250px;
@@ -27,34 +25,30 @@ $collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $s
 $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 */
 
-
 // global
 
 @import './template/border';
-
-
-
-
-
 
 .size-collapsed {
 
   width: $width;
   height: $height;
 }
+
 .size-expanded {
 
   width: $expanded-width;
   height: $expanded-height;
 }
+
 .catch-all {
-  background-color: rgba(255,255,255,0.01);
+  background-color: rgba(255, 255, 255, 0.01);
   position: absolute;
   cursor: pointer;
 }
 
 .basic-button {
-  background-color: rgba(255,150,255,1);
+  background-color: rgba(255, 150, 255, 1);
   position: absolute;
   cursor: pointer;
 }
@@ -63,6 +57,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   display: none;
 
 }
+
 .shown {
   display: block;
 
@@ -87,7 +82,6 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 }
 
-
 #expandedPreloader {
 
   @extend .size-expanded;
@@ -101,7 +95,6 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 #collapsedContainer {
   @extend #adRoot;
 
-
   .content {
 
     img {
@@ -109,7 +102,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
     }
 
-    opacity:0;
+    opacity: 0;
     background-color: $black;
     position: absolute;
     width: $width;
@@ -128,7 +121,6 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     left: 600px;
     top: 150px;
 
-
   }
   .cta {
     @extend .basic-button;
@@ -138,22 +130,18 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     top: 150px;
     background-color: cornflowerblue;
 
-
   }
 
-  .bg-image{
+  .bg-image {
     position: absolute;
     width: 326px;
     height: 129px;
-    left:500px;
+    left: 500px;
     background-image: url('../images/logo.jpg');
-
 
   }
 
-
 }
-
 
 //Auto Expand Scope
 #expandedContainer {
@@ -174,17 +162,16 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     }
 
     .cta {
-    @extend .basic-button;
-    width: 100px;
-    height: 50px;
-    left: 100px;
-    top: 150px;
-    background-color: blue;
+      @extend .basic-button;
+      width: 100px;
+      height: 50px;
+      left: 100px;
+      top: 150px;
+      background-color: blue;
 
+    }
 
-  }
-
-    opacity:0;
+    opacity: 0;
     background-color: $blue;
     position: absolute;
     width: $width;
