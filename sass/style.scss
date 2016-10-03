@@ -155,6 +155,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 // Root Scope
 #adRoot {
   position: absolute;
+  overflow: hidden;
 
 }
 
