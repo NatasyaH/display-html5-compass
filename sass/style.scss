@@ -206,6 +206,8 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     position: absolute;
     width: 326px;
     height: 129px;
+    left:500px;
+    background-image: url('../images/logo.jpg');
 
 
   }
