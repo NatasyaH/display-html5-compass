@@ -76,7 +76,7 @@ gulp.task('watch', function(done) {
 
 gulp.task('build-dev', gulp.series('dev','clean',gulp.parallel('html','scripts-vendor-dev','scripts-app','images','sass' )));
 gulp.task('build-prod', gulp.series('prod','clean', gulp.parallel('html','scripts-vendor','scripts-app','images','sass' )));
-gulp.task('optimize', gulp.series('prod',gulp.parallel ('optimize-css','optimize-js','optimize-html')));
+gulp.task('build-prod-optimize', gulp.series('build-prod',gulp.parallel ('optimize-css','optimize-js','optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));
 gulp.task('default', gulp.series('watch-dev'));
