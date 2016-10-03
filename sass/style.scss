@@ -30,97 +30,10 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 // global
 
-.border {
-
-  background-color: black;
-  position: absolute;
-  pointer-events: none;
-  width: 1px;
-  height: 1px;
-
-}
-
-.left-collapsed-border {
-
-  @extend .border;
-  height: $height;
-
-
-}
-
-.left-expanded-border {
-
-  @extend .border;
-  height: $expanded-height;
-
-
-}
-.right-collapsed-border {
-
-  @extend .border;
-  height: $height;
-  left: $width - 1;
-
-
-}
-
-.right-expanded-border {
-
-  @extend .border;
-  height: $expanded-height;
-  left: $width - 1;
-
-
-}
-
-.top-collapsed-border {
-
-  @extend .border;
-  width: $width;
+@import './template/border';
 
 
 
-}
-
-.top-expanded-border {
-
-  @extend .border;
-  width: $expanded-width;
-
-
-
-}
-
-.bottom-collapsed-border {
-
-  @extend .border;
-  width: $width;
-  top: $height - 1;
-
-
-}
-
-.bottom-expanded-border {
-
-  @extend .border;
-  width: $expanded-width;
-  top: $expanded-height - 1;
-
-
-}
-
-
-.tracking-pixel {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  opacity: 0.01;
-  top: 800px;
-  left: 1000px;
-
-
-}
 
 
 
@@ -150,7 +63,15 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   display: none;
 
 }
-
+.tracking-pixel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0.01;
+  top: 800px;
+  left: 1000px;
+}
 
 // Root Scope
 #adRoot {

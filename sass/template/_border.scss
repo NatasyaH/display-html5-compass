@@ -1,0 +1,78 @@
+.border {
+
+  background-color: black;
+  position: absolute;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+
+}
+
+.left-collapsed-border {
+
+  @extend .border;
+  height: $height;
+
+
+}
+
+.left-expanded-border {
+
+  @extend .border;
+  height: $expanded-height;
+
+
+}
+.right-collapsed-border {
+
+  @extend .border;
+  height: $height;
+  left: $width - 1;
+
+
+}
+
+.right-expanded-border {
+
+  @extend .border;
+  height: $expanded-height;
+  left: $width - 1;
+
+
+}
+
+.top-collapsed-border {
+
+  @extend .border;
+  width: $width;
+
+
+
+}
+
+.top-expanded-border {
+
+  @extend .border;
+  width: $expanded-width;
+
+
+
+}
+
+.bottom-collapsed-border {
+
+  @extend .border;
+  width: $width;
+  top: $height - 1;
+
+
+}
+
+.bottom-expanded-border {
+
+  @extend .border;
+  width: $expanded-width;
+  top: $expanded-height - 1;
+
+
+}
