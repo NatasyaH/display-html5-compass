@@ -82,6 +82,8 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 #adRoot {
   position: absolute;
   overflow: hidden;
+  top: 0px;
+  left: 0px;
 
 }
 
@@ -97,7 +99,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 //Collapsed Scope
 #collapsedContainer {
-  position: absolute;
+  @extend #adRoot;
 
 
   .content {
@@ -155,7 +157,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 //Auto Expand Scope
 #expandedContainer {
-  position: absolute;
+  @extend #adRoot;
 
   .content {
 

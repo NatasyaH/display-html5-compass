@@ -21,7 +21,7 @@ var App = function (config) {
   var expandedPreloader = document.querySelector('#expandedPreloader');
   console.log("hello app");
   //*************************************************************************************************
-  // IMPLEMENTATION
+  // IMPLEMENTATION - YOu will need to edit these
   //*************************************************************************************************
   var preload = function () {
     console.log('preload');
@@ -66,7 +66,7 @@ var App = function (config) {
   };
   var collapse = function () {
     return adKit.requestCollapse()
-      .then(shellAnimationController.collapseInstant)
+      .then(shellAnimationController.collapse)
       .then(function () {
         expandedContainer.classList.add('hidden');
       })
