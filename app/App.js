@@ -38,30 +38,45 @@ var App = function (config) {
   //*************************************************************************************************
   // IMPLEMENTATION
   //*************************************************************************************************
-
-  var preloadHook = function () {
+  var preload = function() {
+    console.log ('preload');
     var promises = [];
-    return RSVP.all(promises);
+    if (isAutoExpand===true){
+      promises.push(loadContent (expandedPartial,expandedContainer));
+    }else {
+      promises.push(loadContent (collapsedPartial,collapsedContainer));
+    }
+    //promises.push(RSVP.all([])); // if you need to do more preloading do it here.
+    return RSVP.all(promises)
   };
 
-  var preExpand = function () {
-    var promises = [];
-    return RSVP.all(promises);
+  var expand = function () {
+     return adKit.requestExpand()
+       .then (ShellAnimationController.expandInstant )
+       .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
+       .then (expandedAnimationController.animateIn)
+       .then (bindExpanded)
+       .then (function (){return util.removeChildren(collapsedContainer) })
+       .then (function () {
+         startTimer()
+         .then (collapse)
+         .catch (function (value){console.log (value)})
+       })// we don't return the promise here cuz we don't want the result holding execution
+       .then (adKit.completeExpand)
+       .catch (function (value){console.log (value);console.log ('failure on expand')} )
   };
 
-  var postExpand = function () {
-    var promises = [];
-    return RSVP.all(promises);
-  };
-
-  var preCollapse = function () {
-    var promises = [];
-    return RSVP.all(promises);
-  };
-
-  var postCollapse = function () {
-    var promises = [];
-    return RSVP.all(promises);
+  var collapse = function  () {
+    return adKit.requestCollapse()
+      .then (ShellAnimationController.collapseInstant)
+      .then (function (){expandedContainer.classList.add('hidden');})
+      .then (function (){return loadContent (collapsedPartial,collapsedContainer)})
+      .then(collapsedAnimationController.animateIn)
+      .then(bindCollapsed)
+      .then (function (){return util.removeChildren(expandedContainer) })
+      .then(adKit.completeCollapse)
+      .then (function (){isAutoExpand= false })
+      .catch (function (value){console.log (value);console.log ('failure on collapse')} )
   };
 
 
@@ -78,17 +93,7 @@ var App = function (config) {
        .then (run);
   };
 
-  var preload = function() {
-    console.log ('preload');
-    var promises = [];
-    if (isAutoExpand===true){
-      promises.push(loadContent (expandedPartial,expandedContainer));
-    }else {
-      promises.push(loadContent (collapsedPartial,collapsedContainer));
-    }
-    promises.push(preloadHook());
-    return RSVP.all(promises)
-  };
+
 
   var run = function () {
     console.log ('run');
@@ -100,39 +105,7 @@ var App = function (config) {
     }
   };
 
-  var expand = function () {
-     return adKit.requestExpand()
-       .then (ShellAnimationController.expandInstant )
-       .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
-       .then (preExpand)  // do your preloading or init here.
 
-       .then (expandedAnimationController.animateIn)
-       .then (postExpand) // do any post expansion init here
-       .then (bindExpanded)
-       .then (function (){return util.removeChildren(collapsedContainer) })
-       .then (function () {
-         startTimer()
-         .then (collapse)
-         .catch (function (value){console.log (value)})
-       })// we don't return the promise here cuz we don't want the result holding execution
-       .then (adKit.completeExpand)
-       .catch (function (value){console.log (value);console.log ('failure on expand')} )
-  };
-
-  var collapse = function  () {
-    return adKit.requestCollapse()
-      .then (preCollapse)
-      .then (ShellAnimationController.collapseInstant)
-      .then (function (){expandedContainer.classList.add('hidden');})
-      .then (function (){return loadContent (collapsedPartial,collapsedContainer)})
-      .then(collapsedAnimationController.animateIn)
-      .then (postCollapse)
-      .then(bindCollapsed)
-      .then (function (){return util.removeChildren(expandedContainer) })
-      .then(adKit.completeCollapse)
-      .then (function (){isAutoExpand= false })
-      .catch (function (value){console.log (value);console.log ('failure on collapse')} )
-  };
 
   var  loadContent = function (url,container) {
     console.log ('loadContent');
