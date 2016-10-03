@@ -35,6 +35,39 @@ var App = function (config) {
 
   console.log("hello app");
 
+  //*************************************************************************************************
+  // IMPLEMENTATION
+  //*************************************************************************************************
+
+  var preloadHook = function () {
+    var promises = [];
+    return RSVP.all(promises);
+  };
+
+  var preExpand = function () {
+    var promises = [];
+    return RSVP.all(promises);
+  };
+
+  var postExpand = function () {
+    var promises = [];
+    return RSVP.all(promises);
+  };
+
+  var preCollapse = function () {
+    var promises = [];
+    return RSVP.all(promises);
+  };
+
+  var postCollapse = function () {
+    var promises = [];
+    return RSVP.all(promises);
+  };
+
+
+  //*************************************************************************************************
+  // TEMPLATE
+  //*************************************************************************************************
    var  init = function () {
     if (isAutoExpand===true){
     }else {
@@ -53,11 +86,11 @@ var App = function (config) {
     }else {
       promises.push(loadContent (collapsedPartial,collapsedContainer));
     }
-    // add your own promises for preloading to the array here
+    promises.push(preloadHook());
     return RSVP.all(promises)
   };
 
-  function run () {
+  var run = function () {
     console.log ('run');
     if (isAutoExpand===true) {
       expand();
@@ -65,16 +98,6 @@ var App = function (config) {
       return collapsedAnimationController.animateIn()
         .then (bindCollapsed)
     }
-  }
-
-  var preExpand = function () {
-    var promises = [];
-    return RSVP.all(promises);
-  };
-
-  var postExpand = function () {
-    var promises = [];
-    return RSVP.all(promises);
   };
 
   var expand = function () {
@@ -87,16 +110,6 @@ var App = function (config) {
        .then (postExpand) // do any post expansion init here
        .then (bindExpanded)
        .then (function (){return util.removeChildren(collapsedContainer) });
-  };
-
-  var preCollapse = function () {
-    var promises = [];
-    return RSVP.all(promises);
-  };
-
-  var postCollapse = function () {
-    var promises = [];
-    return RSVP.all(promises);
   };
 
   var collapse = function  () {
