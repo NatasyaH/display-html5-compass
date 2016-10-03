@@ -61,6 +61,7 @@ var AdKit = {
 
     console.log ('subloadPartial');
 
+
     function loadImgTags(target) {
 
       console.log ('loadImgTags');
