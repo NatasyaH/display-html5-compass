@@ -146,7 +146,7 @@ var App = function (config) {
       var func = function () {
         console.log ('Auto Timer',adKit.expanded());
         if (adKit.expanded()===true) {
-          
+
           resolve(collapse())
         }else{
           reject()
