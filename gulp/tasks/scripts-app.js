@@ -29,12 +29,14 @@ module.exports = function(gulp, bs, options, flags) {
       cache: {}
     });
     var rebundle = function() {
-      return bundler.bundle()
+      return bundler.bundle().on('error', onError)
+
         .pipe(source('main.build.js'))
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
     };
     var onError = function (err) {
+      console.log ("!!! browserify Error");
       gutil.beep();
       console.log(err.toString());
       this.emit('end');
