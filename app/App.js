@@ -30,37 +30,25 @@ var App = function () {
 
   console.log("hello app");
 
-
-
    var  init = function () {
     if (isAutoExpand===true){
-
-
     }else {
       expandedContainer.classList.add('hidden');
-
     }
-
      adKit.boot()
        .then(preload)
        .then (run);
-
   };
 
   var preload = function() {
-
     console.log ('preload');
-
     var promises = [];
-
     if (isAutoExpand===true){
       promises.push(loadContent (expandedPartial,expandedContainer));
     }else {
       promises.push(loadContent (collapsedPartial,collapsedContainer));
     }
-
     // add your own promises for preloading to the array here
-
     return RSVP.all(promises)
   };
 
@@ -75,30 +63,16 @@ var App = function () {
   }
 
   var preExpand = function () {
-
-
     var promises = [];
-
     return RSVP.all(promises);
-
-
-
-
   };
+
   var postExpand = function () {
-
-
     var promises = [];
-
     return RSVP.all(promises);
-
-
-
-
   };
 
   var expand = function () {
-
      return adKit.requestExpand()
        .then (borderAnimationController.expandInstant )
        .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
@@ -108,34 +82,19 @@ var App = function () {
        .then (postExpand) // do any post expansion init here
        .then (bindExpanded)
        .then (function (){return util.removeChildren(collapsedContainer) });
-
-
   };
+
   var preCollapse = function () {
-
-
     var promises = [];
-
     return RSVP.all(promises);
-
-
-
-
   };
+
   var postCollapse = function () {
-
-
     var promises = [];
-
     return RSVP.all(promises);
-
-
-
-
   };
 
   var collapse = function  () {
-
     return adKit.requestCollapse()
       .then (preCollapse)
       .then (borderAnimationController.collapseInstant)
@@ -148,44 +107,33 @@ var App = function () {
       .then(adKit.completeCollapse)
   };
 
-
   var  loadContent = function (url,container) {
-
     console.log ('loadContent');
     container.classList.remove ('hidden');
     return adKit.loadPartial(url)
       .then(function (value) {
         return adKit.subloadPartial(container, value)
       });
-
   };
 
   var exitHandler = function () {
     if (adKit.expanded()) {
       collapse();
     }
-
-
-
   };
 
 
   var catchAllHandler = function () {
-
     return adKit.exit (function (){Enabler.exit ('catch-all')})
       .then (exitHandler);
-
   };
 
   var ctaHandler = function () {
-
     return adKit.exit (function (){Enabler.exit ('cta')})
       .then(exitHandler)
-
   };
 
   var bindCollapsed = function () {
-
     collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
     collapsedContainer.querySelector('.cta').addEventListener('click',ctaHandler);
     collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
@@ -194,17 +142,13 @@ var App = function () {
   var bindExpanded = function (){
     expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
     expandedContainer.querySelector('.cta').addEventListener('click',ctaHandler);
-
   };
 
   var expandHandler = function () {
-
     return expand();
-
   };
 
   return init();
-
 
 };
 
