@@ -88,34 +88,70 @@ var App = function () {
 
 
   };
+  var postExpand = function () {
+
+
+    var promises = [];
+
+    return RSVP.all(promises);
+
+
+
+
+  };
 
   var expand = function () {
 
      return adKit.requestExpand()
        .then (borderAnimationController.expandInstant )
        .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
+       .then (preExpand)  // do your preloading or init here.
        .then (adKit.completeExpand)
        .then (expandedAnimationController.animateIn)
+       .then (postExpand) // do any post expansion init here
        .then (function (){expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);})
        .then (function (){return util.removeChildren(collapsedContainer) });
 
 
   };
+  var preCollapse = function () {
 
+
+    var promises = [];
+
+    return RSVP.all(promises);
+
+
+
+
+  };
+  var postCollapse = function () {
+
+
+    var promises = [];
+
+    return RSVP.all(promises);
+
+
+
+
+  };
 
   var collapse = function  () {
 
     return adKit.requestCollapse()
-      .then(adKit.completeCollapse)
+      .then (preCollapse)
       .then (borderAnimationController.collapseInstant)
       .then (function (){expandedContainer.classList.add('hidden');})
       .then (function (){return loadContent (collapsedPartial,collapsedContainer)})
       .then(collapsedAnimationController.animateIn)
+      .then (postCollapse)
       .then(function (){
         collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
         collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
       })
-      .then (function (){return util.removeChildren(expandedContainer) });
+      .then (function (){return util.removeChildren(expandedContainer) })
+      .then(adKit.completeCollapse)
   };
 
 
