@@ -191,6 +191,16 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 
   }
+  .cta {
+    @extend .basic-button;
+    width: 100px;
+    height: 50px;
+    left: 300px;
+    top: 150px;
+    background-color: cornflowerblue;
+
+
+  }
 
 
 }
@@ -213,6 +223,17 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
       @extend .catch-all;
 
     }
+
+    .cta {
+    @extend .basic-button;
+    width: 100px;
+    height: 50px;
+    left: 100px;
+    top: 150px;
+    background-color: blue;
+
+
+  }
 
     opacity:0;
     background-color: $blue;

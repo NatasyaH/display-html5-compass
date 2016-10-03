@@ -70,10 +70,7 @@ var App = function () {
       expand();
     }else {
       return collapsedAnimationController.animateIn()
-        .then (function (){
-          collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
-          collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
-        })
+        .then (bindCollapsed)
     }
   }
 
@@ -109,7 +106,7 @@ var App = function () {
        .then (adKit.completeExpand)
        .then (expandedAnimationController.animateIn)
        .then (postExpand) // do any post expansion init here
-       .then (function (){expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);})
+       .then (bindExpanded)
        .then (function (){return util.removeChildren(collapsedContainer) });
 
 
@@ -146,10 +143,7 @@ var App = function () {
       .then (function (){return loadContent (collapsedPartial,collapsedContainer)})
       .then(collapsedAnimationController.animateIn)
       .then (postCollapse)
-      .then(function (){
-        collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
-        collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
-      })
+      .then(bindCollapsed)
       .then (function (){return util.removeChildren(expandedContainer) })
       .then(adKit.completeCollapse)
   };
@@ -187,6 +181,19 @@ var App = function () {
 
     return adKit.exit (function (){Enabler.exit ('cta')})
       .then(exitHandler)
+
+  };
+
+  var bindCollapsed = function () {
+
+    collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
+    collapsedContainer.querySelector('.cta').addEventListener('click',ctaHandler);
+    collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
+  };
+
+  var bindExpanded = function (){
+    expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
+    expandedContainer.querySelector('.cta').addEventListener('click',ctaHandler);
 
   };
 
