@@ -88,9 +88,11 @@ var App = function (config) {
       })
   };
   //*************************************************************************************************
-  // TEMPLATE
+  // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
   var init = function () {
+    expandedPreloader.addEventListener('click',function (){});
+
     if (isAutoExpand === true) {
     } else {
       expandedContainer.classList.add('hidden');
