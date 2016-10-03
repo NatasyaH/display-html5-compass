@@ -3,7 +3,7 @@
 var RSVP = require('rsvp');
 
 var adKit = require('./hook-ad-kit/AdKit');
-var borderAnimationController = require('./controllers/BorderAnimationController');
+var ShellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
@@ -102,7 +102,7 @@ var App = function (config) {
 
   var expand = function () {
      return adKit.requestExpand()
-       .then (borderAnimationController.expandInstant )
+       .then (ShellAnimationController.expandInstant )
        .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
        .then (preExpand)  // do your preloading or init here.
        .then (adKit.completeExpand)
@@ -120,7 +120,7 @@ var App = function (config) {
   var collapse = function  () {
     return adKit.requestCollapse()
       .then (preCollapse)
-      .then (borderAnimationController.collapseInstant)
+      .then (ShellAnimationController.collapseInstant)
       .then (function (){expandedContainer.classList.add('hidden');})
       .then (function (){return loadContent (collapsedPartial,collapsedContainer)})
       .then(collapsedAnimationController.animateIn)

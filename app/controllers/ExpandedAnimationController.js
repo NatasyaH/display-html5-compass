@@ -21,6 +21,7 @@ module.exports = {
         );
         tl.add ([
           TweenMax.to(content, 1, {opacity: 1})
+
         ]);
 
       })

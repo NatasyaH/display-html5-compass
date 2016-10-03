@@ -10,7 +10,9 @@ var top = document.getElementById('border-top');
 var left = document.getElementById('border-left');
 var right = document.getElementById('border-right');
 var bottom = document.getElementById('border-bottom');
-
+var root = document.getElementById('adRoot');
+var expandedContainer = document.querySelector('#expandedContainer');
+var collapsedContainer = document.querySelector('#collapsedContainer');
 
 module.exports = {
 
@@ -35,7 +37,9 @@ module.exports = {
           TweenMax.to(top, 1, {className: "top-expanded-border"}),
           TweenMax.to(left, 1, {className: "left-expanded-border"}),
           TweenMax.to(right, 1, {className: "right-expanded-border"}),
-          TweenMax.to(bottom, 1, {className: "bottom-expanded-border"})
+          TweenMax.to(bottom, 1, {className: "bottom-expanded-border"}),
+          TweenMax.to(root, 1, {className: "size-expanded"}),
+          TweenMax.to(expandedContainer, 1, {className: "size-expanded"})
 
         ]);
 
@@ -63,7 +67,9 @@ module.exports = {
           TweenMax.set(top,  {className: "top-expanded-border"}),
           TweenMax.set(left,  {className: "left-expanded-border"}),
           TweenMax.set(right,  {className: "right-expanded-border"}),
-          TweenMax.set(bottom,  {className: "bottom-expanded-border"})
+          TweenMax.set(bottom,  {className: "bottom-expanded-border"}),
+          TweenMax.set(root,  {className: "size-expanded"}),
+          TweenMax.set(expandedContainer,  {className: "size-expanded"})
 
         ]);
 
@@ -91,7 +97,10 @@ module.exports = {
           TweenMax.to(top, 1, {className: "top-collapsed-border"}),
           TweenMax.to(left, 1, {className: "left-collapsed-border"}),
           TweenMax.to(right, 1, {className: "right-collapsed-border"}),
-          TweenMax.to(bottom, 1, {className: "bottom-collapsed-border"})
+          TweenMax.to(bottom, 1, {className: "bottom-collapsed-border"}),
+          TweenMax.to(root,1,  {className: "size-collapsed"}),
+          TweenMax.to(expandedContainer,1,  {className: "size-collapsed"})
+
 
         ]);
 
@@ -119,7 +128,9 @@ module.exports = {
           TweenMax.set(top,  {className: "top-collapsed-border"}),
           TweenMax.set(left,  {className: "left-collapsed-border"}),
           TweenMax.set(right,  {className: "right-collapsed-border"}),
-          TweenMax.set(bottom,  {className: "bottom-collapsed-border"})
+          TweenMax.set(bottom,  {className: "bottom-collapsed-border"}),
+          TweenMax.set(root,  {className: "size-collapsed"}),
+          TweenMax.set(expandedContainer,  {className: "size-collapsed"})
 
         ]);
 
