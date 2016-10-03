@@ -62,40 +62,38 @@ var App = function () {
     // add your own promises for preloading to the array here
 
     return RSVP.all(promises)
-  }
+  };
 
   function run () {
-
-
     console.log ('run');
-
-
-
-
     if (isAutoExpand===true) {
-
       expand();
-
     }else {
-
-
       return collapsedAnimationController.animateIn()
         .then (function (){
           collapsedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);
           collapsedContainer.querySelector('.expand').addEventListener('click',expandHandler);
         })
-
-
     }
-
   }
 
+  var preExpand = function () {
+
+
+    var promises = [];
+
+    return RSVP.all(promises);
+
+
+
+
+  };
 
   var expand = function () {
 
      return adKit.requestExpand()
-       .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
        .then (borderAnimationController.expandInstant )
+       .then(function (){return loadContent (expandedPartial,expandedContainer)}) // reload content on each expand
        .then (adKit.completeExpand)
        .then (expandedAnimationController.animateIn)
        .then (function (){expandedContainer.querySelector('.catch-all').addEventListener('click',catchAllHandler);})
@@ -124,11 +122,7 @@ var App = function () {
   var  loadContent = function (url,container) {
 
     console.log ('loadContent');
-
     container.classList.remove ('hidden');
-
-
-
     return adKit.loadPartial(url)
       .then(function (value) {
         return adKit.subloadPartial(container, value)
@@ -137,14 +131,8 @@ var App = function () {
   };
 
   var exitHandler = function () {
-
-
     if (adKit.expanded()) {
-
       collapse();
-
-
-
     }
 
 

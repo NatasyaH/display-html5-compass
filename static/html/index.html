@@ -37,12 +37,18 @@
 
 <script type="text/javascript">
 
+
+
     window.adConfig = {
         collapsedPartial: './collapsed.html',
         expandedPartial: './expanded.html',
-        isAutoExpand: false
+        isAutoExpand: true
 
-    }
+    };
+
+  Enabler.setStartExpanded(window.adConfig.isAutoExpand);
+  Enabler.setExpandingPixelOffsets(0, 0, 970, 500); // This needs to be hardcoded to work in DC, it can't run off config
+  Enabler.setIsMultiDirectional(false);
 
 </script>
 
