@@ -10,7 +10,36 @@ var bottom = document.getElementById('border-bottom');
 var root = document.getElementById('adRoot');
 var expandedContainer = document.querySelector('#expandedContainer');
 var collapsedContainer = document.querySelector('#collapsedContainer');
+var expandedPreloader = document.querySelector('#expandedPreloader');
 module.exports = {
+  preloaderAnimateIn: function () {
+    new RSVP.Promise(function (resolve, reject) {
+      var tl = new TimelineMax(
+        {
+          onComplete: function () {
+            resolve(tl)
+          }
+        }
+      );
+      tl.add([
+        TweenMax.to(expandedPreloader, 1, {className: "shown", opacity: 1})
+      ]);
+    })
+  },
+  preloaderAnimateOut: function () {
+    new RSVP.Promise(function (resolve, reject) {
+      var tl = new TimelineMax(
+        {
+          onComplete: function () {
+            resolve(tl)
+          }
+        }
+      );
+      tl.add([
+        TweenMax.set(expandedPreloader,  {className: "hidden", opacity: 0})
+      ]);
+    })
+  },
   expand: function () {
     return new RSVP.Promise(
       function (resolve, reject) {
@@ -18,8 +47,7 @@ module.exports = {
           {
             onComplete: function () {
               resolve(tl)
-            },
-            onCompleteScope: this
+            }
           }
         );
         tl.add([
@@ -39,8 +67,7 @@ module.exports = {
           {
             onComplete: function () {
               resolve(tl)
-            },
-            onCompleteScope: this
+            }
           }
         );
         tl.add([
@@ -60,8 +87,7 @@ module.exports = {
           {
             onComplete: function () {
               resolve(tl)
-            },
-            onCompleteScope: this
+            }
           }
         );
         tl.add([
@@ -81,8 +107,7 @@ module.exports = {
           {
             onComplete: function () {
               resolve(tl)
-            },
-            onCompleteScope: this
+            }
           }
         );
         tl.add([

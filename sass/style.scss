@@ -63,6 +63,11 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   display: none;
 
 }
+.shown {
+  display: block;
+
+}
+
 .tracking-pixel {
   position: absolute;
   width: 1px;
@@ -78,6 +83,16 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   position: absolute;
   overflow: hidden;
 
+}
+
+
+#expandedPreloader {
+
+  @extend .size-expanded;
+  opacity: 0;
+  position: absolute;
+  background-color: yellow;
+  cursor: default;
 }
 
 //Collapsed Scope

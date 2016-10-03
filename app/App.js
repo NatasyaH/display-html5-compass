@@ -1,7 +1,7 @@
 'use strict';
 var RSVP = require('rsvp');
 var adKit = require('./hook-ad-kit/AdKit');
-var ShellAnimationController = require('./controllers/ShellAnimationController');
+var shellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
@@ -18,6 +18,7 @@ var App = function (config) {
   var autoExpandTimer = config.autoExpandTimer;
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
+  var expandedPreloader = document.querySelector('#expandedPreloader');
   console.log("hello app");
   //*************************************************************************************************
   // IMPLEMENTATION
@@ -35,10 +36,16 @@ var App = function (config) {
   };
   var expand = function () {
     return adKit.requestExpand()
-      .then(ShellAnimationController.expandInstant)
+      .then(function (){
+        return RSVP.all([
+          shellAnimationController.expand(),
+          shellAnimationController.preloaderAnimateIn()
+        ])
+      })
       .then(function () {
         return loadContent(expandedPartial, expandedContainer)
       }) // reload content on each expand
+      .then (shellAnimationController.preloaderAnimateOut)
       .then(expandedAnimationController.animateIn)
       .then(bindExpanded)
       .then(function () {
@@ -59,7 +66,7 @@ var App = function (config) {
   };
   var collapse = function () {
     return adKit.requestCollapse()
-      .then(ShellAnimationController.collapseInstant)
+      .then(shellAnimationController.collapseInstant)
       .then(function () {
         expandedContainer.classList.add('hidden');
       })
