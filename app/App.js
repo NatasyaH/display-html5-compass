@@ -19,11 +19,16 @@ RSVP.on('error', function(reason, label) {
 });
 
 
-var App = function () {
+var App = function (config) {
 
-  var collapsedPartial = window.adConfig.collapsedPartial;
-  var expandedPartial = window.adConfig.expandedPartial;
-  var isAutoExpand = window.adConfig.isAutoExpand;
+
+
+  var collapsedPartial = config.collapsedPartial;
+  var expandedPartial = config.expandedPartial;
+  var isAutoExpand = config.isAutoExpand;
+  var autoExpandTimer = config.autoExpandTimer;
+
+
 
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
