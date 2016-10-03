@@ -110,6 +110,19 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 }
 
 
+.tracking-pixel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0.01;
+  top: 800px;
+  left: 1000px;
+
+
+}
+
+
 
 .size-collapsed {
 
