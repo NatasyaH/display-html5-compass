@@ -89,6 +89,8 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
   position: absolute;
   background-color: yellow;
   cursor: default;
+  text-align: center;
+
 }
 
 //Collapsed Scope
