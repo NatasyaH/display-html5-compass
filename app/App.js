@@ -109,7 +109,8 @@ var App = function (config) {
        .then (expandedAnimationController.animateIn)
        .then (postExpand) // do any post expansion init here
        .then (bindExpanded)
-       .then (function (){return util.removeChildren(collapsedContainer) });
+       .then (function (){return util.removeChildren(collapsedContainer) })
+       .then (function () {  startTimer()}); // we don't return the promise here cuz we don't want the result holding execution
   };
 
   var collapse = function  () {
@@ -123,6 +124,7 @@ var App = function (config) {
       .then(bindCollapsed)
       .then (function (){return util.removeChildren(expandedContainer) })
       .then(adKit.completeCollapse)
+      .then (function (){isAutoExpand= false })
   };
 
   var  loadContent = function (url,container) {
@@ -132,6 +134,27 @@ var App = function (config) {
       .then(function (value) {
         return adKit.subloadPartial(container, value)
       });
+  };
+
+  var startTimer = function (){
+
+    return  new RSVP.Promise(function (resolve, reject) {
+      if (autoExpandTimer===0 || isAutoExpand===false) {
+        reject ();
+      }
+      console.log ('Start Auto Timer',adKit.expanded());
+      var func = function () {
+        console.log ('Auto Timer',adKit.expanded());
+        if (adKit.expanded()===true) {
+          
+          resolve(collapse())
+        }else{
+          reject()
+        }
+      };
+      setTimeout (func, autoExpandTimer);
+    })
+
   };
 
   var exitHandler = function () {
