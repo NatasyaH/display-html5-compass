@@ -3,11 +3,6 @@ var RSVP = require('rsvp');
 var YTWrapper = function () {
   var api = {};
 
-
-
-
-
-
   api.loadVideo = function (element, params,tracking) {
 
     return new RSVP.Promise(function (resolve, reject) {
@@ -51,6 +46,12 @@ var YTWrapper = function () {
 
         player.removeEventListener('onReady',playerLoadedHandler);
         player.addEventListener('onStateChange',stateChangeHandler);
+
+        player.destroy = function (){
+
+          player.removeEventListener('onStateChange',stateChangeHandler);
+          player.destroy()
+        };
 
         resolve (player,'YT Player Load Promise');
 
