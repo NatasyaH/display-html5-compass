@@ -36,8 +36,6 @@ var YTWrapper = function () {
         player.removeEventListener('onReady', playerLoadedHandler);
         player.addEventListener('onStateChange', stateChangeHandler);
 
-        var oldDestroy = player.destroy;
-
         player.hookDestroy = function () {
           return new RSVP.Promise(function (resolve, reject) {
             player.removeEventListener('onStateChange', stateChangeHandler);
