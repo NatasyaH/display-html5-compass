@@ -6,7 +6,7 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
 
-var YT = require ('./YouTube/YTWrapper').YTWrapper;
+var YTLoad = require ('./YouTube/YTWrapper').loadAPI;
 
 RSVP.on('error', function (reason, label) {
   if (label) {
@@ -23,7 +23,7 @@ var App = function (config) {
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
 
-  var yt = YT();
+
 
   console.log("hello app");
   //*************************************************************************************************
@@ -38,7 +38,7 @@ var App = function (config) {
       promises.push(loadContent(collapsedPartial, collapsedContainer));
     }
     //promises.push(RSVP.all([])); // if you need to do more preloading do it here.
-    promises.push (yt.loadAPI());
+    promises.push (YTLoad());
 
     return RSVP.all(promises)
   };

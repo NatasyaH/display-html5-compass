@@ -2,7 +2,13 @@
 var RSVP = require('rsvp');
 var YTWrapper = function () {
   var api = {};
-  api.loadAPI = function () {
+
+
+  return api;
+};
+
+
+var loadAPI = function () {
 
     return new RSVP.Promise(function (resolve, reject) {
       var tag = document.createElement('script');
@@ -17,13 +23,9 @@ var YTWrapper = function () {
     })
   };
 
-  return api;
-};
 
 
-
-
-var ConfigNoHistory = function (height, width, id, length) {
+var configNoHistory = function (height, width, id, length) {
 
   var playerVars = {
     rel: 0,
@@ -55,7 +57,7 @@ var ConfigNoHistory = function (height, width, id, length) {
 
 };
 
-var ConfigWithHistory = function (height, width, id, length) {
+var configWithHistory = function (height, width, id, length) {
 
   var playerVars = {
     rel: 0,
@@ -94,8 +96,9 @@ var ConfigWithHistory = function (height, width, id, length) {
 
 module.exports = {
   YTWrapper:YTWrapper,
-  ConfigNoHistory:ConfigNoHistory,
-  ConfigWithHistory:ConfigWithHistory
+  configNoHistory:configNoHistory,
+  configWithHistory:configWithHistory,
+  loadAPI:loadAPI
 
 
 };
