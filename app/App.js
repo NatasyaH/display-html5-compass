@@ -6,7 +6,10 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
 
-var YTLoad = require ('./YouTube/YTWrapper').loadAPI;
+var YTLoad = require ('./YouTube/YTWrapper').LoadAPI;
+var YTWrapper = require ('./YouTube/YTWrapper').YTWrapper;
+var YTConfig = require ('./YouTube/YTWrapper').ConfigWithHistory;
+var YTTracking = require('./YouTube/YTWrapper').MakeManifest;
 
 RSVP.on('error', function (reason, label) {
   if (label) {
@@ -22,6 +25,9 @@ var App = function (config) {
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
+
+
+  var ytWrapper = YTWrapper();
 
 
 
@@ -95,6 +101,26 @@ var App = function (config) {
         console.log('failure on collapse')
       })
   };
+
+  var run = function () {
+    console.log('run');
+    if (isAutoExpand === true) {
+      return expand();
+    } else {
+      return collapsedAnimationController.animateIn()
+        .then(bindCollapsed)
+        .then (ytWrapper.loadVideo(
+          collapsedContainer.querySelector('.yt-video'),
+          YTConfig(250,444,'zRa3X1IqcgI'),
+          YTTracking()
+
+
+
+
+        ))
+
+    }
+  };
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
@@ -109,15 +135,7 @@ var App = function (config) {
       .then(preload)
       .then(run);
   };
-  var run = function () {
-    console.log('run');
-    if (isAutoExpand === true) {
-      expand();
-    } else {
-      return collapsedAnimationController.animateIn()
-        .then(bindCollapsed)
-    }
-  };
+
   var loadContent = function (url, container) {
     console.log('loadContent');
     container.classList.remove('hidden');

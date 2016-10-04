@@ -143,6 +143,13 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
   }
 
+  .yt-video {
+    position: absolute;
+    width: 444px;
+    height: 250px;
+
+  }
+
 }
 
 //Auto Expand Scope
