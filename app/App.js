@@ -5,10 +5,10 @@ var shellAnimationController = require('./controllers/ShellAnimationController')
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-var YTLoad = require('./YouTube/YTWrapper').LoadAPI;
-var YTWrapper = require('./YouTube/YTWrapper').YTWrapper;
-var YTConfig = require('./YouTube/YTWrapper').ConfigWithHistory;
-var YTTracking = require('./YouTube/YTWrapper').MakeManifest;
+var YTLoad = require('./YouTube').LoadAPI;
+var YTWrapper = require('./YouTube').YTWrapper;
+var YTConfig = require('./YouTube').ConfigWithHistory;
+var YTTracking = require('./YouTube').MakeManifest;
 RSVP.on('error', function (reason, label) {
   if (label) {
     console.error(label);
