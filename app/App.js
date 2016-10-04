@@ -88,6 +88,16 @@ var App = function (config) {
       .then(function () {
         return util.removeChildren(expandedContainer)
       })
+      .then(function () {
+                return ytWrapper.loadVideo(
+                  collapsedContainer.querySelector('.yt-video'),
+                  YTConfig(250, 444, 'zRa3X1IqcgI'),
+                  YTTracking()
+                )
+              })
+              .then(function (value) {
+                collapsedPlayer = value
+              })
       .then(adKit.completeCollapse)
       .then(function () {
         isAutoExpand = false
