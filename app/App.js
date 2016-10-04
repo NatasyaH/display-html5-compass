@@ -6,7 +6,7 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
 
-var YT = require ('./YouTube/YTWrapper');
+var YT = require ('./YouTube/YTWrapper').YTWrapper;
 
 RSVP.on('error', function (reason, label) {
   if (label) {

@@ -19,4 +19,83 @@ var YTWrapper = function () {
 
   return api;
 };
-module.exports = YTWrapper;
+
+
+
+
+var ConfigNoHistory = function (height, width, id, length) {
+
+  var playerVars = {
+    rel: 0,
+    showinfo: 0,
+    enablejsapi: 1,
+    disablekb: 1,
+    iv_load_policy: 3,
+    cc_load_policy: 0,
+    adformat: '1_8', // prevents video from showing up in user YT history so auto play videos don't get flagged as spam
+    controls: 0,
+    html5: 1,
+    origin: document.domain,
+    fs: 0
+  };
+
+  if (!isNaN(length)) {
+
+    playerVars.end = length;
+  }
+
+  return params = {
+    height: height,
+    width: width,
+    videoId: id,
+    playerVars: playerVars
+  };
+
+
+
+};
+
+var ConfigWithHistory = function (height, width, id, length) {
+
+  var playerVars = {
+    rel: 0,
+    showinfo: 0,
+    enablejsapi: 1,
+    disablekb: 1,
+    iv_load_policy: 3,
+    cc_load_policy: 0,
+
+    controls: 1,
+    html5: 1,
+    origin: document.domain,
+    fs: 0
+  };
+
+  if (!isNaN(length)) {
+
+    playerVars.end = length;
+  }
+
+  return params = {
+    height: height,
+    width: width,
+    videoId: id,
+    playerVars: playerVars
+  };
+
+
+
+};
+
+
+
+
+
+
+module.exports = {
+  YTWrapper:YTWrapper,
+  ConfigNoHistory:ConfigNoHistory,
+  ConfigWithHistory:ConfigWithHistory
+
+
+};
