@@ -5,12 +5,10 @@ var shellAnimationController = require('./controllers/ShellAnimationController')
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-
-var YTLoad = require ('./YouTube/YTWrapper').LoadAPI;
-var YTWrapper = require ('./YouTube/YTWrapper').YTWrapper;
-var YTConfig = require ('./YouTube/YTWrapper').ConfigWithHistory;
+var YTLoad = require('./YouTube/YTWrapper').LoadAPI;
+var YTWrapper = require('./YouTube/YTWrapper').YTWrapper;
+var YTConfig = require('./YouTube/YTWrapper').ConfigWithHistory;
 var YTTracking = require('./YouTube/YTWrapper').MakeManifest;
-
 RSVP.on('error', function (reason, label) {
   if (label) {
     console.error(label);
@@ -25,12 +23,8 @@ var App = function (config) {
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
-
-
   var ytWrapper = YTWrapper();
-
-
-
+  var collapsedPlayer = null;
   console.log("hello app");
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
@@ -44,13 +38,15 @@ var App = function (config) {
       promises.push(loadContent(collapsedPartial, collapsedContainer));
     }
     //promises.push(RSVP.all([])); // if you need to do more preloading do it here.
-    promises.push (YTLoad());
-
+    promises.push(YTLoad());
     return RSVP.all(promises)
   };
   var expand = function () {
     return adKit.requestExpand()
-      .then(function (){
+      .then(function () {
+        return collapsedPlayer.hookDestroy()
+      })
+      .then(function () {
         return RSVP.all([
           shellAnimationController.expand(),
           shellAnimationController.preloaderAnimateIn()
@@ -59,7 +55,7 @@ var App = function (config) {
       .then(function () {
         return loadContent(expandedPartial, expandedContainer)
       }) // reload content on each expand
-      .then (shellAnimationController.preloaderAnimateOut)
+      .then(shellAnimationController.preloaderAnimateOut)
       .then(expandedAnimationController.animateIn)
       .then(bindExpanded)
       .then(function () {
@@ -101,7 +97,6 @@ var App = function (config) {
         console.log('failure on collapse')
       })
   };
-
   var run = function () {
     console.log('run');
     if (isAutoExpand === true) {
@@ -109,24 +104,24 @@ var App = function (config) {
     } else {
       return collapsedAnimationController.animateIn()
         .then(bindCollapsed)
-        .then (ytWrapper.loadVideo(
-          collapsedContainer.querySelector('.yt-video'),
-          YTConfig(250,444,'zRa3X1IqcgI'),
-          YTTracking()
-
-
-
-
-        ))
-
+        .then(function () {
+          return ytWrapper.loadVideo(
+            collapsedContainer.querySelector('.yt-video'),
+            YTConfig(250, 444, 'zRa3X1IqcgI'),
+            YTTracking()
+          )
+        })
+        .then(function (value) {
+          collapsedPlayer = value
+        })
     }
   };
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
   var init = function () {
-    expandedPreloader.addEventListener('click',function (){});
-
+    expandedPreloader.addEventListener('click', function () {
+    });
     if (isAutoExpand === true) {
     } else {
       expandedContainer.classList.add('hidden');
@@ -135,7 +130,6 @@ var App = function (config) {
       .then(preload)
       .then(run);
   };
-
   var loadContent = function (url, container) {
     console.log('loadContent');
     container.classList.remove('hidden');

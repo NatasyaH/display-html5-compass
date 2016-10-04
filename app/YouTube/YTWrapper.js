@@ -2,16 +2,13 @@
 var RSVP = require('rsvp');
 var YTWrapper = function () {
   var api = {};
-
-  api.loadVideo = function (element, params,tracking) {
-
+  api.loadVideo = function (element, params, tracking) {
     return new RSVP.Promise(function (resolve, reject) {
-
       var duration = null;
       var player = null;
       var videoStart = 0;
       var videoTwentyFive = 0;
-      var videoFifty  = 0;
+      var videoFifty = 0;
       var videoSeventyFive = 0;
       var videoOneHundred = 0;
       var isMuted = false;
@@ -23,138 +20,96 @@ var YTWrapper = function () {
       var isEnded = false;
       var time = null;
       var timer = null;
-
-
-
       if (isNaN(params.playerVars.end) === false) {
         duration = params.playerVars.end;
       }
-
       var playerLoadedHandler = function (e) {
-
         if (duration === null) {
-            duration = e.target.getDuration();
-
-          }
-
+          duration = e.target.getDuration();
+        }
         videoStart = 0;
         videoTwentyFive = duration * 0.25;
         videoFifty = duration * 0.5;
         videoSeventyFive = duration * 0.75;
         videoOneHundred = duration * 0.97;
         isMuted = player.isMuted();
+        player.removeEventListener('onReady', playerLoadedHandler);
+        player.addEventListener('onStateChange', stateChangeHandler);
 
-        player.removeEventListener('onReady',playerLoadedHandler);
-        player.addEventListener('onStateChange',stateChangeHandler);
+        var oldDestroy = player.destroy;
 
-        player.destroy = function (){
-
-          player.removeEventListener('onStateChange',stateChangeHandler);
-          player.destroy()
+        player.hookDestroy = function () {
+          return new RSVP.Promise(function (resolve, reject) {
+            player.removeEventListener('onStateChange', stateChangeHandler);
+            player.destroy()
+            resolve({},'YT Player Destroy Promise')
+          })
         };
-
-        resolve (player,'YT Player Load Promise');
-
+        resolve(player, 'YT Player Load Promise');
       };
-
-
-      var stateChangeHandler = function (e){
+      var stateChangeHandler = function (e) {
 
         // if video has ended event
         if (e.data === YT.PlayerState.ENDED) {
-
           isEnded = true;
           quartileOne = true;
           quartileTwo = true;
           quartileThree = true;
           quartileFour = true;
           quartileEnd = true;
-
-          tracking.quart_100.call ();
-          tracking.end.call ();
-
+          tracking.quart_100.call();
+          tracking.end.call();
         }
-
         if (e.data === YT.PlayerState.PLAYING) {
-            if (isEnded) {
-
-              isEnded = false;
-
-              tracking.replay.call ();
-
-            } else {
-
-              tracking.play.call ();
-            }
-
-            timer = window.requestAnimationFrame(frameTick);
-
+          if (isEnded) {
+            isEnded = false;
+            tracking.replay.call();
+          } else {
+            tracking.play.call();
           }
-
+          timer = window.requestAnimationFrame(frameTick);
+        }
         if (e.data === YT.PlayerState.PAUSED) {
-            tracking.pause.call ();
-
-          }
-
-
-
+          tracking.pause.call();
+        }
       };
-
       var frameTick = function () {
-
         if (player === null) {
-
-            return false;
-          }
-
-          time = player.getCurrentTime();
-
+          return false;
+        }
+        time = player.getCurrentTime();
         // DC Counters
         if (time >= videoStart && quartileOne && player.getPlayerState() === 1) {
-          tracking.quart_0.call ();
+          tracking.quart_0.call();
           quartileOne = false;
         }
         if (time >= videoTwentyFive && quartileTwo && player.getPlayerState() === 1) {
-          tracking.quart_25.call ();
+          tracking.quart_25.call();
           quartileTwo = false;
         }
         if (time >= videoFifty && quartileThree && player.getPlayerState() === 1) {
-          tracking.quart_50.call ();
+          tracking.quart_50.call();
           quartileThree = false;
         }
         if (time >= videoSeventyFive && quartileFour && player.getPlayerState() === 1) {
-          tracking.quart_75.call ();
+          tracking.quart_75.call();
           quartileFour = false;
         }
         if (time >= videoOneHundred && quartileEnd && player.getPlayerState() === 1) {
-
           quartileEnd = false;
-
         }
-
         if (isMuted !== player.isMuted()) {
-
           isMuted = player.isMuted();
-
           if (isMuted) {
-
-            tracking.muted.call ();
+            tracking.muted.call();
           } else {
-            tracking.unmuted.call ();
+            tracking.unmuted.call();
           }
-
         }
-
         timer = window.requestAnimationFrame(frameTick);
-
       };
-
-
-
-
       player = new YT.Player(element, params);
-      player.addEventListener('onReady',playerLoadedHandler);
-
+      player.addEventListener('onReady', playerLoadedHandler);
     })
   };
   return api;
@@ -188,7 +143,7 @@ var ConfigNoHistory = function (height, width, id, length) {
   if (!isNaN(length)) {
     playerVars.end = length;
   }
-  return  {
+  return {
     height: height,
     width: width,
     videoId: id,
