@@ -113,7 +113,7 @@ var App = function (config) {
       return expand();
     } else {
       return collapsedAnimationController.animateIn()
-        .then(bindCollapsed)
+
         .then(function () {
           return ytWrapper.loadVideo(
             collapsedContainer.querySelector('.yt-video'),
@@ -124,6 +124,7 @@ var App = function (config) {
         .then(function (value) {
           collapsedPlayer = value
         })
+        .then(bindCollapsed)
     }
   };
   //*************************************************************************************************
