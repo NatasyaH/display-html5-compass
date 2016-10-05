@@ -11,7 +11,7 @@
 .left-collapsed-border {
 
   @extend .border;
-  height: $height;
+  height: $collapsed-height;
 
 
 }
@@ -26,8 +26,8 @@
 .right-collapsed-border {
 
   @extend .border;
-  height: $height;
-  left: $width - 1;
+  height: $collapsed-height;
+  left: $collapsed-width - 1;
 
 
 }
@@ -36,7 +36,7 @@
 
   @extend .border;
   height: $expanded-height;
-  left: $width - 1;
+  left: $collapsed-width - 1;
 
 
 }
@@ -44,7 +44,7 @@
 .top-collapsed-border {
 
   @extend .border;
-  width: $width;
+  width: $collapsed-width;
 
 
 
@@ -62,8 +62,8 @@
 .bottom-collapsed-border {
 
   @extend .border;
-  width: $width;
-  top: $height - 1;
+  width: $expanded-width;
+  top: $collapsed-height - 1;
 
 
 }

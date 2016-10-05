@@ -21,7 +21,7 @@ gulp.task('prod', function(done) {
 // define stackable tasks
 gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
 gulp.task('html', require('./tasks/html')(gulp,bs, config.html, config.flags));
-gulp.task('sass', require('./tasks/sass')(gulp,bs, config.html));
+gulp.task('sass', require('./tasks/sass')(gulp,bs, config.html,config.flags));
 gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
 

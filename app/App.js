@@ -33,7 +33,7 @@ var App = function (config) {
       promises.push(loadContent(collapsedPartial, collapsedContainer));
     }
     // if you need to do more preloading do it here.
-    
+
     return RSVP.all(promises)
   };
   var expand = function () {

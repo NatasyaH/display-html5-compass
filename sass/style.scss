@@ -4,8 +4,8 @@
 @import './hook-mixins/standardSpriter';
 
 /** set up variables **/
-$width: 970px;
-$height: 250px;
+$collapsed-width: 970px;
+$collapsed-height: 250px;
 
 $expanded-width: 970px;
 $expanded-height: 500px;
@@ -13,7 +13,7 @@ $expanded-height: 500px;
 $white: #FFFFFF;
 $whitetrans: rgba(255, 255, 255, 0);
 $black: #000000;
-$blue: #FF0000;
+$red: #FF0000;
 $sprite-padding: 2px;
 
 // spritsheets
@@ -31,8 +31,8 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
 .size-collapsed {
 
-  width: $width;
-  height: $height;
+  width: $collapsed-width;
+  height: $collapsed-height;
 }
 
 .size-expanded {
@@ -107,8 +107,8 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     opacity: 0;
     background-color: $black;
     position: absolute;
-    width: $width;
-    height: $height;
+    width: $collapsed-width;
+    height: $collapsed-height;
 
   }
   .catch-all {
@@ -158,6 +158,12 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
   .content {
 
+    @extend .size-expanded;
+    opacity: 0;
+    background-color: $red;
+    position: absolute;
+
+
     img {
       position: absolute;
       left: 400px;
@@ -180,11 +186,7 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
 
     }
 
-    opacity: 0;
-    background-color: $blue;
-    position: absolute;
-    width: $width;
-    height: $height;
+
 
   }
 
