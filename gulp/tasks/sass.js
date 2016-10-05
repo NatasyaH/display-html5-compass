@@ -12,7 +12,7 @@ var child_exec = require('child_process').exec;
  * options.dist : Destination to copy options.src to.
  * @returns {Function}
  */
-module.exports = function (gulp, bs, options, flags) {
+module.exports = function (gulp, bs, options, flags,clean) {
   return function () {
     var config = {
       continueOnError: false, // default = false, true means don't emit error event
@@ -42,7 +42,13 @@ module.exports = function (gulp, bs, options, flags) {
         bs.reload()
         resolve()
       };
-      child_exec('compass clean', callbackOne)
+
+      
+      if (clean=== true) {
+        child_exec('compass clean', callbackOne);
+      }else {
+        child_exec('compass compile --trace' + vars, config, callbackTwo);
+      }
     })
   };
 };
