@@ -43,7 +43,7 @@ module.exports = function (gulp, bs, options, flags,clean) {
         resolve()
       };
 
-      
+
       if (clean=== true) {
         child_exec('compass clean', callbackOne);
       }else {
