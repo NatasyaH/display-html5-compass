@@ -46,7 +46,7 @@ gulp.task('watch', function(done) {
     online:false,
     port: config.server.port,
     reloadDelay:1000,
-
+    reloadDebounce: 1000,
     ghostMode: {
       clicks: false,
       forms: false,
