@@ -39,6 +39,7 @@ module.exports = function (gulp, bs, options, flags) {
       var callbackTwo = function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
+        bs.reload()
         resolve()
       };
       child_exec('compass clean', callbackOne)
