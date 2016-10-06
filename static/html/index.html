@@ -31,6 +31,8 @@
     isAutoExpand: false,
     autoExpandTimer: 8000
   };
+
+  // remove these lines if the unit is an in-page
   Enabler.setStartExpanded(window.adConfig.isAutoExpand);
   Enabler.setExpandingPixelOffsets(0, 0, 970, 500); // This needs to be hardcoded to work in DC, it can't run off config
   Enabler.setIsMultiDirectional(false);
