@@ -1,5 +1,5 @@
 @import 'compass/utilities/sprites';
-@import "./hook-mixins/normalize";
+@import './hook-mixins/normalize';
 @import './hook-mixins/retinaSpriter';
 @import './hook-mixins/standardSpriter';
 
@@ -31,26 +31,28 @@ $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sp
 
 .size-collapsed {
 
-  width: $collapsed-width;
+
   height: $collapsed-height;
+  width: $collapsed-width;
 }
 
 .size-expanded {
 
-  width: $expanded-width;
+
   height: $expanded-height;
+  width: $expanded-width;
 }
 
 .catch-all {
   background-color: rgba(255, 255, 255, 0.01);
-  position: absolute;
   cursor: pointer;
+  position: absolute;
 }
 
 .basic-button {
   background-color: rgba(255, 150, 255, 1);
-  position: absolute;
   cursor: pointer;
+  position: absolute;
 }
 
 .hidden {
