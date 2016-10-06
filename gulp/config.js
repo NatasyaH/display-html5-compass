@@ -4,29 +4,55 @@ var config = {
   flags: {
     minify: false,
     sourcemap: true,
-    type:'dev'
+    type: 'dev'
   },
   clean: {
-    src: dest+'/**/*'
+    src: dest + '/**/*'
   },
   styles: {
     src: './styles/**/*',
     entry: './styles/index.styl',
     dist: dest + '/css/'
   },
-  html:{
+  html: {
     src: './static/html/**/!(*.fla|*.md)',
     entry: './static/html/index.html',
     dist: dest
   },
-  sass:{
+  sass: {
     src: './sass/**/*.scss',
-    image_src:'./static/toSprite/**/*.{gif,jpg,png,svg}',
+    image_src: './static/toSprite/**/*.{gif,jpg,png,svg}',
     dist: dest + '/css/'
   },
   images: {
     src: './static/images/**/*.{gif,jpg,png,svg}',
     dist: dest + '/images/'
+  },
+  sprite: {
+    collapsed_foreground: {
+      src: './static/toSprite/collapsed/foreground/**/*.png',
+      dist_img: dest + '/images/',
+      dist_css: './sass',
+      prefix: 'collapsed-foreground'
+    },
+    collapsed_background: {
+      src: './static/toSprite/collapsed/background/**/*.png',
+      dist_img: dest + '/images/',
+      dist_css: './sass',
+      prefix: 'collapsed-background'
+    },
+    expanded_foreground: {
+      src: './static/toSprite/expanded/foreground/**/*.png',
+      dist_img: dest + '/images/',
+      dist_css: './sass',
+      prefix: 'expanded-foreground'
+    },
+    expanded_background: {
+      src: './static/toSprite/expanded/background/**/*.png',
+      dist_img: dest + '/images/',
+      dist_css: './sass',
+      prefix: 'expanded-background'
+    }
   },
   scripts: {
     app: {
@@ -36,26 +62,21 @@ var config = {
     dist: dest + '/js/'
   },
   vendor: {
-    src:'./vendor/**/*.js',
-
-    dist: dest +'/vendor'
+    src: './vendor/**/*.js',
+    dist: dest + '/vendor'
   },
   optimize: {
-    css:{
-      src:dest+'/**/*.css'
+    css: {
+      src: dest + '/**/*.css'
     },
-    js:{
-      src:dest+'/**/*.js'
+    js: {
+      src: dest + '/**/*.js'
     },
-    html:{
-      src:dest+'/**/*.html'
+    html: {
+      src: dest + '/**/*.html'
     },
-
     dist: dest
-
   },
-
-
   server: {
     root: dest,
     port: 8080

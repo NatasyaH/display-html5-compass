@@ -21,6 +21,14 @@ gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
 gulp.task('html', require('./tasks/html')(gulp, bs, config.html, config.flags));
 gulp.task('sass', require('./tasks/lib-sass')(gulp, bs, config.sass, config.flags));
 gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
+
+gulp.task('sprite-collapsed-foreground', require('./tasks/sprite-images')(gulp, bs, config.sprite.collapsed_foreground));
+gulp.task('sprite-collapsed-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.collapsed_background));
+gulp.task('sprite-expanded-foreground', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_foreground));
+gulp.task('sprite-expanded-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_background));
+
+gulp.task ('sprite-all', gulp.parallel ('sprite-collapsed-foreground','sprite-collapsed-background','sprite-expanded-foreground','sprite-expanded-background'));
+
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
 // dev build specific tasks
 gulp.task('scripts-vendor-dev', require('./tasks/scripts-vendor-dev')(gulp, bs, config.vendor, config.flags));

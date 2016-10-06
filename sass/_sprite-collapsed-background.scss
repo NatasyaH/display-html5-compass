@@ -1,0 +1,29 @@
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: map-get($icon-home, 'width');
+}
+
+At the bottom of this section, we provide information about the spritesheet itself
+*/
+$collapsed-background-logo-sprite: (
+  name: 'collapsed-background-logo_sprite',
+  x: 0px,
+  y: 0px,
+  offset-x: 0px,
+  offset-y: 0px,
+  width: 326px,
+  height: 129px,
+  total-width: 326px,
+  total-height: 129px,
+  image: '../images/collapsed-background-sprite.png'
+);
+$collapsed-background-spritesheet: (
+  width: 326px,
+  height: 129px,
+  image: '../images/collapsed-background-sprite.png',
+  sprites: ($collapsed-background-logo-sprite, )
+);
+
+
