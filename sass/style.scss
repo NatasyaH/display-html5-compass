@@ -23,7 +23,7 @@ $sprite-padding: 2px;
 $common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 */
-$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $sprite-padding);
+$collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sprite-padding);
 
 // global
 
@@ -157,7 +157,6 @@ $collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $s
     left: 325px;
   }
 
-
 }
 
 //Auto Expand Scope
@@ -170,7 +169,6 @@ $collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $s
     opacity: 0;
     background-color: $red;
     position: absolute;
-
 
     img {
       position: absolute;
@@ -193,8 +191,6 @@ $collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $s
       background-color: blue;
 
     }
-
-
 
   }
 
