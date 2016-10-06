@@ -20,9 +20,9 @@ var config = {
     dist: dest
   },
   sass:{
-    src: './sass/*.scss',
+    src: './sass/**/*.scss',
     image_src:'./static/toSprite/**/*.{gif,jpg,png,svg}',
-    dist: dest
+    dist: dest + '/css/'
   },
   images: {
     src: './static/images/**/*.{gif,jpg,png,svg}',

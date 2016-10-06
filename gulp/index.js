@@ -19,8 +19,7 @@ gulp.task('prod', function (done) {
 // define stackable tasks
 gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
 gulp.task('html', require('./tasks/html')(gulp, bs, config.html, config.flags));
-gulp.task('sass', require('./tasks/sass')(gulp, bs, config.html, config.flags, true));
-gulp.task('sass-light', require('./tasks/sass')(gulp, bs, config.html, config.flags, false));
+gulp.task('sass', require('./tasks/lib-sass')(gulp, bs, config.sass, config.flags));
 gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
 // dev build specific tasks
@@ -49,8 +48,8 @@ gulp.task('watch', function (done) {
   gulp.watch(config.images.src, gulp.series('images'));
   gulp.watch(config.scripts.app.src, gulp.series('scripts-app'));
   gulp.watch(config.html.src, gulp.series('html'));
-  gulp.watch(config.sass.src, gulp.series('sass-light'));
-  gulp.watch(config.sass.image_src, gulp.series('sass'));
+  gulp.watch(config.sass.src, gulp.series('sass'));
+
   if (config.flags.type === "dev") {
     gulp.watch(config.vendor.src, gulp.series('scripts-vendor-dev'));
   }

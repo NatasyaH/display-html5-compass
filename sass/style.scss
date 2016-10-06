@@ -1,7 +1,4 @@
-@import 'compass/utilities/sprites';
 @import './hook-mixins/normalize';
-@import './hook-mixins/retinaSpriter';
-@import './hook-mixins/standardSpriter';
 
 /** set up variables **/
 $collapsed-width: 970px;
@@ -18,8 +15,7 @@ $sprite-padding: 2px;
 
 // spritsheets
 
-$expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
-$collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sprite-padding);
+
 
 // global
 
@@ -148,12 +144,13 @@ $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sp
 
   }
 
+  /*
   .logo-sprite {
     @include retina-spriter ($collapsed-map, logo_sprite);
     position: absolute;
     top: 0;
     left: 325px;
-  }
+  }*/
 
 }
 
