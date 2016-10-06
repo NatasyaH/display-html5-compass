@@ -47,7 +47,7 @@ The system uses rsvp as a promise polyfill and the control flow is all done with
 
 If you need to do additional preloading before the unit is made visible add those promises to preload. After preload is complete run is called if the unit is an in-page or a user initiated expand. If the unit is a auto expand, expand is called. If the unit is an expanding unit most of of your logic goes in expand and collapse. I have left those entire functions exposed because I don't know where in that promise chain you will need to insert your custom promises.
 
-You can change the unit type in index.html. 
+You can change the unit type in index.html.
 
 ### HTML and Subloading
 

@@ -18,10 +18,7 @@ $sprite-padding: 2px;
 
 // spritsheets
 
-//uncomment if needed
-/*
 $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
-*/
 $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sprite-padding);
 
 // global
