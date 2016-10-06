@@ -70,7 +70,7 @@ $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sp
   width: 1px;
   height: 1px;
   overflow: hidden;
-  opacity: 0.01;
+  opacity: .01;
   top: 800px;
   left: 1000px;
 }
@@ -79,8 +79,8 @@ $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sp
 #adRoot {
   position: absolute;
   overflow: hidden;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
 
 }
 
@@ -155,7 +155,7 @@ $collapsed-map: sprite-map('collapsed/*.png', $layout: horizontal, $spacing: $sp
   .logo-sprite {
     @include retina-spriter ($collapsed-map, logo_sprite);
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 325px;
   }
 
