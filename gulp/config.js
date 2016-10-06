@@ -32,25 +32,25 @@ var config = {
     collapsed_foreground: {
       src: './static/toSprite/collapsed/foreground/**/*.png',
       dist_img: dest + '/images/',
-      dist_css: './sass',
+      dist_css: './sass/spritesheets',
       prefix: 'collapsed-foreground'
     },
     collapsed_background: {
       src: './static/toSprite/collapsed/background/**/*.png',
       dist_img: dest + '/images/',
-      dist_css: './sass',
+      dist_css: './sass/spritesheets',
       prefix: 'collapsed-background'
     },
     expanded_foreground: {
       src: './static/toSprite/expanded/foreground/**/*.png',
       dist_img: dest + '/images/',
-      dist_css: './sass',
+      dist_css: './sass/spritesheets',
       prefix: 'expanded-foreground'
     },
     expanded_background: {
       src: './static/toSprite/expanded/background/**/*.png',
       dist_img: dest + '/images/',
-      dist_css: './sass',
+      dist_css: './sass/spritesheets',
       prefix: 'expanded-background'
     }
   },

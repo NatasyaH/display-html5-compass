@@ -1,0 +1,79 @@
+/*
+The provided mixins are intended to be used with variables directly
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+
+@function combine-sprite($prefix,$sprite) {
+
+  @debug '!!! '+$prefix+$sprite;
+  @return $#{$prefix+$sprite};
+
+}
+@mixin sprite-width($prefix,$sprite) {
+  width: map-get(combine-sprite($prefix,$sprite), 'width');
+}
+
+@mixin sprite-height($prefix,$sprite) {
+  height: map-get(combine-sprite($prefix,$sprite), 'height');
+}
+
+@mixin sprite-position($prefix,$sprite) {
+  background-position: map-get(combine-sprite($prefix,$sprite), 'offset-x') map-get(combine-sprite($prefix,$sprite), 'offset-y');
+}
+
+@mixin sprite-image($prefix,$sprite) {
+  $image: combine-sprite($prefix,$sprite);
+
+  background-image: url(map-get( $image , 'image'));
+}
+
+@mixin sprite($prefix,$sprite) {
+  @include sprite-image($prefix,$sprite);
+  @include sprite-position($prefix,$sprite);
+  @include sprite-width($prefix,$sprite);
+  @include sprite-height($prefix,$sprite);
+}
+
+
+// retina extensions
+@mixin sprite-width-retina($prefix,$sprite) {
+  width: map-get(combine-sprite($prefix,$sprite), 'width')/2;
+}
+
+@mixin sprite-height-retina($prefix,$sprite) {
+  height: map-get(combine-sprite($prefix,$sprite), 'height')/2;
+}
+@mixin sprite-scale-retina($prefix,$sprite) {
+  background-size: map-get(combine-sprite($prefix,$sprite), 'total-width')/2 map-get(combine-sprite($prefix,$sprite), 'total-height')/2 ;
+}
+
+
+
+@mixin sprite-retina($prefix,$sprite) {
+  @include sprite-image($prefix,$sprite);
+  @include sprite-width-retina($prefix,$sprite);
+  @include sprite-height-retina($prefix,$sprite);
+  @include sprite-scale-retina($prefix,$sprite);
+}
