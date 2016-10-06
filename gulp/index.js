@@ -56,7 +56,13 @@ gulp.task('watch', function (done) {
   gulp.watch(config.images.src, gulp.series('images'));
   gulp.watch(config.scripts.app.src, gulp.series('scripts-app'));
   gulp.watch(config.html.src, gulp.series('html'));
-  gulp.watch(config.sass.src, gulp.series('sass'));
+  gulp.watch(config.sass.watch_src, gulp.series('sass')); // only watch files not associated with spritesheets
+
+  // generate new sass partials for spritesheets when images edited
+  gulp.watch(config.sprite.collapsed_foreground.src, gulp.series('sprite-collapsed-foreground'));
+  gulp.watch(config.sprite.collapsed_background.src, gulp.series('sprite-collapsed-background'));
+  gulp.watch(config.sprite.expanded_foreground.src, gulp.series('sprite-expanded-foreground'));
+  gulp.watch(config.sprite.expanded_background.src, gulp.series('sprite-expanded-background'));
 
   if (config.flags.type === "dev") {
     gulp.watch(config.vendor.src, gulp.series('scripts-vendor-dev'));
@@ -66,8 +72,8 @@ gulp.task('watch', function (done) {
   }
   done();
 });
-gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images', 'sass')));
-gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', 'sass')));
+gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass' ))));
+gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all', 'sass' ))));
 gulp.task('build-prod-optimize', gulp.series('build-prod', gulp.parallel('optimize-css', 'optimize-js', 'optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));

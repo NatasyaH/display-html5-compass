@@ -21,11 +21,13 @@ $red: #000000;
 
 // spritesheet prefixes
 
-$c-f:'$collapsed-foreground-';
-$c-b:'$collapsed-background-';
-$e-f:'$expanded-foreground-';
-$e-b:'$expanded-background-';
+/*
+$collapsed-background-map
+$collapsed-foreground-map
+$expanded-foreground-map
+$expanded-background-map
 
+*/
 
 
 // global
@@ -156,12 +158,18 @@ $e-b:'$expanded-background-';
   }
 
 
-  .logo-sprite {
-    @include sprite-retina ($c-f, logo-sprite);
+  .logo-sprite-retina {
+    @include sprite-retina ($collapsed-background-map, 'logo-sprite');
     position: absolute;
     top: 0;
     left: 325px;
   }
+  .logo-sprite {
+      @include sprite ($collapsed-background-map, 'logo-sprite');
+      position: absolute;
+      top: 0;
+      left: 525px;
+    }
 
 }
 

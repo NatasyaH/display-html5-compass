@@ -21,6 +21,7 @@ var config = {
   },
   sass: {
     src: './sass/**/*.scss',
+    watch_src: ['./sass/**/*.scss', '!./sass/spritesheets/**/*.scss'],
     image_src: './static/toSprite/**/*.{gif,jpg,png,svg}',
     dist: dest + '/css/'
   },

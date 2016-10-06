@@ -25,55 +25,61 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 <i class="icon icon-home"></i>
 */
 
-@function combine-sprite($prefix,$sprite) {
 
-  @debug '!!! '+$prefix+$sprite;
-  @return $#{$prefix+$sprite};
+@function doubleGet($master-map,$item-map,$item-prop ) {
 
-}
-@mixin sprite-width($prefix,$sprite) {
-  width: map-get(combine-sprite($prefix,$sprite), 'width');
+  @return map-get( map-get( $master-map , $item-map) , $item-prop)
 }
 
-@mixin sprite-height($prefix,$sprite) {
-  height: map-get(combine-sprite($prefix,$sprite), 'height');
+@mixin sprite-width($master-map,$item-map) {
+  width: doubleGet($master-map , $item-map, 'width');
 }
 
-@mixin sprite-position($prefix,$sprite) {
-  background-position: map-get(combine-sprite($prefix,$sprite), 'offset-x') map-get(combine-sprite($prefix,$sprite), 'offset-y');
+@mixin sprite-height($master-map,$item-map) {
+  height: doubleGet($master-map , $item-map, 'height');
 }
 
-@mixin sprite-image($prefix,$sprite) {
-  $image: combine-sprite($prefix,$sprite);
+@mixin sprite-position($master-map,$item-map) {
 
-  background-image: url(map-get( $image , 'image'));
+  background-position: doubleGet($master-map , $item-map, 'offset-x') doubleGet($master-map , $item-map, 'offset-y');
 }
 
-@mixin sprite($prefix,$sprite) {
-  @include sprite-image($prefix,$sprite);
-  @include sprite-position($prefix,$sprite);
-  @include sprite-width($prefix,$sprite);
-  @include sprite-height($prefix,$sprite);
+@mixin sprite-image($master-map,$item-map) {
+
+
+  // find map in map then get image param
+  background-image: url(doubleGet($master-map , $item-map, 'image'));
+}
+
+@mixin sprite($master-map,$item-map) {
+  @include sprite-image($master-map,$item-map);
+  @include sprite-position($master-map,$item-map);
+  @include sprite-width($master-map,$item-map);
+  @include sprite-height($master-map,$item-map);
 }
 
 
 // retina extensions
-@mixin sprite-width-retina($prefix,$sprite) {
-  width: map-get(combine-sprite($prefix,$sprite), 'width')/2;
+@mixin sprite-width-retina($master-map,$item-map) {
+
+  width: doubleGet($master-map , $item-map, 'width')/2;
 }
 
-@mixin sprite-height-retina($prefix,$sprite) {
-  height: map-get(combine-sprite($prefix,$sprite), 'height')/2;
+@mixin sprite-height-retina($master-map,$item-map) {
+
+  height: doubleGet($master-map , $item-map, 'height')/2;
 }
-@mixin sprite-scale-retina($prefix,$sprite) {
-  background-size: map-get(combine-sprite($prefix,$sprite), 'total-width')/2 map-get(combine-sprite($prefix,$sprite), 'total-height')/2 ;
+@mixin sprite-scale-retina($master-map,$item-map) {
+
+
+  background-size: doubleGet($master-map , $item-map, 'total-width')/2 doubleGet($master-map , $item-map, 'total-height')/2 ;
 }
 
 
 
-@mixin sprite-retina($prefix,$sprite) {
-  @include sprite-image($prefix,$sprite);
-  @include sprite-width-retina($prefix,$sprite);
-  @include sprite-height-retina($prefix,$sprite);
-  @include sprite-scale-retina($prefix,$sprite);
+@mixin sprite-retina($master-map,$item-map) {
+  @include sprite-image($master-map,$item-map);
+  @include sprite-width-retina($master-map,$item-map);
+  @include sprite-height-retina($master-map,$item-map);
+  @include sprite-scale-retina($master-map,$item-map);
 }

@@ -22,12 +22,13 @@ module.exports = function(gulp, bs, options) {
       cssName: '_sprite-'+options.prefix+'.scss',
       padding:4,
       imgPath :'../images/'+options.prefix +'-sprite.png',
-      cssFormat :'scss_maps',
-      cssOpts: {functions: false},
-      cssSpritesheetName:options.prefix+'-spritesheet',
+
+      cssOpts: {functions: false,prefix:options.prefix+'-map'},
+      cssSpritesheetName:'spritesheet',
       cssVarMap: function (sprite) {
-        sprite.name = options.prefix+'-' + sprite.name;
-      }
+        sprite.name = sprite.name;
+      },
+      cssTemplate :'./gulp/scss_maps.template.handlebars'
     }));
 
     // Pipe image stream through image optimizer and onto disk

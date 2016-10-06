@@ -7,8 +7,10 @@ SCSS variables are information about icon's compiled state, stored under its ori
 
 At the bottom of this section, we provide information about the spritesheet itself
 */
-$collapsed-background-logo-sprite: (
-  name: 'collapsed-background-logo_sprite',
+
+$collapsed-background-map: (
+logo-sprite: (
+  name: 'logo_sprite',
   x: 0px,
   y: 0px,
   offset-x: 0px,
@@ -18,12 +20,14 @@ $collapsed-background-logo-sprite: (
   total-width: 326px,
   total-height: 129px,
   image: '../images/collapsed-background-sprite.png'
-);
-$collapsed-background-spritesheet: (
+),
+spritesheet: (
   width: 326px,
   height: 129px,
-  image: '../images/collapsed-background-sprite.png',
-  sprites: ($collapsed-background-logo-sprite, )
-);
+  image: '../images/collapsed-background-sprite.png'
+)
+
+)
+
 
 
