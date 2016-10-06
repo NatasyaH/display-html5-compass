@@ -21,9 +21,9 @@ $sprite-padding: 2px;
 //uncomment if needed
 /*
 $common-map: sprite-map('common/*.png' , $layout: horizontal, $spacing: $sprite-padding);
-$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 */
+$collapsed-map: sprite-map('collapsed/*.png' , $layout: horizontal, $spacing: $sprite-padding);
 
 // global
 
@@ -149,6 +149,14 @@ $expand-map: sprite-map('expand/*.png' , $layout: horizontal, $spacing: $sprite-
     height: 250px;
 
   }
+
+  .logo-sprite {
+    @include retina-spriter ($collapsed-map, logo_sprite);
+    position: absolute;
+    top: 0px;
+    left: 325px;
+  }
+
 
 }
 
