@@ -11,6 +11,8 @@ var sourcemaps = require('gulp-sourcemaps');
  * @param options - object
  * options.src : Directory to copy.
  * options.dist : Destination to copy options.src to.
+ * @param flags - object
+ * options.sourcemap : determines if sourcemaps are to be generated
  * @returns {Function}
  */
 module.exports = function (gulp, bs, options, flags) {
