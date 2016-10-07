@@ -7,6 +7,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
+var exorcist   = require('exorcist');
 /**
  * @param gulp - function
  * @param bs - Browser sync instance
@@ -31,6 +32,7 @@ module.exports = function(gulp, bs, options, flags) {
     var rebundle = function() {
       return bundler.bundle().on('error', onError)
 
+       // .pipe(exorcist(options.dist+'/main.build.js.map'))
         .pipe(source('main.build.js'))
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
