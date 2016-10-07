@@ -19,8 +19,8 @@ module.exports = function (gulp, bs, options, flags) {
     return function () {
       return gulp.src(options.src)
             .pipe(sourcemaps.init())
-            .pipe(sass().on('error', sass.logError))
-            .pipe(sourcemaps.write())
+            .pipe(sass({includePaths:[require("bourbon").includePaths]}).on('error', sass.logError))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(options.dist))
             .pipe(bs.stream());
     }

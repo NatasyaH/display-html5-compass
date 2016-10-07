@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/chrisathook/display-html5-compass#readme",
   "devDependencies": {
+    "bourbon": "^4.2.7",
     "browser-sync": "^2.16.0",
     "browserify": "^13.1.0",
     "del": "^2.2.2",
