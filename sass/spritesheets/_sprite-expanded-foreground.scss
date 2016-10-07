@@ -9,21 +9,21 @@ At the bottom of this section, we provide information about the spritesheet itse
 */
 
 $expanded-foreground-map: (
-logo-sprite: (
-  name: 'logo_sprite',
+keep: (
+  name: 'keep',
   x: 0px,
   y: 0px,
   offset-x: 0px,
   offset-y: 0px,
-  width: 326px,
-  height: 129px,
-  total-width: 326px,
-  total-height: 129px,
+  width: 4px,
+  height: 4px,
+  total-width: 4px,
+  total-height: 4px,
   image: '../images/expanded-foreground-sprite.png'
 ),
 spritesheet: (
-  width: 326px,
-  height: 129px,
+  width: 4px,
+  height: 4px,
   image: '../images/expanded-foreground-sprite.png'
 )
 
