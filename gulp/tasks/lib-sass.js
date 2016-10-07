@@ -28,7 +28,7 @@ module.exports = function (gulp, bs, options, flags) {
   }
   return function (){
     return gulp.src(options.src)
-        .pipe(sass().on('error', sass.logError))
+      .pipe(sass({includePaths:[require("bourbon").includePaths]}).on('error', sass.logError))
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
 
