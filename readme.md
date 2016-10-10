@@ -18,6 +18,15 @@ Dev build without minification and including sourcemaps.
 
 Generates dev build then watch and reload via Browsersync
 
+### gulp build-prod
+
+production build without source maps and with additional steps such as js concatenation and image conversions. **NO MINIFICATION** is done in this build
+
+### gulp watch-dev
+
+Generates prod build then watch and reload via Browsersync
+
+
 ### gulp build-prod-optimize
 
 Generates a production build with minification.
@@ -33,6 +42,9 @@ spritesheet images should be kept separate and placed in static/toSprite. The sy
 
 when new images are placed in static/toSprite the spritesheets and their sass partials need to be recompiled before they can be used. The dev server will do this automatically or you can run **gulp sprite-all** to compile them yourself. Each spritesheet is searchable in sass using the custom spriting mixins. You need to provide the variable name of the spritesheet and the original image name in order to find the sprite. The file names will be dasherized and all underscores (_) will be converted to dashes (-). There are custom functions to use sprites as retina or standard resolution. Examples can be found in **style.scss**.
 
+#### Spritesheet optimization
+
+When doing a dev **build** all the spritesheets are generated as .pngs. When a **prod** build both pngs and jpgs are generated. The **foreground** sheets will still use ths pngs while the **background** ones will use jpg. The jpgs are optimized with a compression of 80, the pngs are still there so you can optimize them again yourself if you want.
 
 ### Images
 
