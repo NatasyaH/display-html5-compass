@@ -1,16 +1,12 @@
-#HTML5 Rich Media Display Template
+# HTML5 Rich Media Display Template
 
 A rich media display template using gulp,browserify and sass
 
-##Dependencies
+## Dependencies
 
 * Node - Globals
     * Browserify
     * Gulp 4
-* Ruby
-    * sass
-    * compass
-
 
 ## Gulp Commands
 
@@ -29,13 +25,18 @@ Generates a production build with minification.
 
 ## Implementation Notes
 
-### Styles
+### Styles and Spriting
 
-System uses sass and compass for all styling and spritesheeting. All styles go in /sass/style.scss. spritesheet images should be kept separate and placed in /toSprite. Examples of how to use hte sprite system are in the style.scss. As many images as possible should be consolidated in the spritesheets.
+System uses sass and for all styling and LibSass for compilation. All styles go in /sass/style.scss.
+
+spritesheet images should be kept separate and placed in static/toSprite. The system supports 4 spritesheets. 2 for the collapsed and 2 for the expanded. This allows the user to separate the sprites however they wish. The intent is that the foreground spritesheets are used for images that need transparency and the background one is for images that are opaque.
+
+when new images are placed in static/toSprite the spritesheets and their sass partials need to be recompiled before they can be used. The dev server will do this automatically or you can run **gulp sprite-all** to compile them yourself. Each spritesheet is searchable in sass using the custom spriting mixins. You need to provide the variable name of the spritesheet and the original image name in order to find the sprite. The file names will be dasherized and all underscores (_) will be converted to dashes (-). There are custom functions to use sprites as retina or standard resolution. Examples can be found in **style.scss**.
+
 
 ### Images
 
-images for the spritesheets should go in /toSprite. Regular images go in /images.
+images for the spritesheets should go in /toSprite. Regular images go in /images. No image optimization is done at any time. Image optimization must be done by hand.
 
 ### Javascript
 
@@ -52,3 +53,7 @@ You can change the unit type in index.html.
 ### HTML and Subloading
 
 These system is design to load html partials for the collapsed and expanded states as polite loads. You can construct your DOM for those sections in the stub files in /static/html. These are loaded as needed.
+
+### Configuring The Ad
+
+All the ad configuration options are located in index.html.
