@@ -31,7 +31,7 @@ gulp.task('sprite-collapsed-background', require('./tasks/sprite-images')(gulp, 
 gulp.task('sprite-expanded-foreground', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_foreground, config.flags));
 gulp.task('sprite-expanded-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_background, config.flags));
 gulp.task ('sprite-all', gulp.parallel ('sprite-collapsed-foreground','sprite-collapsed-background','sprite-expanded-foreground','sprite-expanded-background'));
-gulp.task('sprite-convert', require('./tasks/sprite-convert')(gulp, config.sprite.optimize));
+gulp.task('sprite-convert', require('./tasks/sprite-convert')(gulp, config.sprite.optimize, config.flags));
 
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
 // dev build specific tasks
@@ -63,10 +63,10 @@ gulp.task('watch', function (done) {
   gulp.watch(config.sass.watch_src, gulp.series('sass')); // only watch files not associated with spritesheets
 
   // generate new sass partials for spritesheets when images edited
-  gulp.watch(config.sprite.collapsed_foreground.src, gulp.series('sprite-collapsed-foreground'));
-  gulp.watch(config.sprite.collapsed_background.src, gulp.series('sprite-collapsed-background'));
-  gulp.watch(config.sprite.expanded_foreground.src, gulp.series('sprite-expanded-foreground'));
-  gulp.watch(config.sprite.expanded_background.src, gulp.series('sprite-expanded-background'));
+  gulp.watch(config.sprite.collapsed_foreground.src, gulp.series('sprite-collapsed-foreground','sprite-convert'));
+  gulp.watch(config.sprite.collapsed_background.src, gulp.series('sprite-collapsed-background','sprite-convert'));
+  gulp.watch(config.sprite.expanded_foreground.src, gulp.series('sprite-expanded-foreground','sprite-convert'));
+  gulp.watch(config.sprite.expanded_background.src, gulp.series('sprite-expanded-background','sprite-convert'));
 
   if (config.flags.type === "dev") {
     gulp.watch(config.vendor.src, gulp.series('scripts-vendor-dev'));
@@ -76,7 +76,7 @@ gulp.task('watch', function (done) {
   }
   done();
 });
-gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass' ))));
+gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', gulp.parallel('sass','sprite-convert') ))));
 gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all',gulp.parallel('sass','sprite-convert') ))));
 gulp.task('build-prod-optimize', gulp.series('build-prod', gulp.parallel('optimize-css', 'optimize-js', 'optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
