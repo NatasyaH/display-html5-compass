@@ -35,36 +35,34 @@ var config = {
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-foreground',
-      jpg_conversion:false
+      jpg_conversion:false,
+      quality:80
     },
     collapsed_background: {
       src: './static/toSprite/collapsed/background/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-background',
-      jpg_conversion:true
+      jpg_conversion:true,
+      quality:80
     },
     expanded_foreground: {
       src: './static/toSprite/expanded/foreground/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-foreground',
-      jpg_conversion:false
+      jpg_conversion:false,
+      quality:80
     },
     expanded_background: {
       src: './static/toSprite/expanded/background/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-background',
-      jpg_conversion:true
-    }
-    ,
-    optimize:{
-
-      src: dest + '/images/**/*-sprite.png',
-      dist: dest + '/images/',
+      jpg_conversion:true,
       quality:80
     }
+
   },
   scripts: {
     app: {

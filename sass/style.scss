@@ -1,12 +1,10 @@
 @import './hook-mixins/normalize';
 @import "bourbon";
 @import './hook-mixins/sprite-mixins';
-
 @import './spritesheets/sprite-collapsed-background';
 @import './spritesheets/sprite-collapsed-foreground';
 @import './spritesheets/sprite-expanded-background';
 @import './spritesheets/sprite-expanded-foreground';
-
 
 /** set up variables **/
 $collapsed-width: 970px;
@@ -42,20 +40,17 @@ sprite-retina ($collapsed-background-map, 'keep')
 
 */
 
-
 // global
 
 @import './template/border';
 
 .size-collapsed {
 
-
   height: $collapsed-height;
   width: $collapsed-width;
 }
 
 .size-expanded {
-
 
   height: $expanded-height;
   width: $expanded-width;
@@ -131,60 +126,58 @@ sprite-retina ($collapsed-background-map, 'keep')
     width: $collapsed-width;
     height: $collapsed-height;
 
-  }
-  .catch-all {
-    @extend .size-collapsed;
-    @extend .catch-all;
+    .catch-all {
+      @extend .size-collapsed;
+      @extend .catch-all;
 
-  }
-  .expand {
-    @extend .basic-button;
-    width: 200px;
-    height: 50px;
-    left: 600px;
-    top: 150px;
+    }
+    .expand {
+      @extend .basic-button;
+      width: 200px;
+      height: 50px;
+      left: 600px;
+      top: 150px;
 
-  }
-  .cta {
-    @extend .basic-button;
-    width: 100px;
-    height: 50px;
-    left: 300px;
-    top: 150px;
-    background-color: cornflowerblue;
+    }
+    .cta {
+      @extend .basic-button;
+      width: 100px;
+      height: 50px;
+      left: 300px;
+      top: 150px;
+      background-color: cornflowerblue;
 
-  }
+    }
 
-  .bg-image {
-    position: absolute;
-    width: 326px;
-    height: 129px;
-    left: 500px;
-    background-image: url('../images/logo.jpg');
+    .bg-image {
+      position: absolute;
+      width: 326px;
+      height: 129px;
+      left: 500px;
+      background-image: url('../images/logo.jpg');
 
-  }
+    }
 
-  .yt-video {
-    position: absolute;
-    width: 444px;
-    height: 250px;
+    .yt-video {
+      position: absolute;
+      width: 444px;
+      height: 250px;
 
-  }
+    }
 
-
-  .logo-sprite-retina {
-    @include sprite-retina ($collapsed-background-map, 'keep');
-    position: absolute;
-    top: 0;
-    left: 325px;
-  }
-  .logo-sprite {
+    .logo-sprite-retina {
+      @include sprite-retina ($collapsed-background-map, 'keep');
+      position: absolute;
+      top: 0;
+      left: 325px;
+    }
+    .logo-sprite {
       @include sprite ($collapsed-background-map, 'keep');
       position: absolute;
       top: 0;
       left: 525px;
     }
-
+  }
 }
 
 //Auto Expand Scope
