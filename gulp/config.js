@@ -34,25 +34,36 @@ var config = {
       src: './static/toSprite/collapsed/foreground/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
-      prefix: 'collapsed-foreground'
+      prefix: 'collapsed-foreground',
+      jpg_conversion:false
     },
     collapsed_background: {
       src: './static/toSprite/collapsed/background/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
-      prefix: 'collapsed-background'
+      prefix: 'collapsed-background',
+      jpg_conversion:true
     },
     expanded_foreground: {
       src: './static/toSprite/expanded/foreground/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
-      prefix: 'expanded-foreground'
+      prefix: 'expanded-foreground',
+      jpg_conversion:false
     },
     expanded_background: {
       src: './static/toSprite/expanded/background/**/*.png',
       dist_img: dest + '/images/',
       dist_css: './sass/spritesheets',
-      prefix: 'expanded-background'
+      prefix: 'expanded-background',
+      jpg_conversion:true
+    }
+    ,
+    optimize:{
+
+      src: dest + '/images/**/*-sprite.png',
+      dist: dest + '/images/',
+      quality:80
     }
   },
   scripts: {

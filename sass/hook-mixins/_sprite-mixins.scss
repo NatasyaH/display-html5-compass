@@ -66,8 +66,19 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 
   // find map in map then get image param
   background-image:
-    url(str-replace( doubleGet($master-map , $item-map, 'image'),'.png','.jpg')),
-    url(doubleGet($master-map , $item-map, 'image'));
+
+
+
+    url(
+      if(
+        doubleGet($master-map , $item-map, 'usejpg'),
+        url(str-replace( doubleGet($master-map , $item-map, 'image'),'.png','.jpg')),
+        url(doubleGet($master-map , $item-map, 'image'))
+        )
+    )
+
+
+
 }
 
 @mixin sprite($master-map,$item-map) {

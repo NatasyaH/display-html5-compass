@@ -29,7 +29,8 @@ ${{options.prefix}}: (
   {{strings.bare_height}}: {{px.height}},
   {{strings.bare_total_width}}: {{px.total_width}},
   {{strings.bare_total_height}}: {{px.total_height}},
-  {{strings.bare_image}}: '{{{escaped_image}}}'
+  {{strings.bare_image}}: '{{{escaped_image}}}',
+  usejpg: {{@root.options.usejpg}}
 ),
 {{/each}}
 {{spritesheet_info.strings.name}}: (

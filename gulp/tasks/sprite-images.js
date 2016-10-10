@@ -14,8 +14,17 @@ var merge = require('merge-stream');
  * options.dist : Output directory.
  * @returns {Function}
  */
-module.exports = function(gulp, bs, options) {
+module.exports = function(gulp, bs, options,flags) {
   return function() {
+
+
+    var use_jpg = false;
+
+    if (options.jpg_conversion === true && flags.type==='prod') {
+
+      use_jpg = true;
+    }
+
     // Generate our spritesheet
     var spriteData = gulp.src(options.src).pipe(spritesmith({
       imgName: options.prefix +'-sprite.png',
@@ -23,10 +32,11 @@ module.exports = function(gulp, bs, options) {
       padding:4,
       imgPath :'../images/'+options.prefix +'-sprite.png',
 
-      cssOpts: {functions: false,prefix:options.prefix+'-map'},
+      cssOpts: {functions: false,prefix:options.prefix+'-map' ,usejpg:use_jpg},
       cssSpritesheetName:'spritesheet',
       cssVarMap: function (sprite) {
         sprite.name = sprite.name;
+
       },
       cssTemplate :'./gulp/scss_maps.template.handlebars'
     }));
