@@ -32,45 +32,44 @@ var config = {
   sprite: {
     collapsed_foreground: {
       src: './static/toSprite/collapsed/foreground/**/*.png',
-      img_root:'/images/',
+      img_root: '/images/',
       dist_img: dest + '/images/',
       dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-foreground',
-      jpg_conversion:false,
-      quality:80
+      jpg_conversion: false,
+      quality: 80
     },
     collapsed_background: {
       src: './static/toSprite/collapsed/background/**/*.png',
-      img_root:'/images/',
+      img_root: '/images/',
       dist_img: dest + '/images/',
       dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-background',
-      jpg_conversion:true,
-      quality:80
+      jpg_conversion: true,
+      quality: 80
     },
     expanded_foreground: {
       src: './static/toSprite/expanded/foreground/**/*.png',
-      img_root:'/images/',
+      img_root: '/images/',
       dist_img: dest + '/images/',
       dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-foreground',
-      jpg_conversion:false,
-      quality:80
+      jpg_conversion: false,
+      quality: 80
     },
     expanded_background: {
       src: './static/toSprite/expanded/background/**/*.png',
-      img_root:'/images/',
+      img_root: '/images/',
       dist_img: dest + '/images/',
       dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-background',
-      jpg_conversion:true,
-      quality:80
+      jpg_conversion: true,
+      quality: 80
     }
-
   },
   scripts: {
     app: {
@@ -95,17 +94,12 @@ var config = {
     },
     dist: dest
   },
-  bundle:{
-    dc:{
-      src:[dest+'/**/*.*', '!'+dest+'/**/__*.png', '!'+dest+'/**/.*'],
-      dist:dest,
-      name:'banner.zip'
-
-
-
-
+  bundle: {
+    dc: {
+      src: [dest + '/**/*.*', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
+      dist: dest,
+      name: 'banner.zip'
     }
-
   },
   server: {
     root: dest,
