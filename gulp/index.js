@@ -41,6 +41,9 @@ gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.h
 gulp.task('optimize-css', require('./tasks/optimize-css')(gulp, config.optimize, config.flags));
 gulp.task('optimize-js', require('./tasks/optimize-js')(gulp, config.optimize, config.flags));
 gulp.task('optimize-html', require('./tasks/optimize-html')(gulp, config.optimize, config.flags));
+
+gulp.task('bundle-dc', require('./tasks/bundle-dc')(gulp, config.bundle.dc, config.flags));
+
 // define watch actions
 gulp.task('watch', function (done) {
   bs.init({

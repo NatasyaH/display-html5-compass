@@ -95,6 +95,18 @@ var config = {
     },
     dist: dest
   },
+  bundle:{
+    dc:{
+      src:[dest+'/**/*.*', '!'+dest+'/**/__*.png', '!'+dest+'/**/.*'],
+      dist:dest,
+      name:'banner.zip'
+
+
+
+
+    }
+
+  },
   server: {
     root: dest,
     port: 8080
