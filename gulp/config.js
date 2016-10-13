@@ -32,7 +32,9 @@ var config = {
   sprite: {
     collapsed_foreground: {
       src: './static/toSprite/collapsed/foreground/**/*.png',
+      img_root:'/images/',
       dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-foreground',
       jpg_conversion:false,
@@ -40,7 +42,9 @@ var config = {
     },
     collapsed_background: {
       src: './static/toSprite/collapsed/background/**/*.png',
+      img_root:'/images/',
       dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'collapsed-background',
       jpg_conversion:true,
@@ -48,7 +52,9 @@ var config = {
     },
     expanded_foreground: {
       src: './static/toSprite/expanded/foreground/**/*.png',
+      img_root:'/images/',
       dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-foreground',
       jpg_conversion:false,
@@ -56,7 +62,9 @@ var config = {
     },
     expanded_background: {
       src: './static/toSprite/expanded/background/**/*.png',
+      img_root:'/images/',
       dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
       dist_css: './sass/spritesheets',
       prefix: 'expanded-background',
       jpg_conversion:true,

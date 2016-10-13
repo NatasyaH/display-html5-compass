@@ -27,7 +27,7 @@ module.exports = function (gulp, bs, options, flags) {
       imgName: options.prefix + '-sprite.png',
       cssName: '_sprite-' + options.prefix + '.scss',
       padding: 4,
-      imgPath: '../images/' + options.prefix + '-sprite.png',
+      imgPath: '..'+options.img_root + options.prefix + '-sprite.png',
       cssOpts: {functions: false, prefix: options.prefix + '-map', usejpg: use_jpg},
       cssSpritesheetName: 'spritesheet',
       cssVarMap: function (sprite) {
@@ -44,7 +44,7 @@ module.exports = function (gulp, bs, options, flags) {
       imgStream.pipe(rename(function (path) {
           return path.replace(options.prefix, "__" + options.prefix);
         }))
-        .pipe(gulp.dest(options.dist_img))
+        .pipe(gulp.dest(options.dist_img_source))
         // change file name back and write jpg
         .pipe(rename(function (path) {
                   return path.replace('__', '');
