@@ -33,7 +33,7 @@ Generates a production build with minification.
 
 ### gulp bundle-dc
 
-Bundles contents of */dist* into 1 zip file for upload to DC Studio. 
+Bundles contents of */dist* into 1 zip file for upload to DC Studio. Contents must exist to be zipped.
 
 ## Implementation Notes
 
