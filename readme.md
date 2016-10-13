@@ -31,6 +31,9 @@ Generates prod build then watch and reload via Browsersync
 
 Generates a production build with minification.
 
+### gulp bundle-dc
+
+Bundles contents of */dist* into 1 zip file for upload to DC Studio. 
 
 ## Implementation Notes
 
