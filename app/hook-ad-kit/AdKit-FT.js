@@ -11,16 +11,21 @@ var PathUpdater = function (path) {
     return slice1;
   }
   if (myFT.get("serveDOM") === "") {
-
     //staging path
     base = path.replace("./", "../../richLoads/");
   } else {
-
     //cdn path
     base = path.replace("./", "../");
   }
   return base;
 };
+
+var expanding="expanding";
+var expanded="expanded";
+var collapsing="collapsing";
+var collapsed="collapsed";
+
+var state = collapsed;
 var AdKit = {
   boot: function () {
     return new RSVP.Promise(function (resolve, reject) {
@@ -110,79 +115,57 @@ var AdKit = {
   requestExpand: function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('expansion requested');
-      // only allow expand if not expanding already
-      if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.EXPAND_START, func);
-          resolve('EXPANSION START')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, func);
-        Enabler.requestExpand();
-      } else {
+      if (state !== collapsed) {
         reject('AlreadyExpanded');
+        return;
       }
+      myFT.expand();
+      state = expanding;
+      resolve('EXPANSION START');
     });
   },
   completeExpand: function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('complete expansion requested');
-      if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.EXPAND_FINISH, func);
-          resolve('EXPANSION COMPLETE')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, func);
-        Enabler.finishExpand();
-      } else {
+      if (state !== expanding) {
         reject('Expand Not Started so cant be completed');
+        return;
       }
+      state = expanded;
+      resolve('EXPANSION COMPLETE')
     });
   },
   requestCollapse: function () {
     return new RSVP.Promise(function (resolve, reject) {
-
-
-
-      // only collapse if expanded
-      if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_START, func);
-          console.log('!!!!!');
-          resolve('COLLAPSE START')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, func);
-        Enabler.requestCollapse();
-      } else {
+      if (state !== expanded) {
         reject('AlreadyCollapsed');
+        return;
       }
+      state =collapsing;
+      resolve('COLLAPSE START');
     });
   },
   completeCollapse: function () {
     return new RSVP.Promise(function (resolve, reject) {
-      if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
-          resolve('COLLAPSE COMPLETE')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
-        Enabler.finishCollapse();
-      } else {
+      if (state !== collapsing) {
         reject('Collapse not started so cant complete');
+        return;
       }
+      state =collapsed;
+      resolve('COLLAPSE COMPLETE')
     });
   },
   exit: function (closure) {
     return new RSVP.Promise(function (resolve, reject) {
-
       closure.call();
       resolve()
     })
   },
   expanded: function () {
-    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
+    if (state === expanding || state === expanded) {
       return true;
     }
-    return false;
+    return false
   }
 };
 module.exports = AdKit;
