@@ -5,9 +5,8 @@
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script
-    src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.19.0_643d6911392a3398cb1607993edabfa7_min.js"></script>
-  <script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -24,6 +23,8 @@
 <!-- build:js js/vendor.js -->
 <script type="text/javascript" src="../../vendor/VendorStub.js"></script>
 <!-- endbuild -->
+
+<script src="https://cdn.flashtalking.com/frameworks/js/api/2/9/html5API.js"></script>
 <script type="text/javascript">
   window.adConfig = {
     collapsedPartial: './collapsed.html',
@@ -31,11 +32,6 @@
     isAutoExpand: true,
     autoExpandTimer: 8000
   };
-
-  // remove these lines if the unit is an in-page
-  Enabler.setStartExpanded(window.adConfig.isAutoExpand);
-  Enabler.setExpandingPixelOffsets(0, 0, 970, 500); // This needs to be hardcoded to work in DC, it can't run off config
-  Enabler.setIsMultiDirectional(false);
 
 </script>
 <script src="js/main.build.js"></script>
