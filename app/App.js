@@ -5,7 +5,6 @@ var shellAnimationController = require('./controllers/ShellAnimationController')
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-
 RSVP.on('error', function (reason, label) {
   if (label) {
     console.error(label);
@@ -33,7 +32,6 @@ var App = function (config) {
       promises.push(loadContent(collapsedPartial, collapsedContainer));
     }
     // if you need to do more preloading do it here.
-
     return RSVP.all(promises)
   };
   var expand = function () {
@@ -145,13 +143,13 @@ var App = function (config) {
   };
   var catchAllHandler = function () {
     return adKit.exit(function () {
-        Enabler.exit('catch-all')
+        myFT.clickTag(1);
       })
       .then(exitHandler);
   };
   var ctaHandler = function () {
     return adKit.exit(function () {
-        Enabler.exit('cta')
+        myFT.clickTag(2);
       })
       .then(exitHandler)
   };
