@@ -1,6 +1,6 @@
 'use strict';
 var RSVP = require('rsvp');
-var adKit = require('./hook-ad-kit/AdKit');
+var adKit = require('./hook-ad-kit/AdKit-FT');
 var shellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
