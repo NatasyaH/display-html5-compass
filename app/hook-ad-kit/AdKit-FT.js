@@ -12,10 +12,12 @@ var PathUpdater = function (path) {
   }
   if (myFT.get("serveDOM") === "") {
     //staging path
-    base = path.replace("./", "../../richLoads/");
+    return slice1;
+    //base = path.replace("./", "../../richLoads"+window.adConfig.richBase+'/');
   } else {
     //cdn path
-    base = path.replace("./", "../");
+    return slice1;
+    //base = path.replace("./", ".."+window.adConfig.richBase+'/');
   }
   return base;
 };
