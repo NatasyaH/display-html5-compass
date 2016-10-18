@@ -10,4 +10,8 @@ FT.manifest({
     "indentAcross": 0,
     "indentDown": 0
   }
+  "richLoads": [{
+  		"name": "rich",
+  		"src": "rich"
+  	}]
 });

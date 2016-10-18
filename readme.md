@@ -35,6 +35,12 @@ Generates a production build with minification.
 
 Bundles contents of */dist* into 1 zip file for upload to DC Studio. Contents must exist to be zipped.
 
+
+### gulp bundle-ft
+
+Bundles contents into a base zip and a rich zip for upload to FlashTalking. System assumes only 1 richload.
+
+
 ## Implementation Notes
 
 ### Styles and Spriting
