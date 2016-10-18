@@ -31,15 +31,18 @@ var getRichBase = function (baseURL) {
   }
   if (myFT.get("serveDOM") === "") {
 
-    // patch to richloads
+    // patch to richloads on staging
     arr[arr.length - 2] = 'richLoads';
     arr[arr.length - 1] = richFolder;
     return arr.join('/');
+  } else {
+    //path to richloads on CDN
+    return baseURL.slice(0);
   }
 };
 var patchURL = function (text) {
   var absURL = '';
-  absURL = text.replace(/\.\//g , getRichBase(util.getBaseURL()));
+  absURL = text.replace(/\.\//g, getRichBase(util.getBaseURL()));
   return absURL;
 };
 var expanding = "expanding";
