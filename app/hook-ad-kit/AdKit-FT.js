@@ -6,18 +6,18 @@ var PathUpdater = function (path) {
   var cid = myFT.get("cID");
   var dom = myFT.get("serveDOM");
   var base = window.location.href.split(cid)[0];
+
+  return slice1;
   // local
   if (myFT.testMode === true) {
     return slice1;
   }
   if (myFT.get("serveDOM") === "") {
     //staging path
-    return slice1;
-    //base = path.replace("./", "../../richLoads"+window.adConfig.richBase+'/');
+    base = path.replace("./", "../../richLoads/");
   } else {
     //cdn path
-    return slice1;
-    //base = path.replace("./", ".."+window.adConfig.richBase+'/');
+    base = path.replace("./", "../");
   }
   return base;
 };
