@@ -43,6 +43,7 @@ gulp.task('optimize-js', require('./tasks/optimize-js')(gulp, config.optimize, c
 gulp.task('optimize-html', require('./tasks/optimize-html')(gulp, config.optimize, config.flags));
 
 gulp.task('bundle-dc', require('./tasks/bundle-dc')(gulp, config.bundle.dc, config.flags));
+gulp.task('bundle-ft', require('./tasks/bundle-ft')(gulp, config.bundle.ft, config.flags));
 
 // define watch actions
 gulp.task('watch', function (done) {

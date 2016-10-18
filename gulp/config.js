@@ -99,6 +99,26 @@ var config = {
       src: [dest + '/**/*.*', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
       dist: dest,
       name: 'banner.zip'
+    },
+    ft: {
+      base: {
+        src: [
+          dest + '/**/*.js',
+          dest + '/**/*.css',
+          '!' + dest + '/**/.*',
+          dest + '/index.html'
+        ]
+      },
+      rich: {
+        src: [
+          dest + '/**/*.{gif,jpg,png,svg}',
+          '!' + dest + '/**/.*',
+          '!' + dest + '/**/__*.png',
+          '!'+dest + '/*.{gif,jpg,png,svg}',
+          dest + '/*.html'
+        ]
+      },
+      dist: dest
     }
   },
   server: {
