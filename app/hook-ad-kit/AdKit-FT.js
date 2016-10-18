@@ -24,7 +24,7 @@ var getRichBase = function (baseURL) {
   var arr = baseURL.split('/');
   // named folder of base
   var baseFolder = arr[arr.length - 1];
-  var richFolder = baseFolder + '-rich';
+  var richFolder = baseFolder + '-rich/';
   // if local testing just return base URL
   if (myFT.testMode === true) {
     return baseURL.slice(0);
