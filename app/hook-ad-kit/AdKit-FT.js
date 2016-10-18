@@ -6,7 +6,6 @@ var PathUpdater = function (path) {
   var cid = myFT.get("cID");
   var dom = myFT.get("serveDOM");
   var base = window.location.href.split(cid)[0];
-
   return slice1;
   // local
   if (myFT.testMode === true) {
@@ -21,12 +20,28 @@ var PathUpdater = function (path) {
   }
   return base;
 };
+var getRichBase = function (baseURL) {
+  var arr = baseURL.split('/');
+  // named folder of base
+  var baseFolder = arr[arr.length - 1];
+  var richFolder = baseFolder + '-rich';
+  // if local testing just return base URL
+  if (myFT.testMode === true) {
 
-var expanding="expanding";
-var expanded="expanded";
-var collapsing="collapsing";
-var collapsed="collapsed";
+    return baseURL.slice(0);
+  }
+  if (myFT.get("serveDOM") === "") {
 
+    // patch to richloads
+    arr[arr.length - 2] = 'richLoads';
+    arr[arr.length - 1] = richFolder;
+    return arr.join('/');
+  }
+};
+var expanding = "expanding";
+var expanded = "expanded";
+var collapsing = "collapsing";
+var collapsed = "collapsed";
 var state = collapsed;
 var AdKit = {
   boot: function () {
@@ -143,7 +158,7 @@ var AdKit = {
         reject('AlreadyCollapsed');
         return;
       }
-      state =collapsing;
+      state = collapsing;
       resolve('COLLAPSE START');
     });
   },
@@ -153,13 +168,37 @@ var AdKit = {
         reject('Collapse not started so cant complete');
         return;
       }
-      state =collapsed;
+      state = collapsed;
       resolve('COLLAPSE COMPLETE')
     });
   },
   exit: function (closure) {
     return new RSVP.Promise(function (resolve, reject) {
       closure.call();
+      resolve()
+    })
+  },
+  patchCSS: function (styleSheet) {
+    return new RSVP.Promise(function (resolve, reject) {
+      var rules = styleSheet.cssRules || styleSheet.rules;
+      for (var j = 0; j < rules.length; j++) {
+        var rule = rules[j];
+        if (rule.cssText.search('../images') != -1) {
+          console.log(rule.cssText);
+          console.log(rule.style.backgroundImage);
+
+          var oldURL =  rule.style.backgroundImage.slice(0);
+
+          var newBase = getRichBase (util.getBaseURL());
+
+          var newURL = oldURL.replace('../', newBase);
+
+          rule.style.backgroundImage=''
+          rule.style.backgroundImage = newURL;
+          console.log(rule.style.backgroundImage,newURL);
+
+        }
+      }
       resolve()
     })
   },

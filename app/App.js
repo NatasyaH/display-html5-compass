@@ -89,6 +89,8 @@ var App = function (config) {
   };
   var run = function () {
     console.log('run');
+
+    cssUpdate();
     if (isAutoExpand === true) {
       return expand();
     } else {
@@ -110,6 +112,19 @@ var App = function (config) {
       .then(preload)
       .then(run);
   };
+
+  var cssUpdate = function () {
+
+    for (var i = 0; i < document.styleSheets.length; i++) {
+          if (document.styleSheets[i].href && document.styleSheets[i].href.indexOf("css/style.css")) {
+            adKit.patchCSS(document.styleSheets[i]);
+
+            break;
+          }
+        }
+
+  };
+
   var loadContent = function (url, container) {
     console.log('loadContent');
     container.classList.remove('hidden');
