@@ -41,6 +41,8 @@ gulp.task('scripts-vendor', require('./tasks/scripts-vendor')(gulp, bs, config.h
 gulp.task('optimize-css', require('./tasks/optimize-css')(gulp, config.optimize, config.flags));
 gulp.task('optimize-js', require('./tasks/optimize-js')(gulp, config.optimize, config.flags));
 gulp.task('optimize-html', require('./tasks/optimize-html')(gulp, config.optimize, config.flags));
+gulp.task('rename-standard', require('./tasks/rename-standard')(gulp, bs, config.rename_backup, config.flags));
+
 
 gulp.task('bundle-dc', require('./tasks/bundle-dc')(gulp, config.bundle.dc, config.flags));
 gulp.task('bundle-ft', require('./tasks/bundle-ft')(gulp, config.bundle.ft, config.flags));
@@ -80,8 +82,8 @@ gulp.task('watch', function (done) {
   }
   done();
 });
-gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass' ))));
-gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all','sass' ))));
+gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass','rename-standard' ))));
+gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all','sass','rename-standard' ))));
 gulp.task('build-prod-optimize', gulp.series('build-prod', gulp.parallel('optimize-css', 'optimize-js', 'optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));

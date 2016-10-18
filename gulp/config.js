@@ -1,5 +1,8 @@
 'use strict';
 var dest = './dist';
+
+var path = require('path');
+
 var config = {
   flags: {
     minify: false,
@@ -94,6 +97,10 @@ var config = {
     },
     dist: dest
   },
+  rename_backup: {
+        src: path.join(dest,  '/*.jpg'),
+        dist: path.join(dest )
+      },
   bundle: {
     dc: {
       src: [dest + '/**/*.*', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],

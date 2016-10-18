@@ -30,6 +30,7 @@
     "gulp-if": "^2.0.1",
     "gulp-jimp": "^1.2.7",
     "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-simple-rename": "^0.1.3",
