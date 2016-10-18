@@ -90,6 +90,10 @@ var App = function (config) {
   var run = function () {
     console.log('run');
 
+
+    collapsedPartial = adKit.patchURL(collapsedPartial);
+    expandedPartial = adKit.patchURL(expandedPartial);
+
     cssUpdate();
     if (isAutoExpand === true) {
       return expand();
@@ -113,6 +117,8 @@ var App = function (config) {
       .then(run);
   };
 
+
+
   var cssUpdate = function () {
 
     for (var i = 0; i < document.styleSheets.length; i++) {
@@ -130,6 +136,9 @@ var App = function (config) {
     container.classList.remove('hidden');
     return adKit.loadPartial(url)
       .then(function (value) {
+
+        value = adKit.patchURL(value);
+
         return adKit.subloadPartial(container, value)
       });
   };

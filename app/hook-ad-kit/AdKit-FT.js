@@ -27,7 +27,6 @@ var getRichBase = function (baseURL) {
   var richFolder = baseFolder + '-rich';
   // if local testing just return base URL
   if (myFT.testMode === true) {
-
     return baseURL.slice(0);
   }
   if (myFT.get("serveDOM") === "") {
@@ -37,6 +36,11 @@ var getRichBase = function (baseURL) {
     arr[arr.length - 1] = richFolder;
     return arr.join('/');
   }
+};
+var patchURL = function (text) {
+  var absURL = '';
+  absURL = text.replace(/\.\//g , getRichBase(util.getBaseURL()));
+  return absURL;
 };
 var expanding = "expanding";
 var expanded = "expanded";
@@ -184,24 +188,20 @@ var AdKit = {
       for (var j = 0; j < rules.length; j++) {
         var rule = rules[j];
         if (rule.cssText.search('../images') != -1) {
-          console.log(rule.cssText);
-          console.log(rule.style.backgroundImage);
-
-          var oldURL =  rule.style.backgroundImage.slice(0);
-
-          var newBase = getRichBase (util.getBaseURL());
-
+          // console.log(rule.cssText);
+          //console.log(rule.style.backgroundImage);
+          var oldURL = rule.style.backgroundImage.slice(0);
+          var newBase = getRichBase(util.getBaseURL());
           var newURL = oldURL.replace('../', newBase);
-
-          rule.style.backgroundImage=''
+          rule.style.backgroundImage = '';
           rule.style.backgroundImage = newURL;
-          console.log(rule.style.backgroundImage,newURL);
-
+          console.log(rule.style.backgroundImage, newURL);
         }
       }
       resolve()
     })
   },
+  patchURL: patchURL,
   expanded: function () {
     if (state === expanding || state === expanded) {
       return true;
