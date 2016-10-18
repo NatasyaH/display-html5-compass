@@ -9,7 +9,7 @@ FT.manifest({
     "height": 500,
     "indentAcross": 0,
     "indentDown": 0
-  }
+  },
   "richLoads": [{
   		"name": "rich",
   		"src": "rich"

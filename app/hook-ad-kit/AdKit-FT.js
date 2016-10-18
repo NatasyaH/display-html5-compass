@@ -194,8 +194,13 @@ var AdKit = {
           // console.log(rule.cssText);
           //console.log(rule.style.backgroundImage);
           var oldURL = rule.style.backgroundImage.slice(0);
+          var oldURLsplit = oldURL.split('/');
+          var oldRel = oldURLsplit[oldURLsplit.length-2] +'/'+oldURLsplit[oldURLsplit.length-1];
+
+          oldRel =oldRel.replace('(','').replace(')','').replace('"','');
+
           var newBase = getRichBase(util.getBaseURL());
-          var newURL = oldURL.replace('../', newBase);
+          var newURL = 'url("'+ newBase +oldRel +'")';
           rule.style.backgroundImage = '';
           rule.style.backgroundImage = newURL;
           console.log(rule.style.backgroundImage, newURL);
