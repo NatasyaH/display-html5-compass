@@ -143,10 +143,7 @@ var AdKit = {
   },
   requestCollapse: function () {
     return new RSVP.Promise(function (resolve, reject) {
-
-
-
-      // only collapse if expanded
+       // only collapse if expanded
       if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
         var func = function () {
           Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_START, func);
