@@ -1,6 +1,24 @@
 'use strict';
 var RSVP = require('rsvp');
 var util = require('./Util');
+var PathUpdater = function (path) {
+  var slice1 = path.slice(0);
+
+  return slice1;
+};
+var getRichBase = function (baseURL) {
+  var arr = baseURL.split('/');
+  // named folder of base
+  var baseFolder = arr[arr.length - 1];
+  var richFolder = baseFolder + '-rich/';
+  // dontt need seperate base URLs in DC
+  return baseURL.slice(0);
+};
+var patchURL = function (text) {
+  var absURL = '';
+  absURL = text.replace(/\.\//g, getRichBase(util.getBaseURL()));
+  return absURL;
+};
 var AdKit = {
   boot: function () {
     var enablerCheck = function (method, state) {
@@ -24,7 +42,7 @@ var AdKit = {
         return resolve(response);
       };
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
+      xhr.open('GET', PathUpdater(url));
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           loadComplete(xhr.responseText);
@@ -163,6 +181,29 @@ var AdKit = {
       closure.call();
     })
   },
+  patchCSS: function (styleSheet) {
+    return new RSVP.Promise(function (resolve, reject) {
+      var rules = styleSheet.cssRules || styleSheet.rules;
+      for (var j = 0; j < rules.length; j++) {
+        var rule = rules[j];
+        if (rule.cssText.search('../images') != -1) {
+          // console.log(rule.cssText);
+          //console.log(rule.style.backgroundImage);
+          var oldURL = rule.style.backgroundImage.slice(0);
+          var oldURLsplit = oldURL.split('/');
+          var oldRel = oldURLsplit[oldURLsplit.length - 2] + '/' + oldURLsplit[oldURLsplit.length - 1];
+          oldRel = oldRel.replace('(', '').replace(')', '').replace('"', '');
+          var newBase = getRichBase(util.getBaseURL());
+          var newURL = 'url("' + newBase + oldRel + '")';
+          rule.style.backgroundImage = '';
+          rule.style.backgroundImage = newURL;
+          console.log(rule.style.backgroundImage, newURL);
+        }
+      }
+      resolve()
+    })
+  },
+  patchURL: patchURL,
   expanded: function () {
     if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
       return true;

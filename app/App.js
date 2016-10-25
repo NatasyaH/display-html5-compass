@@ -1,6 +1,6 @@
 'use strict';
 var RSVP = require('rsvp');
-var adKit = require('./hook-ad-kit/AdKit-FT');
+var adKit = require('./hook-ad-kit/AdKit-DC');
 var shellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
@@ -155,13 +155,13 @@ var App = function (config) {
   };
   var catchAllHandler = function () {
     return adKit.exit(function () {
-        myFT.clickTag(1);
+       Enabler.exit ('catch_all');
       })
       .then(exitHandler);
   };
   var ctaHandler = function () {
     return adKit.exit(function () {
-        myFT.clickTag(2);
+      Enabler.exit ('cta');
       })
       .then(exitHandler)
   };
