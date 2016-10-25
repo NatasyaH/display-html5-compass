@@ -49,7 +49,7 @@ System uses sass and for all styling and LibSass for compilation. All styles go 
 
 spritesheet images should be kept separate and placed in static/toSprite. The system supports 4 spritesheets. 2 for the collapsed and 2 for the expanded. This allows the user to separate the sprites however they wish. The intent is that the foreground spritesheets are used for images that need transparency and the background one is for images that are opaque.
 
-when new images are placed in static/toSprite the spritesheets and their sass partials need to be recompiled before they can be used. The dev server will do this automatically or you can run **gulp sprite-all** to compile them yourself. Each spritesheet is searchable in sass using the custom spriting mixins. You need to provide the variable name of the spritesheet and the original image name in order to find the sprite. The file names will be dasherized and all underscores (_) will be converted to dashes (-). There are custom functions to use sprites as retina or standard resolution. Examples can be found in **style.scss**.
+when new images are placed in static/toSprite the spritesheets and their sass partials need to be recompiled before they can be used. The dev server will do this automatically or you can run **gulp sprite-all** to compile them yourself. Each spritesheet is searchable in sass using the custom spriting mixins. You need to provide the variable name of the spritesheet and the original image name in order to find the sprite. There are custom functions to use sprites as retina or standard resolution. Examples can be found in **style.scss**.
 
 #### Spritesheet optimization
 
