@@ -1,5 +1,6 @@
 @import './hook-mixins/normalize';
-@import "bourbon";
+@import './libsass-compass/compass';
+@import './libsass-compass/compass/css3/transform';
 @import './hook-mixins/sprite-mixins';
 @import './spritesheets/sprite-collapsed-background';
 @import './spritesheets/sprite-collapsed-foreground';
