@@ -96,6 +96,15 @@ var App = function (config) {
         .then(bindCollapsed)
     }
   };
+  var bindCollapsed = function () {
+    collapsedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
+    collapsedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
+    collapsedContainer.querySelector('.expand').addEventListener('click', expandHandler);
+  };
+  var bindExpanded = function () {
+    expandedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
+    expandedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
+  };
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
@@ -154,25 +163,12 @@ var App = function (config) {
     }
   };
   var catchAllHandler = function () {
-    return adKit.exit(function () {
-       Enabler.exit ('catch_all');
-      })
+    return adKit.exit(adKit.catchAllExit)
       .then(exitHandler);
   };
   var ctaHandler = function () {
-    return adKit.exit(function () {
-      Enabler.exit ('cta');
-      })
+    return adKit.exit(adKit.ctaExit)
       .then(exitHandler)
-  };
-  var bindCollapsed = function () {
-    collapsedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
-    collapsedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
-    collapsedContainer.querySelector('.expand').addEventListener('click', expandHandler);
-  };
-  var bindExpanded = function () {
-    expandedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
-    expandedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
   };
   var expandHandler = function () {
     return expand();

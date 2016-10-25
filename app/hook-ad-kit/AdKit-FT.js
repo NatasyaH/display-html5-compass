@@ -215,6 +215,14 @@ var AdKit = {
       return true;
     }
     return false
-  }
+  },
+    catchAllExit: function () {
+      myFT.clickTag(1);
+
+    },
+    ctaExit: function () {
+      myFT.clickTag(2);
+
+    }
 };
 module.exports = AdKit;

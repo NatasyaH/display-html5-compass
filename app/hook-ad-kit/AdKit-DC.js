@@ -3,7 +3,6 @@ var RSVP = require('rsvp');
 var util = require('./Util');
 var PathUpdater = function (path) {
   var slice1 = path.slice(0);
-
   return slice1;
 };
 var getRichBase = function (baseURL) {
@@ -209,6 +208,12 @@ var AdKit = {
       return true;
     }
     return false;
+  },
+  catchAllExit: function () {
+    Enabler.exit('catch_all');
+  },
+  ctaExit: function () {
+    Enabler.exit('cta');
   }
 };
 module.exports = AdKit;
