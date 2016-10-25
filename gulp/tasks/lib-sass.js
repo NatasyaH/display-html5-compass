@@ -21,13 +21,13 @@ module.exports = function (gulp, bs, options, flags) {
     if (flags.sourcemap === true) {
       return gulp.src(options.src)
         .pipe(sourcemaps.init())
-        .pipe(sass({includePaths: [require("bourbon").includePaths]}).on('error', sass.logError))
+        .pipe(sass( /*{includePaths: [require("bourbon").includePaths]}*/).on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
     }
     return gulp.src(options.src)
-      .pipe(sass({includePaths: [require("bourbon").includePaths]}).on('error', sass.logError))
+      .pipe(sass(/*{includePaths: [require("bourbon").includePaths]}*/).on('error', sass.logError))
       .pipe(gulp.dest(options.dist))
       .pipe(bs.stream());
   }
