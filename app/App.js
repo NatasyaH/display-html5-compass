@@ -1,6 +1,5 @@
 'use strict';
 var RSVP = require('rsvp');
-var adKit = require('./hook-ad-kit/AdKit-DC');
 var shellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
@@ -12,6 +11,12 @@ RSVP.on('error', function (reason, label) {
   console.assert(false, reason);
 });
 var App = function (config) {
+  if (config.templateType === 'DC') {
+    var adKit = require('./hook-ad-kit/AdKit-DC');
+  }
+  if (config.templateType === 'FlashTalking') {
+    var adKit = require('./hook-ad-kit/AdKit-FT');
+  }
   var collapsedPartial = config.collapsedPartial;
   var expandedPartial = config.expandedPartial;
   var isAutoExpand = config.isAutoExpand;
