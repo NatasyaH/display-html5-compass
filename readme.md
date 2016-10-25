@@ -55,6 +55,10 @@ when new images are placed in static/toSprite the spritesheets and their sass pa
 
 When doing a dev **build** all the spritesheets are generated as .pngs. When a **prod** build both pngs and jpgs are generated. The **foreground** sheets will still use ths pngs while the **background** ones will use jpg. The jpgs are optimized with a compression of 80, the pngs are still there so you can optimize them again yourself if you want.
 
+### SASS Mixins
+
+Utility Mixins are provided by [compass-mixins](https://github.com/Igosuki/compass-mixins). These mixins are for the LibSass compiler while trying to be as close as possible to the original [Ruby Compass Mixins](http://compass-style.org/reference/compass/css3/).
+
 ### Images
 
 images for the spritesheets should go in /toSprite. Regular images go in /images. No image optimization is done at any time. Image optimization must be done by hand.
