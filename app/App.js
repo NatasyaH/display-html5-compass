@@ -140,6 +140,7 @@ var App = function (config) {
   var bindExpanded = function () {
     expandedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
     expandedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
+    expandedContainer.querySelector('.close').addEventListener('click', closeHandler);
   };
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
@@ -199,6 +200,11 @@ var App = function (config) {
       collapse();
     }
   };
+  var closeHandler = function () {
+      if (adKit.expanded()) {
+        collapse();
+      }
+    };
   var catchAllHandler = function () {
     return adKit.exit(adKit.catchAllExit)
       .then(exitHandler);

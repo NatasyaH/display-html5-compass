@@ -187,6 +187,18 @@ sprite-retina ($collapsed-background-map, 'keep')
 #expandedContainer {
   @extend #adRoot;
 
+  .close {
+    @extend .basic-button;
+    width: 100px;
+    height: 50px;
+    right: 0px;
+    top: 0px;
+    color: whitesmoke;
+    cursor: pointer;
+
+  }
+
+
   .content {
 
     @extend .size-expanded;
