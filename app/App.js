@@ -44,6 +44,7 @@ var App = function (config) {
     return RSVP.all(promises)
   };
 
+  // for the auto expand
   var autoExpand = function () {
     return adKit.requestExpand()
       .then(function () {
@@ -75,7 +76,7 @@ var App = function (config) {
       })
   };
 
-
+  // for the user expand
   var expand = function () {
     return adKit.requestExpand()
       .then(function () {
