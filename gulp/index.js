@@ -30,7 +30,9 @@ gulp.task('sprite-collapsed-foreground', require('./tasks/sprite-images')(gulp, 
 gulp.task('sprite-collapsed-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.collapsed_background, config.flags));
 gulp.task('sprite-expanded-foreground', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_foreground, config.flags));
 gulp.task('sprite-expanded-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.expanded_background, config.flags));
-gulp.task ('sprite-all', gulp.parallel ('sprite-collapsed-foreground','sprite-collapsed-background','sprite-expanded-foreground','sprite-expanded-background'));
+gulp.task('sprite-auto-expanded-foreground', require('./tasks/sprite-images')(gulp, bs, config.sprite.auto_expanded_foreground, config.flags));
+gulp.task('sprite-auto-expanded-background', require('./tasks/sprite-images')(gulp, bs, config.sprite.auto_expanded_background, config.flags));
+gulp.task ('sprite-all', gulp.parallel ('sprite-collapsed-foreground','sprite-collapsed-background','sprite-expanded-foreground','sprite-expanded-background','sprite-auto-expanded-foreground','sprite-auto-expanded-background'));
 //gulp.task('sprite-convert', require('./tasks/sprite-convert')(gulp, config.sprite.optimize, config.flags));
 
 gulp.task('scripts-app', require('./tasks/scripts-app')(gulp, bs, config.scripts, config.flags));
@@ -73,6 +75,8 @@ gulp.task('watch', function (done) {
   gulp.watch(config.sprite.collapsed_background.src, gulp.series('sprite-collapsed-background'));
   gulp.watch(config.sprite.expanded_foreground.src, gulp.series('sprite-expanded-foreground'));
   gulp.watch(config.sprite.expanded_background.src, gulp.series('sprite-expanded-background'));
+  gulp.watch(config.sprite.auto_expanded_foreground.src, gulp.series('sprite-auto-expanded-foreground'));
+  gulp.watch(config.sprite.auto_expanded_background.src, gulp.series('sprite-auto-expanded-background'));
 
   if (config.flags.type === "dev") {
     gulp.watch(config.vendor.src, gulp.series('scripts-vendor-dev'));

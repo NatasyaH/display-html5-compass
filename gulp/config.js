@@ -1,8 +1,6 @@
 'use strict';
 var dest = './dist';
-
 var path = require('path');
-
 var config = {
   flags: {
     minify: false,
@@ -72,6 +70,26 @@ var config = {
       prefix: 'expanded-background',
       jpg_conversion: true,
       quality: 80
+    },
+    auto_expanded_foreground: {
+      src: './static/toSprite/auto_expanded/foreground/**/*.png',
+      img_root: '/images/',
+      dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
+      dist_css: './sass/spritesheets',
+      prefix: 'auto-expanded-foreground',
+      jpg_conversion: false,
+      quality: 80
+    },
+    auto_expanded_background: {
+      src: './static/toSprite/auto_expanded/background/**/*.png',
+      img_root: '/images/',
+      dist_img: dest + '/images/',
+      dist_img_source: dest + '/images/_assets',
+      dist_css: './sass/spritesheets',
+      prefix: 'auto-expanded-background',
+      jpg_conversion: true,
+      quality: 80
     }
   },
   scripts: {
@@ -98,12 +116,12 @@ var config = {
     dist: dest
   },
   rename_backup: {
-        src: path.join(dest,  '/*.jpg'),
-        dist: path.join(dest )
-      },
+    src: path.join(dest, '/*.jpg'),
+    dist: path.join(dest)
+  },
   bundle: {
     dc: {
-      src: [dest + '/**/*.*','!' + dest + '/**/manifest.js', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
+      src: [dest + '/**/*.*', '!' + dest + '/**/manifest.js', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
       dist: dest,
       name: 'banner.zip'
     },
@@ -121,7 +139,7 @@ var config = {
           dest + '/**/*.{gif,jpg,png,svg}',
           '!' + dest + '/**/.*',
           '!' + dest + '/**/__*.png',
-          '!'+dest + '/*.{gif,jpg,png,svg}',
+          '!' + dest + '/*.{gif,jpg,png,svg}',
           dest + '/*.html'
         ]
       },
