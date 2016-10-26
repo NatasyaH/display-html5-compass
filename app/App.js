@@ -19,6 +19,9 @@ var App = function (config) {
   }
   var collapsedPartial = config.collapsedPartial;
   var expandedPartial = config.expandedPartial;
+  var autoExpandedPartial = config.autoExpandedPartial;
+
+
   var isAutoExpand = config.isAutoExpand;
   var autoExpandTimer = config.autoExpandTimer;
   var expandedContainer = document.querySelector('#expandedContainer');
@@ -32,11 +35,11 @@ var App = function (config) {
     console.log('preload');
     var promises = [];
     if (isAutoExpand === true) {
-      promises.push(loadContent(expandedPartial, expandedContainer));
+      promises.push(loadContent(autoExpandedPartial, expandedContainer));
     } else {
       promises.push(loadContent(collapsedPartial, collapsedContainer));
     }
-    // if you need to do more preloading do it here.
+    // if you need to do more preloading do it here and push your promises into the array
     return RSVP.all(promises)
   };
   var expand = function () {
@@ -116,6 +119,7 @@ var App = function (config) {
   var init = function () {
     collapsedPartial = adKit.patchURL(collapsedPartial);
     expandedPartial = adKit.patchURL(expandedPartial);
+    autoExpandedPartial = adKit.patchURL(autoExpandedPartial);
     cssUpdate();
     expandedPreloader.addEventListener('click', function () {
     });
