@@ -6,6 +6,8 @@
 @import './spritesheets/sprite-collapsed-foreground';
 @import './spritesheets/sprite-expanded-background';
 @import './spritesheets/sprite-expanded-foreground';
+@import './spritesheets/sprite-auto-expanded-background';
+@import './spritesheets/sprite-auto-expanded-foreground';
 
 /** set up variables **/
 $collapsed-width: 970px;
@@ -211,6 +213,37 @@ sprite-retina ($collapsed-background-map, 'keep')
       left: 100px;
       top: 150px;
       background-color: blue;
+
+    }
+
+  }
+
+  .auto-content {
+
+    @extend .size-expanded;
+    opacity: 0;
+    background-color: lightpink;
+    position: absolute;
+
+    img {
+      position: absolute;
+      left: 400px;
+
+    }
+
+    .catch-all {
+      @extend .size-expanded;
+      @extend .catch-all;
+
+    }
+
+    .cta {
+      @extend .basic-button;
+      width: 100px;
+      height: 50px;
+      left: 100px;
+      top: 150px;
+      background-color: lightskyblue;
 
     }
 
