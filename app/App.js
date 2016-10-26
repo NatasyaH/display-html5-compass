@@ -3,6 +3,7 @@ var RSVP = require('rsvp');
 var shellAnimationController = require('./controllers/ShellAnimationController');
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
+var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
 RSVP.on('error', function (reason, label) {
   if (label) {
@@ -42,6 +43,39 @@ var App = function (config) {
     // if you need to do more preloading do it here and push your promises into the array
     return RSVP.all(promises)
   };
+
+  var autoExpand = function () {
+    return adKit.requestExpand()
+      .then(function () {
+        return RSVP.all([
+          shellAnimationController.expand(),
+          shellAnimationController.preloaderAnimateIn()
+        ])
+      })
+      .then(function () {
+        return loadContent(autoExpandedPartial, expandedContainer)
+      }) // reload content on each expand
+      .then(shellAnimationController.preloaderAnimateOut)
+      .then(autoExpandedAnimationController.animateIn)
+      .then(bindExpanded)
+      .then(function () {
+        return util.removeChildren(collapsedContainer)
+      })
+      .then(function () {
+        startTimer()
+          .then(collapse)
+          .catch(function (value) {
+            console.log(value)
+          })
+      })// we don't return the promise here cuz we don't want the result holding execution
+      .then(adKit.completeExpand)
+      .catch(function (value) {
+        console.log(value);
+        console.log('failure on expand')
+      })
+  };
+
+
   var expand = function () {
     return adKit.requestExpand()
       .then(function () {
@@ -59,13 +93,6 @@ var App = function (config) {
       .then(function () {
         return util.removeChildren(collapsedContainer)
       })
-      .then(function () {
-        startTimer()
-          .then(collapse)
-          .catch(function (value) {
-            console.log(value)
-          })
-      })// we don't return the promise here cuz we don't want the result holding execution
       .then(adKit.completeExpand)
       .catch(function (value) {
         console.log(value);
@@ -98,7 +125,7 @@ var App = function (config) {
   var run = function () {
     console.log('run');
     if (isAutoExpand === true) {
-      return expand();
+      return autoExpand();
     } else {
       return collapsedAnimationController.animateIn()
         .then(bindCollapsed)
