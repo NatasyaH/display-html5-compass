@@ -15,6 +15,11 @@ module.exports = {
   getBaseURL: function () {
     var baseURL =  location.protocol + '//' + location.host + location.pathname.slice(0).replace(/\/index(.*?)\.html/,'/');
 
+    if (baseURL.charAt(baseURL.length-1) !=='/') {
+
+      baseURL = baseURL+'/'
+    }
+
 
     console.log(baseURL);
     return baseURL

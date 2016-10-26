@@ -12,7 +12,7 @@ var PathUpdater = function (path) {
 var getRichBase = function (baseURL) {
   var arr = baseURL.split('/');
   // named folder of base
-  var baseFolder = arr[arr.length - 1];
+  var baseFolder = arr[arr.length - 2];
   var richFolder = baseFolder + '-rich/';
   // if local testing just return base URL
   if (myFT.testMode === true) {
@@ -21,8 +21,8 @@ var getRichBase = function (baseURL) {
   if (myFT.get("serveDOM") === "") {
 
     // patch to richloads on staging
-    arr[arr.length - 2] = 'richLoads';
-    arr[arr.length - 1] = richFolder;
+    arr[arr.length - 3] = 'richLoads';
+    arr[arr.length - 2] = richFolder;
     return arr.join('/');
   } else {
     //path to richloads on CDN
