@@ -103,7 +103,7 @@ var config = {
       },
   bundle: {
     dc: {
-      src: [dest + '/**/*.*', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
+      src: [dest + '/**/*.*','!' + dest + '/**/manifest.js', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
       dist: dest,
       name: 'banner.zip'
     },

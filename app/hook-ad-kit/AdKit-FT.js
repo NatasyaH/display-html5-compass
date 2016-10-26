@@ -7,18 +7,7 @@ var PathUpdater = function (path) {
   var dom = myFT.get("serveDOM");
   var base = window.location.href.split(cid)[0];
   return slice1;
-  // local
-  if (myFT.testMode === true) {
-    return slice1;
-  }
-  if (myFT.get("serveDOM") === "") {
-    //staging path
-    base = path.replace("./", "../../richLoads/");
-  } else {
-    //cdn path
-    base = path.replace("./", "../");
-  }
-  return base;
+
 };
 var getRichBase = function (baseURL) {
   var arr = baseURL.split('/');

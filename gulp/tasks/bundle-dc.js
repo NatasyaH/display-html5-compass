@@ -22,6 +22,8 @@ module.exports = function (gulp, options, flags) {
     var arr = path.resolve(options.dist, '../');
     arr = arr.split(path.sep);
     var name = arr[arr.length - 1] + '.zip';
+
+    del.sync (path.join (options.dist,'/*.zip'));
     return gulp.src(options.src).on('error', gutil.log)
       .pipe(zip(name).on('error', gutil.log))
       .pipe(gulp.dest(options.dist).on('error', gutil.log));

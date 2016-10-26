@@ -13,13 +13,11 @@ module.exports = {
     });
   },
   getBaseURL: function () {
-    var baseURL = location.protocol + '//' + location.host + location.pathname;
-    var arr = baseURL.split('/');
-    if (arr[arr.length - 1].search('.html') != -1) {
-      arr.pop();
-    }
+    var baseURL =  location.protocol + '//' + location.host + location.pathname.slice(0).replace(/\/index(.*?)\.html/,'/');
+
+
     console.log(baseURL);
-    return baseURL = arr.join('/').slice(0);
+    return baseURL
 
 
   }
