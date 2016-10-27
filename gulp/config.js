@@ -108,7 +108,7 @@ var config = {
       src: dest + '/**/*.css'
     },
     js: {
-      src: dest + '/**/*.js'
+      src: [dest + '/**/*.js', '!' + dest + '/**/*manifest.js']
     },
     html: {
       src: dest + '/**/*.html'
