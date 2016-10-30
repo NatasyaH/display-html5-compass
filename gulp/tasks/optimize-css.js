@@ -15,8 +15,10 @@ var cleanCSS = require('gulp-clean-css');
 module.exports = function(gulp,  options, flags) {
   return function() {
     return gulp.src(options.css.src)
-      .pipe(cleanCSS())
+      .pipe(cleanCSS({roundingPrecision:-1 }))
       .pipe(gulp.dest(options.dist))
 
   };
 };
+
+
