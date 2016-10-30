@@ -16,8 +16,10 @@ var htmlmin = require('gulp-htmlmin');
 module.exports = function(gulp,  options, flags) {
   return function() {
     return gulp.src(options.html.src)
-      .pipe(htmlmin({collapseWhitespace: true,removeComments:true}))
+      .pipe(htmlmin({collapseWhitespace: true,conservativeCollapse:true,removeComments:true}))
       .pipe(gulp.dest(options.dist))
 
   };
 };
+
+
