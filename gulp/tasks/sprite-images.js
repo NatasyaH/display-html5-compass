@@ -18,6 +18,9 @@ var rename = require('gulp-simple-rename');
  */
 module.exports = function (gulp, bs, options, flags) {
   return function () {
+    var imagesDone = false;
+    var cssDone = false;
+    var inter = 0;
     var use_jpg = false;
     if (options.jpg_conversion === true /*&& flags.type === 'prod'*/) {
       use_jpg = true;
@@ -27,8 +30,8 @@ module.exports = function (gulp, bs, options, flags) {
       imgName: options.prefix + '-sprite.png',
       cssName: '_sprite-' + options.prefix + '.scss',
       padding: 4,
-      imgPath: '..'+options.img_root + options.prefix + '-sprite.png',
-      cssOpts: {functions: false,variableNameTransforms:[],  prefix: options.prefix + '-map', usejpg: use_jpg},
+      imgPath: '..' + options.img_root + options.prefix + '-sprite.png',
+      cssOpts: {functions: false, variableNameTransforms: [], prefix: options.prefix + '-map', usejpg: use_jpg},
       cssSpritesheetName: 'spritesheet',
       cssVarMap: function (sprite) {
         sprite.name = sprite.name;
@@ -38,7 +41,10 @@ module.exports = function (gulp, bs, options, flags) {
     // Pipe image stream through image optimizer and onto disk
     var imgStream = spriteData.img;
     if (use_jpg === false) {
-      imgStream.pipe(gulp.dest(options.dist_img));
+      imgStream.pipe(gulp.dest(options.dist_img)).on('finish', function () {
+        //console.log("!!! IMAGES DONE");
+        imagesDone = true;
+      });
     } else {
       // change file name and write png
       imgStream.pipe(rename(function (path) {
@@ -47,8 +53,8 @@ module.exports = function (gulp, bs, options, flags) {
         .pipe(gulp.dest(options.dist_img_source))
         // change file name back and write jpg
         .pipe(rename(function (path) {
-                  return path.replace('__', '');
-                }))
+          return path.replace('__', '');
+        }))
         .pipe(buffer())
         .pipe(jimp({
           '': {
@@ -56,13 +62,39 @@ module.exports = function (gulp, bs, options, flags) {
             quality: options.quality
           }
         }))
-        .pipe(gulp.dest(options.dist_img));
+        .pipe(gulp.dest(options.dist_img))
+        .on('finish', function () {
+          //console.log("!!! IMAGES DONE");
+          imagesDone = true;
+        });
     }
     // Pipe CSS stream through CSS optimizer and onto disk
     var cssStream = spriteData.css
-      .pipe(gulp.dest(options.dist_css));
+      .pipe(gulp.dest(options.dist_css))
+      .on('finish', function () {
+        //console.log("!!! CSS DONE");
+        cssDone = true
+      });
     // Return a merged stream to handle both `end` events
-    return merge(imgStream, cssStream)
-      .pipe(bs.stream());
+    return new Promise(function (resolve, reject) {
+      var endIt = function () {
+        resolve();
+      };
+      merge(imgStream, cssStream)
+        .pipe(bs.stream())
+        .on('finish', function () {
+          if (cssDone === true && imagesDone === true) {
+            endIt()
+          } else {
+            inter = setInterval(function () {
+              //console.log('test ', cssDone, imagesDone, options.prefix);
+              if (cssDone === true && imagesDone === true) {
+                clearInterval(inter);
+                endIt()
+              }
+            }, 250)
+          }
+        })
+    })
   };
 };
