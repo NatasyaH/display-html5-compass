@@ -62,7 +62,7 @@
 .bottom-collapsed-border {
 
   @extend .border;
-  width: $expanded-width;
+  width: $collapsed-width;
   top: $collapsed-height - 1;
 
 
