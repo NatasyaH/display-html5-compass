@@ -44,6 +44,28 @@ var App = function (config) {
     return RSVP.all(promises)
   };
 
+  var run = function () {
+    console.log('run');
+    if (isAutoExpand === true) {
+      return autoExpand();
+    } else {
+      return collapsedAnimationController.animateIn()
+        .then(bindCollapsed)
+    }
+  };
+  var bindCollapsed = function () {
+    collapsedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
+    collapsedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
+    collapsedContainer.querySelector('.expand').addEventListener('click', expandHandler);
+  };
+  var bindExpanded = function () {
+    expandedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
+    expandedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
+    expandedContainer.querySelector('.close').addEventListener('click', closeHandler);
+  };
+
+  // If your unit does not expand you can remove these functions. 
+
   // for the auto expand
   var autoExpand = function () {
     return adKit.requestExpand()
@@ -123,25 +145,10 @@ var App = function (config) {
         console.log('failure on collapse')
       })
   };
-  var run = function () {
-    console.log('run');
-    if (isAutoExpand === true) {
-      return autoExpand();
-    } else {
-      return collapsedAnimationController.animateIn()
-        .then(bindCollapsed)
-    }
-  };
-  var bindCollapsed = function () {
-    collapsedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
-    collapsedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
-    collapsedContainer.querySelector('.expand').addEventListener('click', expandHandler);
-  };
-  var bindExpanded = function () {
-    expandedContainer.querySelector('.catch-all').addEventListener('click', catchAllHandler);
-    expandedContainer.querySelector('.cta').addEventListener('click', ctaHandler);
-    expandedContainer.querySelector('.close').addEventListener('click', closeHandler);
-  };
+
+
+
+
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
