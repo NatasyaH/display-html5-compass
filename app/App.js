@@ -64,7 +64,7 @@ var App = function (config) {
     expandedContainer.querySelector('.close').addEventListener('click', closeHandler);
   };
 
-  // If your unit does not expand you can remove these functions. 
+  // If your unit does not expand you can remove these functions.
 
   // for the auto expand
   var autoExpand = function () {

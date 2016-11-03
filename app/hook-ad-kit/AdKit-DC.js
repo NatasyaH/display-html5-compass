@@ -19,21 +19,7 @@ var patchURL = function (text) {
   return absURL;
 };
 var AdKit = {
-  boot: function () {
-    var enablerCheck = function (method, state) {
-      var check = function () {
-        console.log(method());
-        return method()
-      };
-      return new RSVP.Promise(function (resolve, reject) {
-        return method() ? resolve() : Enabler.addEventListener(state, resolve);
-      })
-    }.bind(this);
-    var initPromise = enablerCheck(Enabler.isInitialized.bind(Enabler), studio.events.StudioEvent.INIT);
-    var loadPromise = enablerCheck(Enabler.isPageLoaded.bind(Enabler), studio.events.StudioEvent.PAGE_LOADED);
-    var visiblePromise = enablerCheck(Enabler.isVisible.bind(Enabler), studio.events.StudioEvent.VISIBLE);
-    return RSVP.all([initPromise, loadPromise, visiblePromise]);
-  },
+
   loadPartial: function (url) {
     return new RSVP.Promise(function (resolve, reject) {
       var loadComplete = function (response) {
@@ -110,73 +96,7 @@ var AdKit = {
         .then(resolve)
     });
   },
-  requestExpand: function () {
-    return new RSVP.Promise(function (resolve, reject) {
-      console.log('expansion requested');
-      // only allow expand if not expanding already
-      if (Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDED && Enabler.getContainerState() !== studio.sdk.ContainerState.EXPANDING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.EXPAND_START, func);
-          resolve('EXPANSION START')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, func);
-        Enabler.requestExpand();
-      } else {
-        reject('AlreadyExpanded');
-      }
-    });
-  },
-  completeExpand: function () {
-    return new RSVP.Promise(function (resolve, reject) {
-      console.log('complete expansion requested');
-      if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.EXPAND_FINISH, func);
-          resolve('EXPANSION COMPLETE')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, func);
-        Enabler.finishExpand();
-      } else {
-        reject('Expand Not Started so cant be completed');
-      }
-    });
-  },
-  requestCollapse: function () {
-    return new RSVP.Promise(function (resolve, reject) {
-       // only collapse if expanded
-      if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_START, func);
-          console.log('!!!!!');
-          resolve('COLLAPSE START')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, func);
-        Enabler.requestCollapse();
-      } else {
-        reject('AlreadyCollapsed');
-      }
-    });
-  },
-  completeCollapse: function () {
-    return new RSVP.Promise(function (resolve, reject) {
-      if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
-        var func = function () {
-          Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
-          resolve('COLLAPSE COMPLETE')
-        };
-        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
-        Enabler.finishCollapse();
-      } else {
-        reject('Collapse not started so cant complete');
-      }
-    });
-  },
-  exit: function (closure) {
-    return new RSVP.Promise(function (resolve, reject) {
-      Enabler.addEventListener(studio.events.StudioEvent.EXIT, resolve);
-      closure.call();
-    })
-  },
+
   patchCSS: function (styleSheet) {
     return new RSVP.Promise(function (resolve, reject) {
       var rules = styleSheet.cssRules || styleSheet.rules;
@@ -200,12 +120,7 @@ var AdKit = {
     })
   },
   patchURL: patchURL,
-  expanded: function () {
-    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
-      return true;
-    }
-    return false;
-  },
+
   catchAllExit: function () {
     Enabler.exit('catch_all');
   },
