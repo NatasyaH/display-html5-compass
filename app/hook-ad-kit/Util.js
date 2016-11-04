@@ -25,7 +25,12 @@ module.exports = {
     return baseURL
 
 
-  }
+  },
+  patchURL: function (text,richBase) {
+    var absURL = '';
+    absURL = text.replace(/\.\//g, richBase);
+    return absURL;
+  };
 };
 
 

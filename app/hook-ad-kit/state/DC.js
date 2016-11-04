@@ -2,7 +2,7 @@
 var RSVP = require('rsvp');
 var util = require('../Util');
 module.exports = function () {
-  function boot() {
+  var boot= function () {
     var enablerCheck = function (method, state) {
       var check = function () {
         console.log(method());
@@ -16,9 +16,9 @@ module.exports = function () {
     var loadPromise = enablerCheck(Enabler.isPageLoaded.bind(Enabler), studio.events.StudioEvent.PAGE_LOADED);
     var visiblePromise = enablerCheck(Enabler.isVisible.bind(Enabler), studio.events.StudioEvent.VISIBLE);
     return RSVP.all([initPromise, loadPromise, visiblePromise]);
-  }
+  };
 
-  function requestExpand() {
+ var requestExpand= function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('expansion requested');
       // only allow expand if not expanding already
@@ -33,9 +33,9 @@ module.exports = function () {
         reject('AlreadyExpanded');
       }
     });
-  }
+  };
 
-  function completeExpand() {
+  var completeExpand = function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('complete expansion requested');
       if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
@@ -49,9 +49,9 @@ module.exports = function () {
         reject('Expand Not Started so cant be completed');
       }
     });
-  }
+  };
 
-  function requestCollapse() {
+ var requestCollapse= function () {
     return new RSVP.Promise(function (resolve, reject) {
       // only collapse if expanded
       if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
@@ -66,9 +66,21 @@ module.exports = function () {
         reject('AlreadyCollapsed');
       }
     });
-  }
+  };
 
-  function completeCollapse() {
+  var completeCollapse =function () {
+    return new RSVP.Promise(function (resolve, reject) {
+      if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
+        var func = function () {
+          Enabler.removeEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
+          resolve('COLLAPSE COMPLETE')
+        };
+        Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, func);
+        Enabler.finishCollapse();
+      } else {
+        reject('Collapse not started so cant complete');
+      }
+    });
   }
 
   return {

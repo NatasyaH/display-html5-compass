@@ -175,15 +175,7 @@ var App = function (config) {
       }
     }
   };
-  var loadContent = function (url, container) {
-    console.log('loadContent');
-    container.classList.remove('hidden');
-    return adKit.loadPartial(url)
-      .then(function (value) {
-        value = adKit.patchURL(value);
-        return adKit.subloadPartial(container, value)
-      });
-  };
+
   var startTimer = function () {
     return new RSVP.Promise(function (resolve, reject) {
       if (autoExpandTimer === 0 || isAutoExpand === false) {
