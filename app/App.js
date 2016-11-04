@@ -60,7 +60,7 @@ var App = function (config) {
         ])
       })
       .then(function () {
-        return loadContent(autoExpandedPartial, expandedContainer)
+        return adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
@@ -180,6 +180,27 @@ var App = function (config) {
       item.addEventListener('click', closeHandler);
     });
   };
+
+  var startTimer = function () {
+    return new RSVP.Promise(function (resolve, reject) {
+      if (autoExpandTimer === 0 || isAutoExpand === false) {
+        reject('Timer reject ' + autoExpandTimer + ' ' + isAutoExpand + ' ' + adKit.expanded());
+        return
+      }
+      console.log('Start Auto Timer', adKit.expanded());
+      var func = function () {
+        console.log('Auto Timer', adKit.expanded());
+        if (adKit.expanded() === true) {
+          resolve()
+        } else {
+          reject('Timer reject ' + autoExpandTimer + ' ' + isAutoExpand + ' ' + adKit.expanded());
+        }
+      };
+      setTimeout(func, autoExpandTimer);
+    })
+  };
+
+
   var exitHandler = function () {
     if (adKit.expanded()) {
       collapse();
