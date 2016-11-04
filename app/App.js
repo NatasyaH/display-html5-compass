@@ -19,29 +19,25 @@ var App = function (config) {
   var isAutoExpand = config.isAutoExpand;
   var autoExpandTimer = config.autoExpandTimer;
   var exits = config.exits;
-
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
-
-
   var baseURL = util.getBaseURL();
   var richBaseURL = adKit.getRichBase(baseURL);
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
   //*************************************************************************************************
   var preload = function () {
-      console.log('preload');
-      var promises = [];
-      if (isAutoExpand === true) {
-        promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer,richBaseURL));
-      } else {
-        promises.push(adKit.loadContent(collapsedPartial, collapsedContainer,richBaseURL));
-      }
-      // if you need to do more preloading do it here and push your promises into the array
-      return RSVP.all(promises)
-    };
-
+    console.log('preload');
+    var promises = [];
+    if (isAutoExpand === true) {
+      promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL));
+    } else {
+      promises.push(adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL));
+    }
+    // if you need to do more preloading do it here and push your promises into the array
+    return RSVP.all(promises)
+  };
   var run = function () {
     console.log('run');
     if (isAutoExpand === true) {
@@ -51,19 +47,15 @@ var App = function (config) {
         .then(bindCollapsed)
     }
   };
-
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
-
-
-
   var init = function () {
     console.log(baseURL);
     console.log(richBaseURL);
-    collapsedPartial = adKit.patchURL(collapsedPartial,richBaseURL);
-    expandedPartial = adKit.patchURL(expandedPartial,richBaseURL);
-    autoExpandedPartial = adKit.patchURL(autoExpandedPartial,richBaseURL);
+    collapsedPartial = adKit.patchURL(collapsedPartial, richBaseURL);
+    expandedPartial = adKit.patchURL(expandedPartial, richBaseURL);
+    autoExpandedPartial = adKit.patchURL(autoExpandedPartial, richBaseURL);
     cssUpdate();
     expandedPreloader.addEventListener('click', function () {
     });
@@ -73,7 +65,6 @@ var App = function (config) {
     return adKit.boot()
       .then(preload)
       .then(run)
-
   };
   var cssUpdate = function () {
     for (var i = 0; i < document.styleSheets.length; i++) {
@@ -83,29 +74,40 @@ var App = function (config) {
       }
     }
   };
-
-
   var bindCollapsed = function () {
-    collapsedContainer.querySelectorAll('.catch-all').addEventListener('click', catchAllHandler);
-    collapsedContainer.querySelectorAll('.cta').addEventListener('click', ctaHandler);
-    collapsedContainer.querySelectorAll('.expand').addEventListener('click', expandHandler);
+
+
+    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.catch-all')).map(function (item) {
+      item.addEventListener('click', catchAllHandler);
+    });
+    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.cta')).map (function (item) {
+      item.addEventListener('click', ctaHandler);
+    });
+    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.expand')).map (function (item) {
+      item.addEventListener('click', expandHandler);
+    });
   };
   var bindExpanded = function () {
-    expandedContainer.querySelectorAll('.catch-all').addEventListener('click', catchAllHandler);
-    expandedContainer.querySelectorAll('.cta').addEventListener('click', ctaHandler);
-    expandedContainer.querySelectorAll('.close').addEventListener('click', closeHandler);
+    Array.prototype.slice.call( expandedContainer.querySelectorAll('.catch-all')).map(function (item) {
+      item.addEventListener('click', catchAllHandler);
+    });
+    Array.prototype.slice.call(expandedContainer.querySelectorAll('.cta')).map (function (item) {
+      item.addEventListener('click', ctaHandler);
+    });
+    Array.prototype.slice.call(expandedContainer.querySelectorAll('.close')).map (function (item) {
+      item.addEventListener('click', closeHandler);
+    });
   };
-
   var exitHandler = function () {
-    if (adKit.expanded()) {
+    if (adKit.expanded) {
       collapse();
     }
   };
   var closeHandler = function () {
-      if (adKit.expanded()) {
-        collapse();
-      }
-    };
+    if (adKit.expanded) {
+      collapse();
+    }
+  };
   var catchAllHandler = function () {
     return adKit.exit(exits['catch_all'])
       .then(exitHandler);
@@ -117,8 +119,6 @@ var App = function (config) {
   var expandHandler = function () {
     return expand();
   };
-
-
   return {
     init: init
   };

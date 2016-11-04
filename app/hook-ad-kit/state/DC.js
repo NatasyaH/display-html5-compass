@@ -81,7 +81,16 @@ module.exports = function () {
         reject('Collapse not started so cant complete');
       }
     });
-  }
+  };
+
+  var exit= function (closure) {
+      return new RSVP.Promise(function (resolve, reject) {
+        Enabler.addEventListener(studio.events.StudioEvent.EXIT, resolve);
+        closure.call();
+      })
+    };
+
+
 
   return {
     boot: boot,
@@ -89,6 +98,7 @@ module.exports = function () {
     completeExpand: completeExpand,
     requestCollapse: requestCollapse,
     completeCollapse: completeCollapse,
+    exit:exit,
     get expanded() {
       if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
         return true;
