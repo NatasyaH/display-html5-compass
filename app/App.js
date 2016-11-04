@@ -5,10 +5,16 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
+
+var ErrorStackParser = require ('error-stack-parser');
+
 RSVP.on('error', function (reason, label) {
   if (label) {
     console.error(label);
   }
+
+  console.log ( ErrorStackParser.parse(reason));
+
   console.assert(false, reason);
 });
 var App = function (config) {
