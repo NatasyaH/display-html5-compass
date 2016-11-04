@@ -103,21 +103,23 @@ module.exports = function () {
     });
   };
 
-  var loadContent = function  (url, container,patchURL) {
+  var patchURL= function (text,richBase) {
+       var absURL = '';
+       absURL = text.replace(/\.\//g, richBase);
+       return absURL;
+     };
+
+  var loadContent = function  (url, container,richBaseURL) {
       console.log('loadContent');
       container.classList.remove('hidden');
       return loadPartial(url)
         .then(function (value) {
-          value = patchURL(value);
+          value = patchURL(value,richBaseURL);
           return subloadPartial(container, value)
         });
     };
 
-  var patchURL= function (text,richBase) {
-      var absURL = '';
-      absURL = text.replace(/\.\//g, richBase);
-      return absURL;
-    };
+
 
 
   return {

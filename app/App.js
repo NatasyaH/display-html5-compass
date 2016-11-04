@@ -30,24 +30,36 @@ var App = function (config) {
       console.log('preload');
       var promises = [];
       if (isAutoExpand === true) {
-        promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer));
+        promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer,richBaseURL));
       } else {
-        promises.push(adKit.loadContent(collapsedPartial, collapsedContainer));
+        promises.push(adKit.loadContent(collapsedPartial, collapsedContainer,richBaseURL));
       }
       // if you need to do more preloading do it here and push your promises into the array
       return RSVP.all(promises)
     };
 
+  var run = function () {
+    console.log('run');
+    if (isAutoExpand === true) {
+      return autoExpand();
+    } else {
+      return collapsedAnimationController.animateIn()
+        .then(bindCollapsed)
+    }
+  };
 
   //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
+
+
+
   var init = function () {
     console.log(baseURL);
     console.log(richBaseURL);
-    collapsedPartial = adKit.patchURL(collapsedPartial);
-    expandedPartial = adKit.patchURL(expandedPartial);
-    autoExpandedPartial = adKit.patchURL(autoExpandedPartial);
+    collapsedPartial = adKit.patchURL(collapsedPartial,richBaseURL);
+    expandedPartial = adKit.patchURL(expandedPartial,richBaseURL);
+    autoExpandedPartial = adKit.patchURL(autoExpandedPartial,richBaseURL);
     cssUpdate();
     expandedPreloader.addEventListener('click', function () {
     });
@@ -56,6 +68,8 @@ var App = function (config) {
     }
     return adKit.boot()
       .then(preload)
+      .then(run)
+
   };
   var cssUpdate = function () {
     for (var i = 0; i < document.styleSheets.length; i++) {
@@ -65,6 +79,19 @@ var App = function (config) {
       }
     }
   };
+
+
+  var bindCollapsed = function () {
+    collapsedContainer.querySelectorAll('.catch-all').addEventListener('click', catchAllHandler);
+    collapsedContainer.querySelectorAll('.cta').addEventListener('click', ctaHandler);
+    collapsedContainer.querySelectorAll('.expand').addEventListener('click', expandHandler);
+  };
+  var bindExpanded = function () {
+    expandedContainer.querySelectorAll('.catch-all').addEventListener('click', catchAllHandler);
+    expandedContainer.querySelectorAll('.cta').addEventListener('click', ctaHandler);
+    expandedContainer.querySelectorAll('.close').addEventListener('click', closeHandler);
+  };
+
   return {
     init: init
   };
