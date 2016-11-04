@@ -5,17 +5,31 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-
-var ErrorStackParser = require ('error-stack-parser');
-
+var ErrorStackParser = require('error-stack-parser');
+var StackTraceGPS = require('stacktrace-gps');
 RSVP.on('error', function (reason, label) {
+  console.warn('ERROR');
   if (label) {
     console.error(label);
   }
-
-  console.log ( ErrorStackParser.parse(reason));
-
-  console.assert(false, reason);
+  var callback = function myCallback(foundFunctionName) {
+    console.warn(foundFunctionName);
+  };
+  // Such meta. Wow
+  var errback = function myErrback(error) {
+    console.warn(StackTrace.fromError(error));
+  };
+  var parsed = ErrorStackParser.parse(reason);
+  var lastFrame = parsed[0];
+  console.warn(parsed);
+  var gps = new StackTraceGPS();
+  RSVP.all([
+    gps.pinpoint(lastFrame).then(callback, errback),
+    gps.getMappedLocation(lastFrame).then(callback, errback),
+    gps.findFunctionName(lastFrame).then(callback, errback)
+  ]).then(function () {
+    console.assert(false, reason);
+  })
 });
 var App = function (config) {
   var adKit = require('./hook-ad-kit/Adkit')(config.templateType);
@@ -186,7 +200,6 @@ var App = function (config) {
       item.addEventListener('click', closeHandler);
     });
   };
-
   var startTimer = function () {
     return new RSVP.Promise(function (resolve, reject) {
       if (autoExpandTimer === 0 || isAutoExpand === false) {
@@ -205,8 +218,6 @@ var App = function (config) {
       setTimeout(func, autoExpandTimer);
     })
   };
-
-
   var exitHandler = function () {
     if (adKit.expanded()) {
       collapse();
@@ -215,7 +226,6 @@ var App = function (config) {
   var closeHandler = function () {
     if (adKit.expanded()) {
       adKit.defaultClose();
-
       collapse();
     }
   };
