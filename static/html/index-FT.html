@@ -36,7 +36,15 @@
     autoExpandedPartial: './auto-expanded.html',
     isAutoExpand: false,
     autoExpandTimer: 8000,
-    templateType : document.querySelector("meta[name='template.type']").getAttribute('content')
+    templateType : document.querySelector("meta[name='template.type']").getAttribute('content'),
+    exits: {
+          catch_all: function catchAll() {
+            myFT.clickTag(1);
+          },
+          cta:function cta(){
+            myFT.clickTag(2);
+          }
+        }
   };
 
 </script>
