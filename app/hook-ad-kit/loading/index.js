@@ -9,7 +9,7 @@ module.exports = function () {
         var rule = rules[j];
         if (rule.cssText.search('../images') != -1) {
           // console.log(rule.cssText);
-          //console.log(rule.style.backgroundImage);
+          console.log(rule.style.backgroundImage);
           var oldURL = rule.style.backgroundImage.slice(0);
           var oldURLsplit = oldURL.split('/');
           var oldRel = oldURLsplit[oldURLsplit.length - 2] + '/' + oldURLsplit[oldURLsplit.length - 1];

@@ -157,8 +157,8 @@ var App = function (config) {
     expandedPartial = adKit.patchURL(expandedPartial);
     autoExpandedPartial = adKit.patchURL(autoExpandedPartial);
     cssUpdate();
-    expandedPreloader.addEventListener('click', function () {
-    });
+    expandedPreloader.addEventListener('click', function () {});
+
     if (isAutoExpand === true) {
     } else {
       expandedContainer.classList.add('hidden');
