@@ -45,9 +45,9 @@ var App = function (config) {
   var init = function () {
     console.log(baseURL);
     console.log(richBaseURL);
-    collapsedPartial = util.patchURL(collapsedPartial);
-    expandedPartial = util.patchURL(expandedPartial);
-    autoExpandedPartial = util.patchURL(autoExpandedPartial);
+    collapsedPartial = adKit.patchURL(collapsedPartial);
+    expandedPartial = adKit.patchURL(expandedPartial);
+    autoExpandedPartial = adKit.patchURL(autoExpandedPartial);
     cssUpdate();
     expandedPreloader.addEventListener('click', function () {
     });

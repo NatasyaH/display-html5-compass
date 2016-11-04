@@ -113,9 +113,16 @@ module.exports = function () {
         });
     };
 
+  var patchURL= function (text,richBase) {
+      var absURL = '';
+      absURL = text.replace(/\.\//g, richBase);
+      return absURL;
+    };
+
 
   return {
     patchCSS: patchCSS,
-    loadContent:loadContent
+    loadContent:loadContent,
+    patchURL:patchURL
   }
 };
