@@ -23,6 +23,7 @@ gulp.task('prod', function (done) {
 // define stackable tasks
 gulp.task('clean', require('./tasks/clean')(gulp, config.clean));
 gulp.task('html', require('./tasks/html')(gulp, bs, config.html, config.flags));
+gulp.task('ft-manifest', require('./tasks/ft-manifest')(gulp, bs, config.ft_manifest, config.flags));
 gulp.task('sass', require('./tasks/lib-sass')(gulp, bs, config.sass, config.flags));
 gulp.task('images', require('./tasks/images')(gulp, bs, config.images));
 
@@ -86,8 +87,8 @@ gulp.task('watch', function (done) {
   }
   done();
 });
-gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass','rename-standard' ))));
-gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all','sass','rename-standard' ))));
+gulp.task('build-dev', gulp.series('dev', 'clean', gulp.parallel('html','ft-manifest', 'scripts-vendor-dev', 'scripts-app', 'images',gulp.series('sprite-all', 'sass','rename-standard' ))));
+gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html','ft-manifest', 'scripts-vendor', 'scripts-app', 'images', gulp.series('sprite-all','sass','rename-standard' ))));
 gulp.task('build-prod-optimize', gulp.series('build-prod', gulp.parallel('optimize-css', 'optimize-js', 'optimize-html')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));

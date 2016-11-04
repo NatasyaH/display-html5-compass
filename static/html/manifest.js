@@ -12,6 +12,6 @@ FT.manifest({
   },
   "richLoads": [{
   		"name": "rich",
-  		"src": "display-html5-compass-rich"
+  		"src": "RICH-NAME"
   	}]
 });

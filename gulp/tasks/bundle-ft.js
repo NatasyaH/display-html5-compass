@@ -41,7 +41,7 @@ module.exports = function (gulp, options, flags) {
           .pipe(gulp.dest(options.dist).on('error', gutil.log));
 
 
-    return merge(baseZip)
+    return merge(baseZip,richZip)
 
 
 

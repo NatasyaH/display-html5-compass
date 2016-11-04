@@ -16,10 +16,16 @@ var config = {
     dist: dest + '/css/'
   },
   html: {
-    src: './static/html/**/!(*.fla|*.md)',
+    src: './static/html/**/!(*.fla|*.md|*.js)',
     entry: './static/html/index.html',
     dist: dest
   },
+  ft_manifest: {
+      src: './static/html/**/*manifest.js',
+      entry: './static/html/index.html',
+      dist: dest
+    },
+
   sass: {
     src: './sass/**/*.scss',
     watch_src: ['./sass/**/*.scss', '!./sass/spritesheets/**/*.scss'],
