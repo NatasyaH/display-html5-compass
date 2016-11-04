@@ -16,6 +16,9 @@ var AdKit = function (kit) {
 
   }
   if (kit === AdKit.FT) {
+    mapToObject(require('./state/FT')(), ret);
+        mapToObject(require('./loading/url/FT')(), ret);
+
   }
   return ret;
 };

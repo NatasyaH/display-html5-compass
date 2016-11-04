@@ -23,7 +23,7 @@ var App = function (config) {
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
   var baseURL = util.getBaseURL();
-  var richBaseURL = adKit.getRichBase(baseURL);
+  var richBaseURL = null;
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
   //*************************************************************************************************
@@ -132,18 +132,21 @@ var App = function (config) {
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
   var init = function () {
-    console.log(baseURL);
-    console.log(richBaseURL);
-    collapsedPartial = adKit.patchURL(collapsedPartial, richBaseURL);
-    expandedPartial = adKit.patchURL(expandedPartial, richBaseURL);
-    autoExpandedPartial = adKit.patchURL(autoExpandedPartial, richBaseURL);
-    cssUpdate();
-    expandedPreloader.addEventListener('click', function () {
-    });
-    if (isAutoExpand !== true) {
-      expandedContainer.classList.add('hidden');
-    }
     return adKit.boot()
+      .then(function () {
+        richBaseURL = adKit.getRichBase(baseURL);
+        console.log(baseURL);
+        console.log(richBaseURL);
+        collapsedPartial = adKit.patchURL(collapsedPartial, richBaseURL);
+        expandedPartial = adKit.patchURL(expandedPartial, richBaseURL);
+        autoExpandedPartial = adKit.patchURL(autoExpandedPartial, richBaseURL);
+        cssUpdate();
+        expandedPreloader.addEventListener('click', function () {
+        });
+        if (isAutoExpand !== true) {
+          expandedContainer.classList.add('hidden');
+        }
+      })
       .then(preload)
       .then(run)
   };

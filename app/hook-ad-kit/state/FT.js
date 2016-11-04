@@ -8,13 +8,17 @@ var collapsed = "collapsed";
 var state = collapsed;
 module.exports = function () {
   var boot = function () {
-    return new RSVP.Promise(function (resolve, reject) {
-      if (myFT.hasLoaded === true) {
+    var readyPromise = new RSVP.Promise(function (resolve, reject) {
+
+      var func = function () {
+        console.log ('FT READY')
         resolve();
-      } else {
-        myFT.on("ready", resolve);
       }
-    })
+
+      myFT.on("ready", func);
+    });
+
+    return readyPromise;
   };
   var requestExpand = function () {
     return new RSVP.Promise(function (resolve, reject) {
