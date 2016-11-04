@@ -2,7 +2,7 @@
 var RSVP = require('rsvp');
 var util = require('../Util');
 module.exports = function () {
-  var boot= function () {
+  var boot = function () {
     var enablerCheck = function (method, state) {
       var check = function () {
         console.log(method());
@@ -17,8 +17,7 @@ module.exports = function () {
     var visiblePromise = enablerCheck(Enabler.isVisible.bind(Enabler), studio.events.StudioEvent.VISIBLE);
     return RSVP.all([initPromise, loadPromise, visiblePromise]);
   };
-
- var requestExpand= function () {
+  var requestExpand = function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('expansion requested');
       // only allow expand if not expanding already
@@ -34,7 +33,6 @@ module.exports = function () {
       }
     });
   };
-
   var completeExpand = function () {
     return new RSVP.Promise(function (resolve, reject) {
       console.log('complete expansion requested');
@@ -50,8 +48,7 @@ module.exports = function () {
       }
     });
   };
-
- var requestCollapse= function () {
+  var requestCollapse = function () {
     return new RSVP.Promise(function (resolve, reject) {
       // only collapse if expanded
       if (Enabler.getContainerState() == studio.sdk.ContainerState.EXPANDED) {
@@ -67,8 +64,7 @@ module.exports = function () {
       }
     });
   };
-
-  var completeCollapse =function () {
+  var completeCollapse = function () {
     return new RSVP.Promise(function (resolve, reject) {
       if (Enabler.getContainerState() === studio.sdk.ContainerState.COLLAPSING) {
         var func = function () {
@@ -82,28 +78,26 @@ module.exports = function () {
       }
     });
   };
-
-  var exit= function (closure) {
-      return new RSVP.Promise(function (resolve, reject) {
-        Enabler.addEventListener(studio.events.StudioEvent.EXIT, resolve);
-        closure.call();
-      })
-    };
-
-
-
+  var exit = function (closure) {
+    return new RSVP.Promise(function (resolve, reject) {
+      Enabler.addEventListener(studio.events.StudioEvent.EXIT, resolve);
+      closure.call();
+    })
+  };
+  var expanded = function () {
+   // console.log(Enabler.getContainerState());
+    if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
+      return true;
+    }
+    return false;
+  };
   return {
     boot: boot,
     requestExpand: requestExpand,
     completeExpand: completeExpand,
     requestCollapse: requestCollapse,
     completeCollapse: completeCollapse,
-    exit:exit,
-    get expanded() {
-      if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
-        return true;
-      }
-      return false;
-    }
-  }
+    exit: exit,
+    expanded: expanded
+  };
 };

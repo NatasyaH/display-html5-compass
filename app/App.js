@@ -48,6 +48,87 @@ var App = function (config) {
     }
   };
   //*************************************************************************************************
+  // EXPANDING TEMPLATE -  YOu will need to edit these - They can be deleted if your unit is in page.
+  //*************************************************************************************************
+  // for the auto expand
+  var autoExpand = function () {
+    return adKit.requestExpand()
+      .then(function () {
+        return RSVP.all([
+          shellAnimationController.expand(),
+          shellAnimationController.preloaderAnimateIn()
+        ])
+      })
+      .then(function () {
+        return loadContent(autoExpandedPartial, expandedContainer)
+      }) // reload content on each expand
+      .then(shellAnimationController.preloaderAnimateOut)
+      .then(autoExpandedAnimationController.animateIn)
+      .then(bindExpanded)
+      .then(function () {
+        return util.removeChildren(collapsedContainer)
+      })
+      .then(function () {
+        startTimer()
+          .then(collapse)
+          .catch(function (value) {
+            console.log(value)
+          })
+      })// we don't return the promise here cuz we don't want the result holding execution
+      .then(adKit.completeExpand)
+      .catch(function (value) {
+        console.log(value);
+        console.log('failure on expand')
+      })
+  };
+  // for the user expand
+  var expand = function () {
+    return adKit.requestExpand()
+      .then(function () {
+        return RSVP.all([
+          shellAnimationController.expand(),
+          shellAnimationController.preloaderAnimateIn()
+        ])
+      })
+      .then(function () {
+        return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
+      }) // reload content on each expand
+      .then(shellAnimationController.preloaderAnimateOut)
+      .then(expandedAnimationController.animateIn)
+      .then(bindExpanded)
+      .then(function () {
+        return util.removeChildren(collapsedContainer)
+      })
+      .then(adKit.completeExpand)
+      .catch(function (value) {
+        console.log(value);
+        console.log('failure on expand')
+      })
+  };
+  var collapse = function () {
+    return adKit.requestCollapse()
+      .then(shellAnimationController.collapse)
+      .then(function () {
+        expandedContainer.classList.add('hidden');
+      })
+      .then(function () {
+        return adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL)
+      })
+      .then(collapsedAnimationController.animateIn)
+      .then(bindCollapsed)
+      .then(function () {
+        return util.removeChildren(expandedContainer)
+      })
+      .then(adKit.completeCollapse)
+      .then(function () {
+        isAutoExpand = false
+      })
+      .catch(function (value) {
+        console.log(value);
+        console.log('failure on collapse')
+      })
+  };
+  //*************************************************************************************************
   // TEMPLATE - SHOULD NOT NEED TO MODIFY
   //*************************************************************************************************
   var init = function () {
@@ -75,36 +156,34 @@ var App = function (config) {
     }
   };
   var bindCollapsed = function () {
-
-
     Array.prototype.slice.call(collapsedContainer.querySelectorAll('.catch-all')).map(function (item) {
       item.addEventListener('click', catchAllHandler);
     });
-    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.cta')).map (function (item) {
+    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.cta')).map(function (item) {
       item.addEventListener('click', ctaHandler);
     });
-    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.expand')).map (function (item) {
+    Array.prototype.slice.call(collapsedContainer.querySelectorAll('.expand')).map(function (item) {
       item.addEventListener('click', expandHandler);
     });
   };
   var bindExpanded = function () {
-    Array.prototype.slice.call( expandedContainer.querySelectorAll('.catch-all')).map(function (item) {
+    Array.prototype.slice.call(expandedContainer.querySelectorAll('.catch-all')).map(function (item) {
       item.addEventListener('click', catchAllHandler);
     });
-    Array.prototype.slice.call(expandedContainer.querySelectorAll('.cta')).map (function (item) {
+    Array.prototype.slice.call(expandedContainer.querySelectorAll('.cta')).map(function (item) {
       item.addEventListener('click', ctaHandler);
     });
-    Array.prototype.slice.call(expandedContainer.querySelectorAll('.close')).map (function (item) {
+    Array.prototype.slice.call(expandedContainer.querySelectorAll('.close')).map(function (item) {
       item.addEventListener('click', closeHandler);
     });
   };
   var exitHandler = function () {
-    if (adKit.expanded) {
+    if (adKit.expanded()) {
       collapse();
     }
   };
   var closeHandler = function () {
-    if (adKit.expanded) {
+    if (adKit.expanded()) {
       collapse();
     }
   };
