@@ -208,6 +208,8 @@ var App = function (config) {
   };
   var closeHandler = function () {
     if (adKit.expanded()) {
+      adKit.defaultClose();
+
       collapse();
     }
   };

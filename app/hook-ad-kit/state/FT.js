@@ -69,6 +69,13 @@ module.exports = function () {
       resolve()
     })
   };
+
+  var defaultClose = function () {
+
+      Enabler.reportManualClose()
+
+    };
+
   var expanded = function () {
     if (state === expanding || state === expanded) {
       return true;
@@ -82,6 +89,7 @@ module.exports = function () {
     requestCollapse: requestCollapse,
     completeCollapse: completeCollapse,
     exit: exit,
-    expanded: expanded
+    expanded: expanded,
+    defaultClose:defaultClose
   };
 };

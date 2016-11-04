@@ -84,6 +84,13 @@ module.exports = function () {
       closure.call();
     })
   };
+
+  var defaultClose = function () {
+
+    Enabler.reportManualClose()
+
+  };
+
   var expanded = function () {
    // console.log(Enabler.getContainerState());
     if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
@@ -98,6 +105,7 @@ module.exports = function () {
     requestCollapse: requestCollapse,
     completeCollapse: completeCollapse,
     exit: exit,
-    expanded: expanded
+    expanded: expanded,
+    defaultClose:defaultClose
   };
 };
