@@ -31,7 +31,7 @@ module.exports = function () {
         return resolve(response);
       };
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', PathUpdater(url));//TODO: make this not dependent on PathUpdater. move this out
+      xhr.open('GET', url);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           loadComplete(xhr.responseText);

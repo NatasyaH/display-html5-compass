@@ -30,7 +30,7 @@ module.exports = {
     var absURL = '';
     absURL = text.replace(/\.\//g, richBase);
     return absURL;
-  };
-};
+  }
+}
 
 
