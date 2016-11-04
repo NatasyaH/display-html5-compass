@@ -18,9 +18,13 @@ var App = function (config) {
   var autoExpandedPartial = config.autoExpandedPartial;
   var isAutoExpand = config.isAutoExpand;
   var autoExpandTimer = config.autoExpandTimer;
+  var exits = config.exits;
+
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
+
+
   var baseURL = util.getBaseURL();
   var richBaseURL = adKit.getRichBase(baseURL);
   //*************************************************************************************************
@@ -91,6 +95,29 @@ var App = function (config) {
     expandedContainer.querySelectorAll('.cta').addEventListener('click', ctaHandler);
     expandedContainer.querySelectorAll('.close').addEventListener('click', closeHandler);
   };
+
+  var exitHandler = function () {
+    if (adKit.expanded()) {
+      collapse();
+    }
+  };
+  var closeHandler = function () {
+      if (adKit.expanded()) {
+        collapse();
+      }
+    };
+  var catchAllHandler = function () {
+    return adKit.exit(exits['catch_all'])
+      .then(exitHandler);
+  };
+  var ctaHandler = function () {
+    return adKit.exit(exits['cta'])
+      .then(exitHandler)
+  };
+  var expandHandler = function () {
+    return expand();
+  };
+
 
   return {
     init: init
