@@ -12,6 +12,6 @@ FT.manifest({
   },
   "richLoads": [{
   		"name": "rich",
-  		"src": "rich"
+  		"src": "RICH-NAME"
   	}]
 });
