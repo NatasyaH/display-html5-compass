@@ -7,18 +7,14 @@ var AdKit = function (kit) {
       target[props[i]] = source[props[i]];
     }
   };
-
   mapToObject(require('./loading')(), ret);
-
   if (kit === AdKit.DC) {
     mapToObject(require('./state/DC')(), ret);
     mapToObject(require('./loading/url/DC')(), ret);
-
   }
   if (kit === AdKit.FT) {
     mapToObject(require('./state/FT')(), ret);
-        mapToObject(require('./loading/url/FT')(), ret);
-
+    mapToObject(require('./loading/url/FT')(), ret);
   }
   return ret;
 };

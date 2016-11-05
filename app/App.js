@@ -5,32 +5,8 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-var ErrorStackParser = require('error-stack-parser');
-var StackTraceGPS = require('stacktrace-gps');
-RSVP.on('error', function (reason, label) {
-  console.warn('ERROR');
-  if (label) {
-    console.error(label);
-  }
-  var callback = function myCallback(foundFunctionName) {
-    console.warn(foundFunctionName);
-  };
-  // Such meta. Wow
-  var errback = function myErrback(error) {
-    console.warn(StackTrace.fromError(error));
-  };
-  var parsed = ErrorStackParser.parse(reason);
-  var lastFrame = parsed[0];
-  console.warn(parsed);
-  var gps = new StackTraceGPS();
-  RSVP.all([
-    gps.pinpoint(lastFrame).then(callback, errback),
-    gps.getMappedLocation(lastFrame).then(callback, errback),
-    gps.findFunctionName(lastFrame).then(callback, errback)
-  ]).then(function () {
-    console.assert(false, reason);
-  })
-});
+
+RSVP.on('error',require ('./hook-ad-kit/ErrorHandler'));
 var App = function (config) {
   var adKit = require('./hook-ad-kit/Adkit')(config.templateType);
   var collapsedPartial = config.collapsedPartial;
