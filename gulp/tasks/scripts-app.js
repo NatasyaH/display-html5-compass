@@ -7,7 +7,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
-var exorcist   = require('exorcist');
+var exorcist = require('exorcist');
 var preprocessify = require('preprocessify');
 /**
  * @param gulp - function
@@ -20,38 +20,29 @@ var preprocessify = require('preprocessify');
  * flags.sourcemap : boolean
  * @returns {Function}
  */
-module.exports = function(gulp, bs, options, flags) {
-
-
-
-
-  return function() {
-
+module.exports = function (gulp, bs, options, flags) {
+  return function () {
     var opt = {"DEBUG": true};
-
     if (flags.sourcemap !== true) {
-
       opt = {}
     }
-
-
     var bundler = browserify(options.app.entry, {
       debug: flags.sourcemap,
       cache: {}
     }).transform(preprocessify, {
-                includeExtensions: ['.js'],
-                context:opt // This will replace "/* @echo FOO */" with "bar"
-            });
-    var rebundle = function() {
+      includeExtensions: ['.js'],
+      context: opt // This will replace "/* @echo FOO */" with "bar"
+    });
+    var rebundle = function () {
       return bundler.bundle().on('error', onError)
 
-       // .pipe(exorcist(options.dist+'/main.build.js.map'))
+        // .pipe(exorcist(options.dist+'/main.build.js.map'))
         .pipe(source('main.build.js'))
         .pipe(gulp.dest(options.dist))
         .pipe(bs.stream());
     };
     var onError = function (err) {
-      console.log ("!!! browserify Error");
+      console.log("!!! browserify Error");
       gutil.beep();
       console.log(err.toString());
       this.emit('end');
