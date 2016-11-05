@@ -5,8 +5,10 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
-
+// exclude via preprocess in gulp since its too heavy for prod
+// @ifdef DEBUG
 RSVP.on('error',require ('./hook-ad-kit/ErrorHandler'));
+// @endif
 var App = function (config) {
   var adKit = require('./hook-ad-kit/Adkit')(config.templateType);
   var collapsedPartial = config.collapsedPartial;

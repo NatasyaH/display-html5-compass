@@ -12,12 +12,12 @@ gulp.task('dev', function (done) {
 });
 gulp.task('prod', function (done) {
 
-  console.log ("!!!!" ,config.flags.sourcemap);
+
 
   config.flags.minify = true;
   config.flags.sourcemap = false;
   config.flags.type = 'prod';
-  console.log ("!!!!" ,config.flags.sourcemap);
+
   done();
 });
 // define stackable tasks

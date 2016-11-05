@@ -8,6 +8,7 @@ var source = require('vinyl-source-stream');
 var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
 var exorcist   = require('exorcist');
+var preprocessify = require('preprocessify');
 /**
  * @param gulp - function
  * @param bs - Browser sync instance
@@ -25,10 +26,22 @@ module.exports = function(gulp, bs, options, flags) {
 
 
   return function() {
+
+    var opt = {"DEBUG": true};
+
+    if (flags.sourcemap !== true) {
+
+      opt = {}
+    }
+
+
     var bundler = browserify(options.app.entry, {
       debug: flags.sourcemap,
       cache: {}
-    });
+    }).transform(preprocessify, {
+                includeExtensions: ['.js'],
+                context:opt // This will replace "/* @echo FOO */" with "bar"
+            });
     var rebundle = function() {
       return bundler.bundle().on('error', onError)
 
