@@ -2,36 +2,28 @@
 var RSVP = require('rsvp');
 
 var CSSFontLoader = function() {
+
   var api = {};
+
   var startTime = new Date().getTime();
-  api.load = function(url, oldFontFamilyName, newFontFamilyName) {
+  api.load = function(url) {
     return new RSVP.Promise(
       function (resolve, reject) {
-        console.log('start time:',new Date().getTime() - startTime);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
 
         xhr.onreadystatechange = function() {
           if (this.readyState !== 4) return;
           if (this.status !== 200) return;
-          console.log('time:',new Date().getTime() - startTime);
           var styleTag = document.createElement('style');
-          if(oldFontFamilyName && newFontFamilyName) {
-            var regexSingleQuote = new RegExp('\'' + oldFontFamilyName, 'g');
-            var regexDoubleQuote = new RegExp('"' + oldFontFamilyName, 'g');
-            styleTag.innerHTML = String(this.responseText).replace(regex, '\'' + newFontFamilyName); // replace the font family name.
-          } else {
-            styleTag.innerHTML = String(this.responseText);
-          }
-
-          styleTag.innerHTML = String(styleTag.innerHTML).replace(/ *local\([^)]*\), */g, ""); // remove all local references (IE10 doesn't like it when local references are broken)
+          styleTag.innerHTML = String(this.responseText);
+          styleTag.innerHTML = String(styleTag.innerHTML).replace(/ *local\([^)]*\), */g, ""); // remove all local references to force remote font file to be downloaded and used
           document.body.insertBefore(styleTag, document.body.firstChild);
           
           var fonts = getCSSFonts(styleTag.innerHTML);
 
           api.waitForWebfonts(fonts, function(){
-            console.log('time:',new Date().getTime() - startTime);
-           resolve(); 
+            resolve(); 
           });
         }
 
@@ -44,7 +36,6 @@ var CSSFontLoader = function() {
   api.waitForWebfonts = function(fonts, callback) {
     console.log('waitForWebfonts', fonts);
     var loadedFonts = 0;
-    console.log('checkFont time:',new Date().getTime() - startTime);
     for(var i = 0, l = fonts.length; i < l; ++i) {
       
         (function(font) {
@@ -73,7 +64,6 @@ var CSSFontLoader = function() {
 
             var interval;
             function checkFont() {
-                console.log('checkFont time:',new Date().getTime() - startTime);
                 // Compare current width with original width
                 if(node && node.offsetWidth != width) {
                     ++loadedFonts;
