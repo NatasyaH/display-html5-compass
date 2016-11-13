@@ -6,7 +6,7 @@ var CSSFontLoader = function() {
   var api = {};
 
   var startTime = new Date().getTime();
-  api.load = function(url, oldFontFamilyName, newFontFamilyName) {
+  api.load = function(url) {
     return new RSVP.Promise(
       function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -16,37 +16,9 @@ var CSSFontLoader = function() {
           if (this.readyState !== 4) return;
           if (this.status !== 200) return;
           
-          var styleTag = document.createElement('style');
-          var cssSource = '';
-          var cssOriginalFonts = '';
+          var cssSource = String(this.responseText).replace(/ *local\([^)]*\), */g, ""); // remove all local references to force remote font file to be downloaded and used
           
-          cssSource = String(this.responseText).replace(/ *local\([^)]*\), */g, ""); // remove all local references to force remote font file to be downloaded and used
-          cssOriginalFonts = cssSource;
-          var originalFonts = getCSSFonts(cssSource);
-          var fontWeights = getCSSFontWeights(cssSource);
-          console.log('originalFonts',originalFonts);
-          
-          for(var i in originalFonts) {
-            var font = originalFonts[i];
-            console.log('font?',font);
-            var regex = new RegExp('[\'|"]' + font + '[\'|"]'   , 'g');
-            var id = String(new Date().getTime());
-            cssSource = String(cssSource).replace(regex, '\'' + font + id + '\''); // replace the font family name.
-          }
-          
-          // console.log(fontWeights);
-          console.log(cssSource);
-          
-          styleTag.innerHTML = cssSource;
-          document.body.insertBefore(styleTag, document.body.firstChild);
-          
-          var fonts = getCSSFonts(styleTag.innerHTML);
-          //console.log(getCSSUrls(styleTag.innerHTML))
-
-          api.waitForWebfonts(fonts, fontWeights, function() {
-            styleTag.innerHTML = cssOriginalFonts;
-            resolve(); 
-          });
+          api.loadFromCSS(cssSource, resolve);
         }
 
         xhr.send();
@@ -55,21 +27,46 @@ var CSSFontLoader = function() {
     )
   }
 
-  api.waitForWebfonts = function(fonts, weights, callback) {
+  api.loadFromCSS(cssSource, callback){
+    var cssOriginal = cssSource;
+    var originalFonts = getCSSFonts(cssSource);
+    
+    var styleTag = document.createElement('style');
+
+    var id = String(new Date().getTime());
+    
+    for(var i in originalFonts) {
+      var font = originalFonts[i];
+      var regex = new RegExp('[\'|"]' + font.family + '[\'|"]'   , 'g');
+      cssSource = String(cssSource).replace(regex, '\'' + font.family + id + '\'', 'g'); // replace the font family name.
+    }
+    
+    styleTag.innerHTML = cssSource;
+    document.body.insertBefore(styleTag, document.body.firstChild);
+    
+    var fontsToLoad = getCSSFonts(cssSource);
+
+    api.waitForWebfonts(fontsToLoad, function() {
+      styleTag.innerHTML = cssOriginal;
+      callback(); 
+    });
+  }
+
+  api.waitForWebfonts = function(fonts, callback) {
     console.log('waitForWebfonts', fonts);
     var loadedFonts = 0;
     var testNodes = [];
     for(var i = 0, l = fonts.length; i < l; ++i) {
-      for(var w = 0; w < weights.length; w++) {
-        var font = fonts[i];
-        var weight = weights[w];
-        
-        console.log('build font test for:', font, weight);
-        
-        var testNode = createFontTestNode(font, weight);
-        testNodes.push({elem:testNode,width:testNode.offsetWidth});
-        testNode.style.fontFamily = '\'' + font + '\', sans-serif';          
-      }
+      var font = fonts[i];
+      var family = font.family;
+      var weight = font.weight;
+      var style = font.style;
+
+      console.log('build font test for:', family, weight, style);
+
+      var testNode = createFontTestNode(family, weight, style);
+      testNodes.push({elem:testNode,width:testNode.offsetWidth});
+      testNode.style.fontFamily = '\'' + family + '\', sans-serif';          
     }
     setTimeout(function(){
       checkFonts(testNodes, callback);
@@ -78,17 +75,14 @@ var CSSFontLoader = function() {
   
   function checkFonts(nodes, callback) {
     // Compare current width with original width
-    console.log('nodes???',nodes);
     var pass = true;
     for(var n in nodes){
       var node = nodes[n];
-      console.log(n,'node.width',node.width, 'node.elem.offsetWidth',node.elem.offsetWidth)
       if(node.width == node.elem.offsetWidth){
         pass = false;
       }
     }
     if(pass){
-      console.log('nodes?',nodes, container);
       for(var n in nodes){
         var node = nodes[n];
         node.elem.parentNode.removeChild(node.elem);
@@ -96,14 +90,13 @@ var CSSFontLoader = function() {
       nodes = [];
       callback();
     } else {
-      console.log('loop?', pass);
       setTimeout(function(){
         checkFonts(nodes, callback);
       },50);
     }
   };
 
-  function createFontTestNode(font, weight){
+  function createFontTestNode(family, weight, style){
     var node = document.createElement('span');
     node.innerHTML = 'giItT1WQy@!-/#'; // Characters that vary significantly among different fonts
     node.style.position      = 'absolute'; // Visible - so we can measure it - but not on the screen
@@ -115,7 +108,7 @@ var CSSFontLoader = function() {
     // Reset any font properties
     node.style.fontFamily    = 'sans-serif';
     node.style.fontVariant   = 'normal';
-    node.style.fontStyle     = 'normal';
+    node.style.fontStyle     = style;
     node.style.fontWeight    = weight;
     node.style.letterSpacing = '0';
     document.body.appendChild(node);
@@ -123,20 +116,20 @@ var CSSFontLoader = function() {
     return node;
   }
   
-  function getCSSFonts(cssSource){
-    var fontFamilies = getCSSPropertyValues('font-family', cssSource);
-    
-    fontFamilies = fontFamilies.map(function(elem) { return elem.replace(/["'\s]+/g, ''); });
-    fontFamilies = fontFamilies.sort().filter(function(item, pos, ary) { return !pos || item != ary[pos - 1]; });
-    
-    return fontFamilies;
-    
-  }
-  
-  function getCSSFontWeights(cssSource){
-    var weights = removeDuplicates(getCSSPropertyValues('font-weight', cssSource));
-    
-    return weights.map(function(elem) { return elem.replace(/["'\s]+/g, ''); });
+  function getCSSFonts(cssSource) {
+    var fontCSS = getCSSSelectorContents('@font-face', cssSource);
+    var fonts = [];
+    for(var f in fontCSS) {
+      var css = fontCSS[f];
+      var font = {};
+      font.weight = getCSSPropertyValues('font-weight', css)[0].replace(/["'\s]+/g, '');
+      font.family = getCSSPropertyValues('font-family', css)[0].replace(/["'\s]+/g, '');
+      font.style = getCSSPropertyValues('font-style', css)[0].replace(/["'\s]+/g, '');
+      fonts.push(font);
+    }
+    window.fonts = fonts;
+    fonts = removeDuplicateObjects(fonts);
+    return fonts;
   }
   
   function getCSSUrls(cssSource){
@@ -171,8 +164,39 @@ var CSSFontLoader = function() {
     return results;
   }
   
+  function getCSSSelectorContents(selector, cssSource) {
+    var regex = new RegExp(selector+'\\s*{([\\s\\S]*?)}', 'gm'); //section example: @font-face, #container
+    
+    var results = null;
+    var match; 
+    while (match = regex.exec(cssSource)) {
+      if(results) {
+        results.push(match[1]);
+      } else {
+        results = [match[1]];
+      }
+    }
+    return results;
+  }
+  
   function removeDuplicates(object) {
     return object.sort().filter(function(item, pos, ary) { return !pos || item != ary[pos - 1]; });
+  }
+  
+  function removeDuplicateObjects(objectsArray) {
+      var usedObjects = {};
+
+      for (var i=objectsArray.length - 1;i>=0;i--) {
+          var so = JSON.stringify(objectsArray[i]);
+
+          if (usedObjects[so]) {
+              objectsArray.splice(i, 1);
+          } else {
+              usedObjects[so] = true;          
+          }
+      }
+    
+      return objectsArray;
   }
 
   return api;
