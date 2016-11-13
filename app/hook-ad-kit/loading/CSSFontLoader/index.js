@@ -27,7 +27,7 @@ var CSSFontLoader = function() {
     )
   }
 
-  api.loadFromCSS(cssSource, callback){
+  api.loadFromCSS = function(cssSource, callback){
     var cssOriginal = cssSource;
     var originalFonts = getCSSFonts(cssSource);
     
@@ -35,10 +35,10 @@ var CSSFontLoader = function() {
 
     var id = String(new Date().getTime());
     
-    for(var i in originalFonts) {
+    for(var i in originalFonts) { // force css to use font family name in single quotes
       var font = originalFonts[i];
       var regex = new RegExp('[\'|"]' + font.family + '[\'|"]'   , 'g');
-      cssSource = String(cssSource).replace(regex, '\'' + font.family + id + '\'', 'g'); // replace the font family name.
+      cssSource = String(cssSource).replace(regex, '\'' + font.family + '\'', 'g'); // replace the font family name.
     }
     
     styleTag.innerHTML = cssSource;
@@ -47,8 +47,8 @@ var CSSFontLoader = function() {
     var fontsToLoad = getCSSFonts(cssSource);
 
     api.waitForWebfonts(fontsToLoad, function() {
-      styleTag.innerHTML = cssOriginal;
-      callback(); 
+      //styleTag.innerHTML = styleTag.innerHTML+cssOriginal;
+      if(callback) callback(); 
     });
   }
 
@@ -66,7 +66,7 @@ var CSSFontLoader = function() {
 
       var testNode = createFontTestNode(family, weight, style);
       testNodes.push({elem:testNode,width:testNode.offsetWidth});
-      testNode.style.fontFamily = '\'' + family + '\', sans-serif';          
+      testNode.style.fontFamily = '\'' + family + '\', sans-serif';       
     }
     setTimeout(function(){
       checkFonts(testNodes, callback);
