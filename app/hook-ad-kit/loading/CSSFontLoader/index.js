@@ -6,7 +6,7 @@ var CSSFontLoader = function() {
   var api = {};
 
   var startTime = new Date().getTime();
-  api.load = function(url) {
+  api.load = function(url, oldFontFamilyName, newFontFamilyName) {
     return new RSVP.Promise(
       function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -15,14 +15,36 @@ var CSSFontLoader = function() {
         xhr.onreadystatechange = function() {
           if (this.readyState !== 4) return;
           if (this.status !== 200) return;
+          
           var styleTag = document.createElement('style');
-          styleTag.innerHTML = String(this.responseText);
-          styleTag.innerHTML = String(styleTag.innerHTML).replace(/ *local\([^)]*\), */g, ""); // remove all local references to force remote font file to be downloaded and used
+          var cssSource = '';
+          var cssOriginalFonts = '';
+          
+          cssSource = String(this.responseText).replace(/ *local\([^)]*\), */g, ""); // remove all local references to force remote font file to be downloaded and used
+          cssOriginalFonts = cssSource;
+          var originalFonts = getCSSFonts(cssSource);
+          var fontWeights = getCSSFontWeights(cssSource);
+          console.log('originalFonts',originalFonts);
+          
+          for(var i in originalFonts) {
+            var font = originalFonts[i];
+            console.log('font?',font);
+            var regex = new RegExp('[\'|"]' + font + '[\'|"]'   , 'g');
+            var id = String(new Date().getTime());
+            cssSource = String(cssSource).replace(regex, '\'' + font + id + '\''); // replace the font family name.
+          }
+          
+          // console.log(fontWeights);
+          console.log(cssSource);
+          
+          styleTag.innerHTML = cssSource;
           document.body.insertBefore(styleTag, document.body.firstChild);
           
           var fonts = getCSSFonts(styleTag.innerHTML);
+          //console.log(getCSSUrls(styleTag.innerHTML))
 
-          api.waitForWebfonts(fonts, function(){
+          api.waitForWebfonts(fonts, fontWeights, function() {
+            styleTag.innerHTML = cssOriginalFonts;
             resolve(); 
           });
         }
@@ -33,62 +55,72 @@ var CSSFontLoader = function() {
     )
   }
 
-  api.waitForWebfonts = function(fonts, callback) {
+  api.waitForWebfonts = function(fonts, weights, callback) {
     console.log('waitForWebfonts', fonts);
     var loadedFonts = 0;
+    var testNodes = [];
     for(var i = 0, l = fonts.length; i < l; ++i) {
-      
-        (function(font) {
-          console.log('checking font:', font);
-            var node = document.createElement('span');
-            // Characters that vary significantly among different fonts
-            node.innerHTML = 'giItT1WQy@!-/#';
-            // Visible - so we can measure it - but not on the screen
-            node.style.position      = 'absolute';
-            node.style.left          = '-10000px';
-            node.style.top           = '-10000px';
-            // Large font size makes even subtle changes obvious
-            node.style.fontSize      = '300px';
-            // Reset any font properties
-            node.style.fontFamily    = 'sans-serif';
-            node.style.fontVariant   = 'normal';
-            node.style.fontStyle     = 'normal';
-            node.style.fontWeight    = 'normal';
-            node.style.letterSpacing = '0';
-            document.body.appendChild(node);
-
-            // Remember width with no applied web font
-            var width = node.offsetWidth;
-
-            node.style.fontFamily = font + ', sans-serif';
-
-            var interval;
-            function checkFont() {
-                // Compare current width with original width
-                if(node && node.offsetWidth != width) {
-                    ++loadedFonts;
-                    node.parentNode.removeChild(node);
-                    node = null;
-                }
-
-                // If all fonts have been loaded
-                if(loadedFonts >= fonts.length) {
-                    if(interval) {
-                        clearInterval(interval);
-                    }
-                    if(loadedFonts == fonts.length) {
-                        callback();
-                        return true;
-                    }
-                }
-                
-            };
-
-            if(!checkFont()) {
-                interval = setInterval(checkFont, 50);
-            }
-        })(fonts[i]);
+      for(var w = 0; w < weights.length; w++) {
+        var font = fonts[i];
+        var weight = weights[w];
+        
+        console.log('build font test for:', font, weight);
+        
+        var testNode = createFontTestNode(font, weight);
+        testNodes.push({elem:testNode,width:testNode.offsetWidth});
+        testNode.style.fontFamily = '\'' + font + '\', sans-serif';          
+      }
     }
+    setTimeout(function(){
+      checkFonts(testNodes, callback);
+    },0);
+  }
+  
+  function checkFonts(nodes, callback) {
+    // Compare current width with original width
+    console.log('nodes???',nodes);
+    var pass = true;
+    for(var n in nodes){
+      var node = nodes[n];
+      console.log(n,'node.width',node.width, 'node.elem.offsetWidth',node.elem.offsetWidth)
+      if(node.width == node.elem.offsetWidth){
+        pass = false;
+      }
+    }
+    if(pass){
+      console.log('nodes?',nodes, container);
+      for(var n in nodes){
+        var node = nodes[n];
+        node.elem.parentNode.removeChild(node.elem);
+      }
+      nodes = [];
+      callback();
+    } else {
+      console.log('loop?', pass);
+      setTimeout(function(){
+        checkFonts(nodes, callback);
+      },50);
+    }
+  };
+
+  function createFontTestNode(font, weight){
+    var node = document.createElement('span');
+    node.innerHTML = 'giItT1WQy@!-/#'; // Characters that vary significantly among different fonts
+    node.style.position      = 'absolute'; // Visible - so we can measure it - but not on the screen
+    // node.style.display = 'block'; // for debug
+    // node.style.float = 'left'; // for debug
+    node.style.left          = '-10000px';
+    node.style.top           = '-10000px';
+    node.style.fontSize      = '300px'; // Large font size makes even subtle changes obvious
+    // Reset any font properties
+    node.style.fontFamily    = 'sans-serif';
+    node.style.fontVariant   = 'normal';
+    node.style.fontStyle     = 'normal';
+    node.style.fontWeight    = weight;
+    node.style.letterSpacing = '0';
+    document.body.appendChild(node);
+    
+    return node;
   }
   
   function getCSSFonts(cssSource){
@@ -99,6 +131,30 @@ var CSSFontLoader = function() {
     
     return fontFamilies;
     
+  }
+  
+  function getCSSFontWeights(cssSource){
+    var weights = removeDuplicates(getCSSPropertyValues('font-weight', cssSource));
+    
+    return weights.map(function(elem) { return elem.replace(/["'\s]+/g, ''); });
+  }
+  
+  function getCSSUrls(cssSource){
+    var regex = new RegExp('url\\b[^\\(]*\\(([\\s\\S]*?)\\)', 'gm');
+    var results = null;
+    var match; 
+    while (match = regex.exec(cssSource)) {
+      if(results) {
+        results.push(match[1]);
+      } else {
+        results = [match[1]];
+      }
+    }
+    
+    results = results.map(function(elem) { return elem.replace(/["'\s]+/g, ''); });
+    results = results.sort().filter(function(item, pos, ary) { return !pos || item != ary[pos - 1]; });
+    
+    return results;
   }
 
   function getCSSPropertyValues(cssProperty, cssSource) {
@@ -114,6 +170,12 @@ var CSSFontLoader = function() {
     }
     return results;
   }
+  
+  function removeDuplicates(object) {
+    return object.sort().filter(function(item, pos, ary) { return !pos || item != ary[pos - 1]; });
+  }
 
   return api;
 }
+
+module.exports = CSSFontLoader;
