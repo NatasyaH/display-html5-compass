@@ -48,6 +48,11 @@ sprite-retina ($collapsed-background-map, 'keep')
 
 @import './template/border';
 
+body {
+  font-family: 'Roboto';
+  font-weight: 700;
+}
+
 .size-collapsed {
 
   height: $collapsed-height;
@@ -68,8 +73,11 @@ sprite-retina ($collapsed-background-map, 'keep')
 
 .basic-button {
   background-color: rgba(255, 150, 255, 1);
+  padding:10px;
+  text-align: center;
   cursor: pointer;
   position: absolute;
+  @include border-radius(5px);
 }
 
 .hidden {
@@ -137,8 +145,7 @@ sprite-retina ($collapsed-background-map, 'keep')
     }
     .expand {
       @extend .basic-button;
-      width: 200px;
-      height: 50px;
+      width: 100px;
       left: 600px;
       top: 150px;
 
@@ -146,8 +153,7 @@ sprite-retina ($collapsed-background-map, 'keep')
     .cta {
       @extend .basic-button;
       width: 100px;
-      height: 50px;
-      left: 300px;
+      left: 455px;
       top: 150px;
       background-color: cornflowerblue;
 
@@ -191,7 +197,6 @@ sprite-retina ($collapsed-background-map, 'keep')
   .close {
     @extend .basic-button;
     width: 100px;
-    height: 50px;
     right: 0px;
     top: 0px;
     color: whitesmoke;
@@ -201,7 +206,7 @@ sprite-retina ($collapsed-background-map, 'keep')
 
 
   .content {
-
+    
     @extend .size-expanded;
     opacity: 0;
     background-color: $red;
@@ -221,8 +226,8 @@ sprite-retina ($collapsed-background-map, 'keep')
 
     .cta {
       @extend .basic-button;
+      color:#FFFFFF;
       width: 100px;
-      height: 50px;
       left: 100px;
       top: 150px;
       background-color: blue;

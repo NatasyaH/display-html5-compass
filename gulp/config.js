@@ -36,6 +36,10 @@ var config = {
     src: './static/images/**/*.{gif,jpg,png,svg}',
     dist: dest + '/images/'
   },
+  videos: {
+    src: './static/videos/**/*.{ogg,mp4,webm}',
+    dist: dest + '/videos/'
+  },
   sprite: {
     collapsed_foreground: {
       src: './static/toSprite/collapsed/foreground/**/*.png',
