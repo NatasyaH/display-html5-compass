@@ -41,8 +41,9 @@ var CSSFontLoader = function() {
       cssSource = String(cssSource).replace(regex, '\'' + font.family + '\'', 'g'); // replace the font family name.
     }
     
+    document.body.appendChild(styleTag);
+    styleTag.setAttribute('type', 'text/css');
     styleTag.innerHTML = cssSource;
-    document.body.insertBefore(styleTag, document.body.firstChild);
     
     var fontsToLoad = getCSSFonts(cssSource);
 
@@ -75,6 +76,7 @@ var CSSFontLoader = function() {
   
   function checkFonts(nodes, callback) {
     // Compare current width with original width
+    console.log('checking');
     var pass = true;
     for(var n in nodes){
       var node = nodes[n];
@@ -111,6 +113,7 @@ var CSSFontLoader = function() {
     node.style.fontStyle     = style;
     node.style.fontWeight    = weight;
     node.style.letterSpacing = '0';
+    node.style.whiteSpace    = 'nowrap';
     document.body.appendChild(node);
     
     return node;

@@ -1,52 +1,69 @@
 'use strict';
 var RSVP = require('rsvp');
 
-var player = null;
 var supportedVideoTypes = [ // in order of priority
   'video/webm',
   'video/mp4',
   'video/ogg'
-]
+];
 
 var DCVideoPlayer = function () {
 
-  var videoElement = null;
-  var adVideoId = 'AdVideo';
+  console.log('DCVideoPlayer: New instance.');
+  
+  var _videoElement = null;
+  var _sourceElement = null;
+  var _videoId = null;
+  var _resolve = null;
+  var _reject = null;
+  var _container = null;
+  var _player = null;
 
   var api = {
     get duration() {
-      return player.duration;
+      return _player.duration;
     },
     get currentTime() {
-      return player.currentTime;
+      return _player.currentTime;
     },
     get elem() {
-      return player;
+      return _player;      
     }
   };
 
   var defaults = {
-    autoplay: true
+    autoplay: true,
+    destroyOnComplete: false
   }
 
-  api.loadVideo = function (element, videos, options) { // eventually options would be good.
+  api.players = [];
+
+  window.players = api.players;
+
+  api.loadVideo = function (container, videos, id, options) { // eventually options would be good.
+    console.log('load viiiiiideoooo');
     return new RSVP.Promise(function (resolve, reject) {
 
-      if(!element) {
-        console.log('Video Player Container Missing');
-        reject('Video Player Container Missing');
+      _resolve = resolve;
+      _reject = reject;
+      _container = container;
+      _videoId = id || 'video' + new Date().getTime();
+
+      if(!container) {
+        console.log('DCVideoPlayer - ', _videoId + ': Video Player Container Missing');
+        _reject('DCVideoPlayer - ', _videoId + ': Video Player Container Missing');
       }
       
-      videoElement = document.createElement('video');
-      var sourceElement = document.createElement('source');
+      _videoElement = document.createElement('video');
+      _sourceElement = document.createElement('source');
 
       window.player = api;
       
       var multipleVideos = typeof videos == 'object';
-      var supportedType = api.getVideoType(videoElement);
+      var supportedType = api.getVideoType(_videoElement);
       var supportedExtention = '.' + supportedType.split('/')[1];
-      videoElement.autoplay = options ? options.autoplay : defaults.autoplay;
-      player = videoElement;
+      _videoElement.autoplay = options ? options.autoplay : defaults.autoplay;
+      _player = _videoElement;
 
       var videoUrl = null;
 
@@ -67,54 +84,119 @@ var DCVideoPlayer = function () {
 
           if(videoUrl.indexOf(extention) != -1) break;
         }
-        console.error('DCVideoPlayer: No supported video provided.')
+        console.error('DCVideoPlayer -', _videoId + ': No supported video provided.')
       }
 
-      sourceElement.src = Enabler.getUrl(videoUrl);
-      sourceElement.type = supportedType;
+      _sourceElement.src = Enabler.getUrl(videoUrl);
+      _sourceElement.type = supportedType;
 
-      Enabler.loadModule(studio.module.ModuleId.VIDEO, function() { // load tracking module before the video is added to the dom to avoid race condition.
-        studio.video.Reporter.attach(adVideoId, videoElement);
-        videoElement.appendChild(sourceElement);
-        element.appendChild(videoElement); // lets append the element after the DC module is loaded. there's a tiny chance the module would load AFTER the video is ready to play.
-        videoElement.style.opacity = 0;
-        console.log('videoElement',videoElement, 'element',element);
-        videoElement.addEventListener('canplaythrough', function(){
-          this.style.opacity = 1;
-          resolve(this, 'DCVideoPlayer: Load Promise');
-        }.bind(videoElement));
+      var playerData = {
+        id: _videoId,
+        container: _container,
+        element: _videoElement,
+        source: _sourceElement,
+        resolve: _resolve,
+        reject: _reject
+      };
 
-      });
+      api.players.push(playerData);
+
+      Enabler.loadModule(studio.module.ModuleId.VIDEO, api.initPlayer.bind(playerData)); // load tracking module before the video is added to the dom to avoid race condition.
     });
   };
 
-  api.destroy = function(){
-    if(videoElement) { videoElement.parentNode.removeChild(videoElement); }
-    console.log('DCVideoPlayer: destroy');
-    videoElement = null;
+  api.initPlayer = function (){
+    studio.video.Reporter.attach(this.id, this.element);
+    this.element.appendChild(this.source);
+    this.container.appendChild(this.element); // lets append the container after the DC module is loaded. there's a tiny chance the module would load AFTER the video is ready to play.
+    this.element.style.opacity = 0;
+    this.element.addEventListener('canplaythrough', function(){
+      this.element.style.opacity = 1;
+      this.resolve('DCVideoPlayer -', this.id + ': Load Promise');
+    }.bind(this));
+  }
 
-    studio.video.Reporter.detach(adVideoId);
+  api.destroy = function(selected){
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!destroy', selected, api.players);
+    var target = null;
+    var id = null;
+    var index = null;
+
+    if(getObjectType(selected) == 'HTMLDivElement'){
+      for(var i in api.players){
+        var player = api.players[i];
+        if(player.element == selected) {
+          id = player.id;
+          target = selected;
+          console.log('player',player);
+          index = i;
+        }
+      }
+    } else if(getObjectType(selected) == 'String') { // selected is probably an id
+      for(var i in api.players){
+        var player = api.players[i];
+        if(player.id == selected) {
+          target = player.element;
+          id = player.id;
+          console.log('player',player);
+          index = i;
+        }
+      }
+    } else if(getObjectType(selected) == 'Array') { // selected is probably a list of elements
+      for(var i in selected) {
+        api.destroy(selected[i]);
+      }
+      return;
+    } else { // nothing specific selected so destroy all
+      for(var i = api.players.length - 1; i >= 0; i--) {
+        api.destroy(api.players[i].id);
+      }
+      api.players = [];
+      return;
+    }
+
+    //console.log('hm', target, id, players);
+    if(!target) {
+      console.log('DCVideoPlayer - Error: Cannot find element to destroy:', selected);
+      return;
+    }
+
+
+    studio.video.Reporter.detach(id);
+
+    target.parentNode.removeChild(target);
+    api.players[index] = null;
+    api.players.splice(index,1);
+
+    console.log('DCVideoPlayer -', id + ': destroyed');
+  }
+
+  api.destroyAll = function(){
+    console.log('DCVideoPlayer: Destroying all players.');
+    for(var i = api.players.length - 1; i >= 0; i--) {
+      api.destroy(api.players[i].id);
+    }
   }
 
   api.addEventListener = function(type, handler, options){
-    player.addEventListener(type, handler, options);
+    _player.addEventListener(type, handler, options);
   }
 
   api.removeEventListener = function(type, handler){
-    player.removeEventListener(type, handler);
+    _player.removeEventListener(type, handler);
   }
 
   api.play = function(){
-    player.play();
+    _player.play();
   }
 
   api.stop = function(){
-    player.pause();
-    player.currentTime = 0;
+    _player.pause();
+    _player.currentTime = 0;
   }
 
   api.seek = function(time) {
-    player.currentTime = time;
+    _player.currentTime = time;
   }
 
   api.getVideoType = function(player){
@@ -126,6 +208,17 @@ var DCVideoPlayer = function () {
       }
     }
   };
+
+  api.getVideoById = function(id){
+    for(var i in api.players){
+      var player = api.players[i];
+      if(player.id == id) return player.element
+    }
+  }
+
+  function getObjectType(object){
+    return Object.prototype.toString.call(object).split(' ')[1].replace(']','');
+  }
 
   return api;
 };

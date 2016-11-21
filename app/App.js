@@ -27,6 +27,8 @@ var App = function (config) {
   var baseURL = util.getBaseURL();
   var richBaseURL = null;
 
+  window.vp = videoPlayer;
+
   //*************************************************************************************************
   // IMPLEMENTATION - You will need to edit these
   //*************************************************************************************************
@@ -66,10 +68,11 @@ var App = function (config) {
         ])
       })
       .then(function () {
+        console.log('????');
         return adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
       .then(function (){
-        return videoPlayer.loadVideo(expandedContainer.querySelector('.videoContainer'), config.adVideos)
+        return videoPlayer.loadVideo(expandedContainer.querySelector('.videoContainer'), config.adVideos, 'Expanded Video')
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
@@ -103,10 +106,13 @@ var App = function (config) {
         return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
       .then(function (){
-        return videoPlayer.loadVideo(expandedContainer.querySelector('.videoContainer'), config.adVideos, {autoplay: false})
+        return videoPlayer.loadVideo(expandedContainer.querySelector('.videoContainer'), config.adVideos, 'Expanded Video')
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(expandedAnimationController.animateIn)
+      .then(function(){
+        videoPlayer.destroy('Collapsed Video');
+      })
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -126,9 +132,12 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL)
       })
+      .then(function(){
+        return videoPlayer.loadVideo(collapsedContainer.querySelector('.videoContainer'), config.adVideos, 'Collapsed Video')
+      })
       .then(collapsedAnimationController.animateIn)
       .then(function(){
-        videoPlayer.destroy();
+        videoPlayer.destroy('Expanded Video');
       })
       .then(bindCollapsed)
       .then(function () {
