@@ -4,6 +4,7 @@ var shellAnimationController = require('./controllers/ShellAnimationController')
 var collapsedAnimationController = require('./controllers/CollapsedAnimationController');
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
+var DCVideoPlayer = require('./DCVideoPlayer');
 var util = require('./hook-ad-kit/Util');
 // exclude via preprocess in gulp since its too heavy for prod
 // @ifdef DEBUG
@@ -11,28 +12,35 @@ RSVP.on('error',require ('./hook-ad-kit/ErrorHandler'));
 // @endif
 var App = function (config) {
   var adKit = require('./hook-ad-kit/Adkit')(config.templateType);
+  var videoPlayer = new DCVideoPlayer();
   var collapsedPartial = config.collapsedPartial;
   var expandedPartial = config.expandedPartial;
   var autoExpandedPartial = config.autoExpandedPartial;
   var isAutoExpand = config.isAutoExpand;
   var autoExpandTimer = config.autoExpandTimer;
   var exits = config.exits;
+  var videoContainer = document.querySelector('.videoContainer');
   var expandedContainer = document.querySelector('#expandedContainer');
   var collapsedContainer = document.querySelector('#collapsedContainer');
   var expandedPreloader = document.querySelector('#expandedPreloader');
   var baseURL = util.getBaseURL();
   var richBaseURL = null;
+
+  window.vp = videoPlayer;
+
   //*************************************************************************************************
-  // IMPLEMENTATION - YOu will need to edit these
+  // IMPLEMENTATION - You will need to edit these
   //*************************************************************************************************
   var preload = function () {
     console.log('preload');
     var promises = [];
     if (isAutoExpand === true) {
       promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL));
+      
     } else {
       promises.push(adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL));
     }
+    console.log('wha');
     // if you need to do more preloading do it here and push your promises into the array
     return RSVP.all(promises)
   };
@@ -46,7 +54,7 @@ var App = function (config) {
     }
   };
   //*************************************************************************************************
-  // EXPANDING TEMPLATE -  YOu will need to edit these - They can be deleted if your unit is in page.
+  // EXPANDING TEMPLATE -  You will need to edit these - They can be deleted if your unit is in page.
   //*************************************************************************************************
   // for the auto expand
   var autoExpand = function () {
@@ -58,8 +66,12 @@ var App = function (config) {
         ])
       })
       .then(function () {
+        console.log('????');
         return adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
+      .then(function (){
+        return videoPlayer.load(expandedContainer.querySelector('.videoContainer'), config.adVideos, 'Expanded Video')
+      })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
       .then(bindExpanded)
@@ -91,8 +103,14 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
+      .then(function (){
+        return videoPlayer.load(expandedContainer.querySelector('.videoContainer'), config.adVideos, 'Expanded Video')
+      })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(expandedAnimationController.animateIn)
+      .then(function(){
+        videoPlayer.destroy('Collapsed Video');
+      })
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -112,7 +130,13 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL)
       })
+      .then(function(){
+        return videoPlayer.load(collapsedContainer.querySelector('.videoContainer'), config.adVideos, 'Collapsed Video')
+      })
       .then(collapsedAnimationController.animateIn)
+      .then(function(){
+        videoPlayer.destroy('Expanded Video');
+      })
       .then(bindCollapsed)
       .then(function () {
         return util.removeChildren(expandedContainer)
@@ -156,6 +180,7 @@ var App = function (config) {
       }
     }
   };
+
   var bindCollapsed = function () {
     Array.prototype.slice.call(collapsedContainer.querySelectorAll('.catch-all')).map(function (item) {
       item.addEventListener('click', catchAllHandler);

@@ -59,6 +59,7 @@ module.exports = function () {
         reject('Collapse not started so cant complete');
         return;
       }
+      myFT.contract();
       state = collapsed;
       resolve('COLLAPSE COMPLETE')
     });
@@ -72,7 +73,7 @@ module.exports = function () {
 
   var defaultClose = function () {
 
-      Enabler.reportManualClose()
+     
 
     };
 
