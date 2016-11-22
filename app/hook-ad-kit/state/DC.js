@@ -5,27 +5,20 @@ module.exports = function () {
   var boot = function () {
     var enablerCheck = function (method, state) {
       var check = function () {
-        
         var result = method();
-        
-        console.log( state,result);
+        console.log(state, result);
         return result
       };
       return new RSVP.Promise(function (resolve, reject) {
-        
-        if (check()=== true) {
-  
-          console.log( state,check(),"VERIFIED");
-          
+        if (check() === true) {
+          console.log(state, check(), "VERIFIED");
           resolve()
-        }else {
+        } else {
           Enabler.addEventListener(state, function () {
-            console.log( state,check(),"EVENT VERIFIED");
+            console.log(state, check(), "EVENT VERIFIED");
             resolve()
           });
         }
-        
-                
       })
     };
     return new RSVP.Promise(function (resolve, reject) {
