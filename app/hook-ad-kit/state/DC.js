@@ -27,7 +27,7 @@ module.exports = function () {
         
                 
       })
-    }.bind(this);
+    };
     return new RSVP.Promise(function (resolve, reject) {
       enablerCheck(function () {
         var ret = Enabler.isInitialized();
