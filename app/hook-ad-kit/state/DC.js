@@ -5,17 +5,48 @@ module.exports = function () {
   var boot = function () {
     var enablerCheck = function (method, state) {
       var check = function () {
-        console.log(method());
-        return method()
+        
+        var result = method();
+        
+        console.log( state,result);
+        return result
       };
       return new RSVP.Promise(function (resolve, reject) {
-        return method() ? resolve() : Enabler.addEventListener(state, resolve);
+        
+        if (check()=== true) {
+  
+          console.log( state,check(),"VERIFIED");
+          
+          resolve()
+        }else {
+          Enabler.addEventListener(state, function () {
+            console.log( state,check(),"EVENT VERIFIED");
+            resolve()
+          });
+        }
+        
+                
       })
     }.bind(this);
-    var initPromise = enablerCheck(Enabler.isInitialized.bind(Enabler), studio.events.StudioEvent.INIT);
-    var loadPromise = enablerCheck(Enabler.isPageLoaded.bind(Enabler), studio.events.StudioEvent.PAGE_LOADED);
-    var visiblePromise = enablerCheck(Enabler.isVisible.bind(Enabler), studio.events.StudioEvent.VISIBLE);
-    return RSVP.all([initPromise, loadPromise, visiblePromise]);
+    return new RSVP.Promise(function (resolve, reject) {
+      enablerCheck(function () {
+        var ret = Enabler.isInitialized();
+        return ret
+      }, studio.events.StudioEvent.INIT)
+        .then(function () {
+          return enablerCheck(function () {
+            var ret = Enabler.isPageLoaded();
+            return ret;
+          }, studio.events.StudioEvent.PAGE_LOADED)
+        })
+        .then(function () {
+          return enablerCheck(function () {
+            var ret = Enabler.isVisible();
+            return ret
+          }, studio.events.StudioEvent.VISIBLE)
+        })
+        .then(resolve)
+    })
   };
   var requestExpand = function () {
     return new RSVP.Promise(function (resolve, reject) {
@@ -84,15 +115,11 @@ module.exports = function () {
       closure.call();
     })
   };
-
   var defaultClose = function () {
-
     Enabler.reportManualClose()
-
   };
-
   var expanded = function () {
-   // console.log(Enabler.getContainerState());
+    // console.log(Enabler.getContainerState());
     if (Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDED || Enabler.getContainerState() === studio.sdk.ContainerState.EXPANDING) {
       return true;
     }
@@ -106,6 +133,6 @@ module.exports = function () {
     completeCollapse: completeCollapse,
     exit: exit,
     expanded: expanded,
-    defaultClose:defaultClose
+    defaultClose: defaultClose
   };
 };
