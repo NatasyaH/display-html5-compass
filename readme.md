@@ -82,3 +82,34 @@ These system is design to load html partials for the collapsed and expanded stat
 ### Configuring The Ad
 
 All the ad configuration options are located in index.html.
+
+# Libraries
+### DCVideoPlayer
+A wrapper for the HTML Video element that utilized DoubleClick tracking. New instances can be created for each video player, or a single instance can be used to load multiple video players.
+#### Methods
+**DCVideoPlayer.load** ( container, videos[, id, options] ) _returns_ Promise
+ > Loads a video player into a container HTML element. used to loading multiple video players. The promise resolves when the video is loaded, fully buffered, and ready to play.
+ 
+ > **videos** - Can be passed a single URL string, or an array of URLs for referencing multiple video formats. From the array the videos, the loader will automatically choose the best video format for the platform it's playing on.
+ 
+ > **id** (optional) - Used to give an id to the video player.
+ 
+ > **options** (optional) - For configuring this video player.
+ 
+ **DCVideoPlayer.destroy** ( [target] )
+ > Destroys target video player. The video element and all tracking are removed. If no target is specified, then all videos are destroyed.
+ 
+ > **target** (optional) - A previously specified video id, or a reference to a video element.
+
+#### Options
+
+The DCVideoLoader 'load' method accepts an optional options object. The options are:
+
+**autoplay** (default: true) _Boolean_
+ > Set this option to "true" to have the video automatically play when loaded and fully buffered.
+ 
+ # Examples
+ To test out different rich media configurations, copy all contents from the example folder and replace the conflicting files at root of your project.
+ 
+ ### ./examples/DCVideoPlayer
+Shows usage of the DCVideoPlayer library. All modifications can be found in **./app/App.js**. DCVideoPlayer is instanced as **videoPlayer**. **videoPlayer** is then used in the **collapse**, **expand**, and **autoExpand** functions.

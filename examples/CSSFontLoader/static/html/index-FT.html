@@ -5,10 +5,9 @@
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="template.type" content="DC">
-  <script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
-  <script type="text/javascript"
-          src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.19.0_643d6911392a3398cb1607993edabfa7_min.js"></script>
+  <meta name="template.type" content="FlashTalking">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,36 +20,33 @@
 <div id="border-left" class="left-collapsed-border"></div>
 <div id="border-right" class="right-collapsed-border"></div>
 <div id="border-bottom" class="bottom-collapsed-border"></div>
+
 <!-- build:js js/vendor.js -->
 <script type="text/javascript" src="../../vendor/VendorStub.js"></script>
 <!-- endbuild -->
+
+<script src="https://cdn.flashtalking.com/frameworks/js/api/2/9/html5API.js"></script>
 <script type="text/javascript">
+
+  console.log ('at ',location.href);
+
   window.adConfig = {
     collapsedPartial: './collapsed.html',
     expandedPartial: './expanded.html',
     autoExpandedPartial: './auto-expanded.html',
-    webFonts: ['https://fonts.googleapis.com/css?family=Roboto:300,700'],
-    adVideos: [
-      'videos/970x250_TestVideo.mp4', 
-      'videos/970x250_TestVideo.ogg', 
-      'videos/970x250_TestVideo.webm'
-    ],
-    isAutoExpand: true,
+    isAutoExpand: false,
     autoExpandTimer: 8000,
-    templateType: document.querySelector("meta[name='template.type']").getAttribute('content'),
+    templateType : document.querySelector("meta[name='template.type']").getAttribute('content'),
     exits: {
-      catch_all: function catchAll() {
-        Enabler.exit('catch_all');
-      },
-      cta:function cta(){
-        Enabler.exit('cta');
-      }
-    }
+          catch_all: function catchAll() {
+            myFT.clickTag(1);
+          },
+          cta:function cta(){
+            myFT.clickTag(2);
+          }
+        }
   };
-  // remove these lines if the unit is an in-page
-  Enabler.setStartExpanded(window.adConfig.isAutoExpand);
-  Enabler.setExpandingPixelOffsets(0, 0, 970, 500); // This needs to be hardcoded to work in DC, it can't run off config
-  Enabler.setIsMultiDirectional(false);
+
 </script>
 <script src="js/main.build.js"></script>
 <!-- impression pixel -->
@@ -60,5 +56,7 @@
   <img height="1" width="1" style="border­style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/991916218/?value=0&label=zI7KCIbC2gkQuuH92AM&guid=ON&script=0"/>
 
 </div>-->
+
 </body>
+
 </html>
