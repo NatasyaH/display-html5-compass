@@ -100,7 +100,7 @@ var DCVideoPlayer = function () {
 
       api.players.push(playerData);
 
-      Enabler.loadModule(studio.module.ModuleId.VIDEO, api.initPlayer.bind(playerData)); // load tracking module before the video is added to the dom to avoid race condition.
+      Enabler.loadModule(studio.module.ModuleId.VIDEO, initPlayer.bind(playerData)); // load tracking module before the video is added to the dom to avoid race condition.
     });
   };
 
