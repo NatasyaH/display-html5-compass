@@ -31,17 +31,16 @@ var DCVideoPlayer = function () {
     }
   };
 
-  var defaults = {
-    autoplay: true,
-    destroyOnComplete: false
-  }
-
   api.players = [];
+
+  var defaults = {
+    autoplay: true//,
+    //destroyOnComplete: false // to be implemented later
+  }
 
   window.players = api.players;
 
-  api.loadVideo = function (container, videos, id, options) { // eventually options would be good.
-    console.log('load viiiiiideoooo');
+  api.load = function (container, videos, id, options) { // eventually options would be good.
     return new RSVP.Promise(function (resolve, reject) {
 
       _resolve = resolve;
@@ -105,7 +104,7 @@ var DCVideoPlayer = function () {
     });
   };
 
-  api.initPlayer = function (){
+  var initPlayer = function (){
     studio.video.Reporter.attach(this.id, this.element);
     this.element.appendChild(this.source);
     this.container.appendChild(this.element); // lets append the container after the DC module is loaded. there's a tiny chance the module would load AFTER the video is ready to play.
@@ -117,7 +116,6 @@ var DCVideoPlayer = function () {
   }
 
   api.destroy = function(selected){
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!destroy', selected, api.players);
     var target = null;
     var id = null;
     var index = null;
@@ -216,7 +214,7 @@ var DCVideoPlayer = function () {
     }
   }
 
-  function getObjectType(object){
+  var getObjectType = function(object){
     return Object.prototype.toString.call(object).split(' ')[1].replace(']','');
   }
 
