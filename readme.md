@@ -40,6 +40,13 @@ Bundles contents of */dist* into 1 zip file for upload to DC Studio. Contents mu
 
 Bundles contents into a base zip and a rich zip for upload to FlashTalking. System assumes only 1 richload.
 
+### gulp set-key --key KEY_ID
+
+Used to set API key for  [Tinypng.com](https://tinypng.com/) if you want to use that for optimization of spritesheets. Tinypng is used whenver gulp `build-prod-optimize` is called.
+
+### gulp tinypng
+
+used to run tinypng optimization on its own.
 
 ## Implementation Notes
 
