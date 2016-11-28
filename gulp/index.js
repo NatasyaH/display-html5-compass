@@ -108,4 +108,5 @@ gulp.task('build-prod', gulp.series('prod', 'clean', gulp.parallel('html', 'ft-m
 gulp.task('build-prod-optimize', gulp.series('build-prod', gulp.parallel('optimize-css', 'optimize-js', 'optimize-html','optimize-sprite-image')));
 gulp.task('watch-dev', gulp.series('dev', 'build-dev', 'watch'));
 gulp.task('watch-prod', gulp.series('prod', 'build-prod', 'watch'));
+gulp.task('tinypng', gulp.series('optimize-sprite-image'));
 gulp.task('default', gulp.series('watch-dev'));
