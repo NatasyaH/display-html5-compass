@@ -123,12 +123,23 @@ var config = {
     html: {
       src: dest + '/**/*.html'
     },
+    sprite_image:{
+      src: [
+        path.join(dest, '/**/*-sprite.png'),
+        path.join(dest,  '/**/*-sprite.jpg')
+      ]
+      
+    },
+    
+    
     dist: dest
   },
   rename_backup: {
     src: path.join(dest, '/*.jpg'),
     dist: path.join(dest)
   },
+  
+  
   bundle: {
     dc: {
       src: [dest + '/**/*.*', '!' + dest + '/**/manifest.js', '!' + dest + '/**/__*.png', '!' + dest + '/**/.*'],
