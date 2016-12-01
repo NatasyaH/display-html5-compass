@@ -5,6 +5,9 @@ var collapsedAnimationController = require('./controllers/CollapsedAnimationCont
 var expandedAnimationController = require('./controllers/ExpandedAnimationController');
 var autoExpandedAnimationController = require('./controllers/AutoExpandedAnimationController');
 var util = require('./hook-ad-kit/Util');
+
+var FTVideoPlayer = require('./FTVideoPlayer');
+
 // exclude via preprocess in gulp since its too heavy for prod
 // @ifdef DEBUG
 RSVP.on('error',require ('./hook-ad-kit/ErrorHandler'));
@@ -22,6 +25,9 @@ var App = function (config) {
   var expandedPreloader = document.querySelector('#expandedPreloader');
   var baseURL = util.getBaseURL();
   var richBaseURL = null;
+
+  var videoPlayer = new FTVideoPlayer();
+
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
   //*************************************************************************************************
@@ -60,6 +66,14 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
+      .then(function(){
+        return videoPlayer.loadVideo({ 
+          container: document.querySelector( ".auto-content > .videoContainer" ),
+          videoID: "video1",
+          muted: true,
+          autoplay:true
+        })
+      })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
       .then(bindExpanded)

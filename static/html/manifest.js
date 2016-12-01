@@ -13,5 +13,10 @@ FT.manifest({
   "richLoads": [{
   		"name": "rich",
   		"src": "RICH-NAME"
-  	}]
+  	}],
+
+  "videos": [
+    {"name": "video1", "ref": "63058/127381_Sparta_Rich_Media_08sec_970x418"}
+  ]
+  
 });
