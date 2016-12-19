@@ -16,10 +16,27 @@ module.exports = {
           }
         );
         tl.add([
-          TweenMax.to(content, 1, {opacity: 1})
+          TweenMax.to(content, 0.5, {opacity: 1})
+        ]);
+      })
+  },
+  animateOut: function () {
+    return new RSVP.Promise(
+      function (resolve, reject) {
+        var content = document.querySelector('#collapsedContainer').querySelector('.content');
+        var tl = new TimelineMax(
+          {
+            onComplete: function () {
+              resolve(tl)
+            }
+          }
+        );
+        tl.add([
+          TweenMax.to(content, 0.5, {opacity: 0})
         ]);
       })
   }
+
 };
 
 

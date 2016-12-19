@@ -78,7 +78,8 @@ var App = function (config) {
           container: document.querySelector( ".auto-content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:false
+          autoplay:false,
+          controls:false
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
@@ -104,12 +105,15 @@ var App = function (config) {
   // for the user expand
   var expand = function () {
     return adKit.requestExpand()
+      .then( collapsedAnimationController.animateOut )
+      .then(collapsedVideoPlayer.hide)
       .then(function () {
         return RSVP.all([
           shellAnimationController.expand(),
           shellAnimationController.preloaderAnimateIn()
         ])
       })
+      
       .then(function () {
         return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
@@ -135,9 +139,14 @@ var App = function (config) {
       })
       
       .then(shellAnimationController.collapse)
+
       .then(function () {
         expandedContainer.classList.add('hidden');
       })
+      .then(function () {
+        return util.removeChildren(expandedContainer)
+      })
+
       .then(function () {
         return adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL)
       })
@@ -146,20 +155,19 @@ var App = function (config) {
           container: document.querySelector( "#collapsedContainer > .content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:true
+          autoplay:true,
+          controls:true
         })
       })
-      .then(collapsedVideoPlayer.autoPlayVideo)
-      .then(collapsedAnimationController.animateIn)
-      .then(bindCollapsed)
-      .then(function () {
-        return util.removeChildren(expandedContainer)
-      })
       .then(adKit.completeCollapse)
-      
       .then(function () {
         isAutoExpand = false
       })
+
+      .then(collapsedVideoPlayer.autoPlayVideo)
+      .then(collapsedAnimationController.animateIn)
+      .then(bindCollapsed)
+     
       .catch(function (value) {
         console.log(value);
         console.log('failure on collapse')
@@ -231,7 +239,7 @@ var App = function (config) {
       console.log('Start Auto Timer', adKit.expanded());
       var func = function () {
         console.log('Auto Timer', adKit.expanded());
-        if (adKit.expanded() === true) {
+        if (adKit.expanded() === true && isAutoExpand === true) {
           resolve()
         } else {
           reject('Timer reject ' + autoExpandTimer + ' ' + isAutoExpand + ' ' + adKit.expanded());

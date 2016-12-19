@@ -12,12 +12,15 @@ var FTVideoPlayer = function() {
 	api.loadVideo = function( params ) {
 		return new RSVP.Promise(function( resolve, reject ) {
 
+			container = params.container;
+
 			player = myFT.insertVideo({
-				parent: params.container,
+				parent: container,
 				video: params.videoID,
 				preload: 'metadata',
 				muted: params.muted,
-				autoplay: params.autoplay
+				autoplay: params.autoplay,
+				controls: params.controls
 			});
 
 			if( navigator.userAgent.indexOf( "Firefox" ) > 0 ) {
@@ -36,7 +39,6 @@ var FTVideoPlayer = function() {
 	api.autoPlayVideo = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.play();
-
 			TweenMax.ticker.addEventListener( "tick", tickHandler );
 			function tickHandler(){
 				if( player.video.currentTime > 0.01 ) {
@@ -44,16 +46,13 @@ var FTVideoPlayer = function() {
 					resolve( player, "FT Autoplay Promise" );
 				}
 			}
-
 		})
-		
 	};
 
 	api.play = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;
 			player.play();
-
 			TweenMax.ticker.addEventListener( "tick", tickHandler );
 			function tickHandler(){
 				if( player.video.currentTime > 0.01 ) {
