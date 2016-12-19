@@ -18,6 +18,7 @@ var App = function (config) {
   var expandedPartial = config.expandedPartial;
   var autoExpandedPartial = config.autoExpandedPartial;
   var isAutoExpand = config.isAutoExpand;
+  var isInstantAd = config.isInstantAd;
   var autoExpandTimer = config.autoExpandTimer;
   var exits = config.exits;
   var expandedContainer = document.querySelector('#expandedContainer');
@@ -26,7 +27,8 @@ var App = function (config) {
   var baseURL = util.getBaseURL();
   var richBaseURL = null;
 
-  var videoPlayer = new FTVideoPlayer();
+  var autoExpandVideoPlayer = new FTVideoPlayer();
+  var collapsedVideoPlayer = new FTVideoPlayer();
 
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
@@ -34,14 +36,19 @@ var App = function (config) {
   var preload = function () {
     console.log('preload');
     var promises = [];
+
+    if( isInstantAd === true ) promises.push( loadInstantAds() );
+
     if (isAutoExpand === true) {
       promises.push(adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL));
     } else {
       promises.push(adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL));
     }
+
     // if you need to do more preloading do it here and push your promises into the array
     return RSVP.all(promises)
   };
+
   var run = function () {
     console.log('run');
     if (isAutoExpand === true) {
@@ -67,15 +74,16 @@ var App = function (config) {
         return adKit.loadContent(autoExpandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
       .then(function(){
-        return videoPlayer.loadVideo({ 
+        return autoExpandVideoPlayer.loadVideo({ 
           container: document.querySelector( ".auto-content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:true
+          autoplay:false
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
+      .then( autoExpandVideoPlayer.autoPlayVideo )
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -119,6 +127,13 @@ var App = function (config) {
   };
   var collapse = function () {
     return adKit.requestCollapse()
+      .then(function(){
+        if( isAutoExpand === true ) {
+          return autoExpandedAnimationController.animateOut()
+          .then(autoExpandVideoPlayer.hide)
+        }
+      })
+      
       .then(shellAnimationController.collapse)
       .then(function () {
         expandedContainer.classList.add('hidden');
@@ -126,12 +141,22 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(collapsedPartial, collapsedContainer, richBaseURL)
       })
+      .then(function(){
+        return collapsedVideoPlayer.loadVideo({ 
+          container: document.querySelector( "#collapsedContainer > .content > .videoContainer" ),
+          videoID: "video1",
+          muted: true,
+          autoplay:true
+        })
+      })
+      .then(collapsedVideoPlayer.autoPlayVideo)
       .then(collapsedAnimationController.animateIn)
       .then(bindCollapsed)
       .then(function () {
         return util.removeChildren(expandedContainer)
       })
       .then(adKit.completeCollapse)
+      
       .then(function () {
         isAutoExpand = false
       })
@@ -169,6 +194,11 @@ var App = function (config) {
         break;
       }
     }
+  };
+  var loadInstantAds = function() {
+    return new RSVP.Promise(function( resolve, reject ) {
+        myFT.on('instantads', function(){ resolve(); console.log("INSTANT ADS LOADED") });
+      })
   };
   var bindCollapsed = function () {
     Array.prototype.slice.call(collapsedContainer.querySelectorAll('.catch-all')).map(function (item) {

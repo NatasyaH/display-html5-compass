@@ -107,7 +107,7 @@ body {
   overflow: hidden;
   top: 0;
   left: 0;
-
+  background-color:#000000;
 }
 
 #expandedPreloader {
@@ -141,19 +141,21 @@ body {
     .catch-all {
       @extend .size-collapsed;
       @extend .catch-all;
-
+      position:absolute;
+      top:0;
+      left:0;
     }
     .expand {
       @extend .basic-button;
       width: 100px;
-      left: 600px;
+      left: 750px;
       top: 150px;
 
     }
     .cta {
       @extend .basic-button;
       width: 100px;
-      left: 455px;
+      left: 605px;
       top: 150px;
       background-color: cornflowerblue;
 
@@ -163,9 +165,21 @@ body {
       position: absolute;
       width: 326px;
       height: 129px;
-      left: 500px;
+      left: 605px;
       background-image: url('../images/logo.jpg');
+    }
 
+    .videoContainer {
+      width:580px;
+      height:250px;
+      position:absolute;
+      top:0;
+      left:0;
+
+      .ft-video {
+        width:580px;
+        height:250px;
+      }
     }
 
     .yt-video {
