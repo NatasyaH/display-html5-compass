@@ -7,6 +7,7 @@ var FTVideoPlayer = function() {
 	var api = {};
 
 	var player = null;
+	var container = null;
 
 	api.loadVideo = function( params ) {
 		return new RSVP.Promise(function( resolve, reject ) {
@@ -26,16 +27,62 @@ var FTVideoPlayer = function() {
 			}
 
 			function playerLoadedHandler() {
-				if( params.autoplay ) {
-					player.on( 'ended', autoPlayCompleteHandler );
-				}
 				resolve( player, "FT Player Load Promise" );
 			}
 
-			function autoPlayCompleteHandler() {
-				console.log("AUTOPLAY COMPLETE");
+		})
+	};
+
+	api.autoPlayVideo = function() {
+		return new RSVP.Promise(function( resolve, reject ) {
+			player.play();
+
+			TweenMax.ticker.addEventListener( "tick", tickHandler );
+			function tickHandler(){
+				if( player.video.currentTime > 0.01 ) {
+					TweenMax.ticker.removeEventListener( "tick", tickHandler );
+					resolve( player, "FT Autoplay Promise" );
+				}
 			}
 
+		})
+		
+	};
+
+	api.play = function() {
+		return new RSVP.Promise(function( resolve, reject ) {
+			player.currentTime = 0;
+			player.play();
+
+			TweenMax.ticker.addEventListener( "tick", tickHandler );
+			function tickHandler(){
+				if( player.video.currentTime > 0.01 ) {
+					TweenMax.ticker.removeEventListener( "tick", tickHandler );
+					resolve( player, "FT Play Promise" );
+				}
+			}
+		})
+	};
+
+	api.stop = function() {
+		return new RSVP.Promise(function( resolve, reject ) {
+			player.stop();
+			resolve( player, "FT Stop Promise" );
+		})
+	};
+
+	api.show = function() {
+		return new RSVP.Promise(function( resolve, reject ) {
+			if( container !== null ) container.style.visibility = "display";
+			resolve();
+		})
+	};
+
+	api.hide = function() {
+		return new RSVP.Promise(function( resolve, reject ) {
+			if( player !== null ) player.stop();
+			if( container !== null ) container.style.visibility = "hidden";
+			resolve();
 		})
 	};
  
