@@ -36,19 +36,6 @@ var FTVideoPlayer = function() {
 		})
 	};
 
-	api.autoPlayVideo = function() {
-		return new RSVP.Promise(function( resolve, reject ) {
-			player.play();
-			TweenMax.ticker.addEventListener( "tick", tickHandler );
-			function tickHandler(){
-				if( player.video.currentTime > 0.01 ) {
-					TweenMax.ticker.removeEventListener( "tick", tickHandler );
-					resolve( player, "FT Autoplay Promise" );
-				}
-			}
-		})
-	};
-
 	api.play = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;

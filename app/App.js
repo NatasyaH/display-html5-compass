@@ -79,13 +79,13 @@ var App = function (config) {
           container: document.querySelector( ".auto-content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:false,
+          autoplay:true,
           controls:false
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
-      .then( autoExpandVideoPlayer.autoPlayVideo )
+      //.then( autoExpandVideoPlayer.autoPlayVideo )
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -128,7 +128,7 @@ var App = function (config) {
           container: document.querySelector( "#expandedContainer > .content > .videoContainer" ),
           videoID: "video1",
           muted: false,
-          autoplay:false,
+          autoplay:true,
           controls:true
         })
       })
