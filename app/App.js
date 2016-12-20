@@ -136,12 +136,14 @@ var App = function (config) {
       .then(expandedAnimationController.animateIn)
       .then( expandVideoPlayer.autoPlayVideo )
       .then(function( player ){
-        player.on('ended', function(){
-          return RSVP.all([
-            expandVideoPlayer.hide(),
-            expandedAnimationController.animateEndCardIn(),
-            ])
-        })
+        if( config.expandEndcard === true ) {
+          player.on('ended', function(){
+            return RSVP.all([
+              expandVideoPlayer.hide(),
+              expandedAnimationController.animateEndCardIn(),
+              ])
+          })
+        }
       })
 
       .catch(function (value) {
