@@ -50,6 +50,7 @@ var FTVideoPlayer = function() {
 	};
 
 	api.play = function() {
+		console.log("VIDEO PLAYER PLAY")
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;
 			player.play();
@@ -72,7 +73,7 @@ var FTVideoPlayer = function() {
 
 	api.show = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
-			if( container !== null ) container.style.visibility = "display";
+			if( container !== null ) container.style.display = "block";
 			resolve();
 		})
 	};
@@ -80,10 +81,14 @@ var FTVideoPlayer = function() {
 	api.hide = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			if( player !== null ) player.stop();
-			if( container !== null ) container.style.visibility = "hidden";
+			if( container !== null ) container.style.display = "none";
 			resolve();
 		})
 	};
+
+	api.getPlayer = function() {
+		return player;
+	}
  
 	return api;
 

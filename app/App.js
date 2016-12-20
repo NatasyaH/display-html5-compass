@@ -29,6 +29,7 @@ var App = function (config) {
 
   var autoExpandVideoPlayer = new FTVideoPlayer();
   var collapsedVideoPlayer = new FTVideoPlayer();
+  var expandVideoPlayer = new FTVideoPlayer();
 
   //*************************************************************************************************
   // IMPLEMENTATION - YOu will need to edit these
@@ -106,7 +107,7 @@ var App = function (config) {
   var expand = function () {
     return adKit.requestExpand()
       .then( collapsedAnimationController.animateOut )
-      .then(collapsedVideoPlayer.hide)
+      .then( collapsedVideoPlayer.hide )
       .then(function () {
         return RSVP.all([
           shellAnimationController.expand(),
@@ -117,24 +118,47 @@ var App = function (config) {
       .then(function () {
         return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
-      .then(shellAnimationController.preloaderAnimateOut)
-      .then(expandedAnimationController.animateIn)
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
       })
       .then(adKit.completeExpand)
+      .then(function(){
+        return expandVideoPlayer.loadVideo({ 
+          container: document.querySelector( "#expandedContainer > .content > .videoContainer" ),
+          videoID: "video1",
+          muted: false,
+          autoplay:false,
+          controls:true
+        })
+      })
+      .then(shellAnimationController.preloaderAnimateOut)
+      .then(expandedAnimationController.animateIn)
+      .then( expandVideoPlayer.autoPlayVideo )
+      .then(function( player ){
+        player.on('ended', function(){
+          return RSVP.all([
+            expandVideoPlayer.hide(),
+            expandedAnimationController.animateEndCardIn(),
+            ])
+        })
+      })
+
       .catch(function (value) {
         console.log(value);
         console.log('failure on expand')
       })
   };
+
   var collapse = function () {
     return adKit.requestCollapse()
       .then(function(){
         if( isAutoExpand === true ) {
           return autoExpandedAnimationController.animateOut()
-          .then(autoExpandVideoPlayer.hide)
+            .then( autoExpandVideoPlayer.hide )
+        } else {
+          return expandedAnimationController.animateOut()
+            .then( expandVideoPlayer.hide )
         }
       })
       
@@ -156,7 +180,7 @@ var App = function (config) {
           videoID: "video1",
           muted: true,
           autoplay:true,
-          controls:true
+          controls:false
         })
       })
       .then(adKit.completeCollapse)
@@ -229,6 +253,12 @@ var App = function (config) {
     Array.prototype.slice.call(expandedContainer.querySelectorAll('.close')).map(function (item) {
       item.addEventListener('click', closeHandler);
     });
+    if( isAutoExpand === false ){
+      console.log("AUTO EXPAND === FALSE!!!!!!!!!")
+      Array.prototype.slice.call(expandedContainer.querySelectorAll('.replay')).map(function (item) {
+        item.addEventListener('click', replayHandler);
+      });
+    }
   };
   var startTimer = function () {
     return new RSVP.Promise(function (resolve, reject) {
@@ -251,6 +281,8 @@ var App = function (config) {
   var exitHandler = function () {
     if (adKit.expanded()) {
       collapse();
+    } else {
+      collapsedVideoPlayer.stop();
     }
   };
   var closeHandler = function () {
@@ -262,6 +294,7 @@ var App = function (config) {
   var catchAllHandler = function () {
     return adKit.exit(exits['catch_all'])
       .then(exitHandler);
+      return exitHandler();
   };
   var ctaHandler = function () {
     return adKit.exit(exits['cta'])
@@ -270,6 +303,11 @@ var App = function (config) {
   var expandHandler = function () {
     return expand();
   };
+  var replayHandler = function() {
+    return expandedAnimationController.animateEndCardOut()
+      .then( expandVideoPlayer.play )
+      .then( expandVideoPlayer.show )
+  }
   return {
     init: init
   };

@@ -133,7 +133,7 @@ body {
     }
 
     opacity: 0;
-    background-color: $black;
+    background-color: #333333;
     position: absolute;
     width: $collapsed-width;
     height: $collapsed-height;
@@ -232,6 +232,17 @@ body {
 
     }
 
+    .replay {
+      width:84px;
+      height:84px;
+      background:url('../images/replay.png');
+      position:absolute;
+      top:200px;
+      left:443px;
+      cursor:pointer;
+      display:none;
+    }
+
     .catch-all {
       @extend .size-expanded;
       @extend .catch-all;
@@ -242,10 +253,9 @@ body {
       @extend .basic-button;
       color:#FFFFFF;
       width: 100px;
-      left: 100px;
-      top: 150px;
+      right: 0px;
+      top: 40px;
       background-color: blue;
-
     }
 
   }
@@ -263,17 +273,29 @@ body {
 
     }
 
+    .videoContainer {
+      width: 970px;
+      height: 500px;
+      position:absolute;
+      top:0px;
+      left:0;
+
+      .ft-video {
+        width: 970px;
+        height: 500px;
+      }
+    }
+
     .catch-all {
       @extend .size-expanded;
       @extend .catch-all;
-
     }
 
     .cta {
       @extend .basic-button;
       width: 100px;
-      left: 100px;
-      top: 150px;
+      right: 0px;
+      top: 40px;
       background-color: lightskyblue;
 
     }
