@@ -79,12 +79,13 @@ var App = function (config) {
           container: document.querySelector( ".auto-content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:true,
+          autoplay:false,
           controls:false
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(autoExpandedAnimationController.animateIn)
+      .then( autoExpandVideoPlayer.autoPlayVideo )
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -133,16 +134,14 @@ var App = function (config) {
       })
       .then(shellAnimationController.preloaderAnimateOut)
       .then(expandedAnimationController.animateIn)
-      .then( expandVideoPlayer.play )
+      .then( expandVideoPlayer.autoPlayVideo )
       .then(function( player ){
-        if( config.expandEndcard === true ) {
-          player.on('ended', function(){
-            return RSVP.all([
-              expandVideoPlayer.hide(),
-              expandedAnimationController.animateEndCardIn(),
-              ])
-          })
-        }
+        player.on('ended', function(){
+          return RSVP.all([
+            expandVideoPlayer.hide(),
+            expandedAnimationController.animateEndCardIn(),
+            ])
+        })
       })
 
       .catch(function (value) {
@@ -188,6 +187,8 @@ var App = function (config) {
       .then(function () {
         isAutoExpand = false
       })
+
+      .then(collapsedVideoPlayer.autoPlayVideo)
       .then(collapsedAnimationController.animateIn)
       .then(bindCollapsed)
      
@@ -253,6 +254,7 @@ var App = function (config) {
       item.addEventListener('click', closeHandler);
     });
     if( isAutoExpand === false ){
+      console.log("AUTO EXPAND === FALSE!!!!!!!!!")
       Array.prototype.slice.call(expandedContainer.querySelectorAll('.replay')).map(function (item) {
         item.addEventListener('click', replayHandler);
       });
