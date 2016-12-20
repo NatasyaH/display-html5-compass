@@ -79,13 +79,12 @@ var App = function (config) {
           container: document.querySelector( ".auto-content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:false,
           controls:false
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
+      .then(autoExpandVideoPlayer.autoPlay)
       .then(autoExpandedAnimationController.animateIn)
-      .then( autoExpandVideoPlayer.autoPlayVideo )
       .then(bindExpanded)
       .then(function () {
         return util.removeChildren(collapsedContainer)
@@ -114,7 +113,6 @@ var App = function (config) {
           shellAnimationController.preloaderAnimateIn()
         ])
       })
-      
       .then(function () {
         return adKit.loadContent(expandedPartial, expandedContainer, richBaseURL)
       }) // reload content on each expand
@@ -128,22 +126,22 @@ var App = function (config) {
           container: document.querySelector( "#expandedContainer > .content > .videoContainer" ),
           videoID: "video1",
           muted: false,
-          autoplay:false,
           controls:true
         })
       })
       .then(shellAnimationController.preloaderAnimateOut)
+      .then(expandVideoPlayer.autoPlay)
       .then(expandedAnimationController.animateIn)
-      .then( expandVideoPlayer.autoPlayVideo )
       .then(function( player ){
-        player.on('ended', function(){
-          return RSVP.all([
-            expandVideoPlayer.hide(),
-            expandedAnimationController.animateEndCardIn(),
-            ])
-        })
+        if( config.expandEndcard === true ) {
+          player.on('ended', function(){
+            return RSVP.all([
+              expandVideoPlayer.hide(),
+              expandedAnimationController.animateEndCardIn(),
+              ])
+          })
+        }
       })
-
       .catch(function (value) {
         console.log(value);
         console.log('failure on expand')
@@ -179,7 +177,6 @@ var App = function (config) {
           container: document.querySelector( "#collapsedContainer > .content > .videoContainer" ),
           videoID: "video1",
           muted: true,
-          autoplay:true,
           controls:false
         })
       })
@@ -187,8 +184,7 @@ var App = function (config) {
       .then(function () {
         isAutoExpand = false
       })
-
-      .then(collapsedVideoPlayer.autoPlayVideo)
+      .then(collapsedVideoPlayer.autoPlay)
       .then(collapsedAnimationController.animateIn)
       .then(bindCollapsed)
      
@@ -254,7 +250,6 @@ var App = function (config) {
       item.addEventListener('click', closeHandler);
     });
     if( isAutoExpand === false ){
-      console.log("AUTO EXPAND === FALSE!!!!!!!!!")
       Array.prototype.slice.call(expandedContainer.querySelectorAll('.replay')).map(function (item) {
         item.addEventListener('click', replayHandler);
       });
