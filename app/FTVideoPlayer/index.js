@@ -40,10 +40,10 @@ var FTVideoPlayer = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;
 			player.play();
-			var timer = setTimeout( timerHandler, 100 );
+			var timer = setInterval( timerHandler, 100 );
 			function timerHandler() {
 				if( player.video.currentTime > 0.01 ) {
-					clearTimeout( timer );
+					clearInterval( timer );
 					resolve( player, "FT Play Promise" );
 				}
 			}
