@@ -233,9 +233,10 @@ body {
     }
 
     .replay {
-      width:84px;
-      height:84px;
-      background:url('../images/replay.png');
+      @extend .basic-button;
+      color:#FFFFFF;
+      width: 100px;
+      background-color: red;
       position:absolute;
       top:200px;
       left:443px;

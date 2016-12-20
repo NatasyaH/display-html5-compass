@@ -50,7 +50,6 @@ var FTVideoPlayer = function() {
 	};
 
 	api.play = function() {
-		console.log("VIDEO PLAYER PLAY")
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;
 			player.play();
