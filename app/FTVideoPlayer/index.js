@@ -40,10 +40,10 @@ var FTVideoPlayer = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
 			player.currentTime = 0;
 			player.play();
-			TweenMax.ticker.addEventListener( "tick", tickHandler );
-			function tickHandler(){
+			var timer = setTimeout( timerHandler, 100 );
+			function timerHandler() {
 				if( player.video.currentTime > 0.01 ) {
-					TweenMax.ticker.removeEventListener( "tick", tickHandler );
+					clearTimeout( timer );
 					resolve( player, "FT Play Promise" );
 				}
 			}
