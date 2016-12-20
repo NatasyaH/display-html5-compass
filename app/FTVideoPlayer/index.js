@@ -19,7 +19,7 @@ var FTVideoPlayer = function() {
 				video: params.videoID,
 				preload: 'metadata',
 				muted: params.muted,
-				autoplay: params.autoplay,
+				autoplay: false,
 				controls: params.controls
 			});
 
@@ -35,6 +35,19 @@ var FTVideoPlayer = function() {
 
 		})
 	};
+
+	api.autoPlay = function() { 
+	    return new RSVP.Promise(function( resolve, reject ) { 
+	      	player.play(); 
+	      	var timer = setInterval( timerHandler, 100 );
+			function timerHandler() {
+				if( player.video.currentTime > 0.01 ) {
+					clearInterval( timer );
+					resolve( player, "FT Play Promise" );
+				}
+			}
+	    }) 
+	}; 
 
 	api.play = function() {
 		return new RSVP.Promise(function( resolve, reject ) {
